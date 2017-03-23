@@ -1,0 +1,36 @@
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.KeyFieldName = "ID; CompletedDate";
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.AllowGroup = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.SettingsBehavior.AllowSort = false;
+        settings.Settings.ShowGroupPanel = true;
+        settings.ClientSideEvents.Init = "gridView_Init";
+        settings.ClientSideEvents.EndCallback = "gridView_EndCallback";
+        settings.Styles.Row.CssClass = "draggable";
+        settings.SettingsSearchPanel.Visible = true;
+        settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
+        settings.Columns.Add("ID");
+        settings.Columns.Add("UserID");
+        settings.Columns.Add("task");
+        settings.Columns.Add("LinkedReference");
+        settings.Columns.Add("Priority");
+        settings.Columns.Add("DueDate");
+        settings.Columns.Add("CompletedDate");
+
+        settings.HtmlRowPrepared = (sender, e) =>
+        {
+            if (e.RowType == GridViewRowType.Data)
+                if (!String.IsNullOrEmpty(Convert.ToString(e.GetValue("CompletedDate"))))
+                {
+                    e.Row.Font.Strikeout = true;
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#ff8358");
+                    e.Row.ForeColor = System.Drawing.Color.White;
+                }
+
+        };
+    });
+}
+@grid.Bind(Model).GetHtml()

@@ -1,0 +1,81 @@
+﻿@model WebPMS.Models.RoomDetailsViewModel
+
+
+@{
+    ViewBag.Title = "RoomDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+<div class="pageTitle">
+    @Model.PropertyRoom.Title Room Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        <div class="hidden">
+            @Html.TextBoxFor(m => m.PropertyID, new { @readonly = true })
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="inputForm">
+                <div class="inputHeader">SELECT ROOM</div>
+                <div class="input-row">
+                    <div class="input-12">
+                        @Html.DropDownListFor(m => m.SelectedRoomList, Model.PropertyRoomList, "--Select--", new { @id = "ddRoomList", })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 
+    <div id="RoomDetail" class="row padding">
+        @{Html.RenderPartial("_RoomDetailsPartial", Model);}
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('#ddRoomList').change(function () {
+            var RoomID = $(this).val();
+            if (RoomID == '')
+                RoomID = 0
+           
+            $("#RoomDetail").load('@(Url.Action("RoomDetailsSelected", "Property",null, Request.Url.Scheme))?RoomID=' + RoomID, function () {
+                getTemp();
+            });
+       
+        })
+    })
+
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#' + id).fadeOut(function () {
+            --id;
+            $('#' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
+
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+        $('#' + id).fadeOut(function () {
+            ++id;
+            $('#' + id).fadeIn();
+
+        });
+
+
+    }
+</script>

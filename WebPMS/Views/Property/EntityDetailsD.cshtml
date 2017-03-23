@@ -1,0 +1,72 @@
+﻿@model WebPMS.Models.DynamicEntityFieldsViewModel
+
+@{
+    ViewBag.Title = "EntityDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+<div class="pageTitle">
+     Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        @*FIRST HALF OF SCREEN*@
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form method="post" action="SaveEntityD">
+                <div class="inputForm">
+                    <div class="inputHeader"> ADDITIONAL INFORMATION</div>
+                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+      
+                        @for (int i = 0; i < Model.SideNavigationViewModel.DynamicEntities.Count; i++)
+                        {
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].AccessLevel)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].DynamicOrgID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].DynamicPersonID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].EntityLabel)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].EntityName)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].EntityType)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].ID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].LetterFolder)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].MultiplePerCase)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].OrgContactID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].OrgFKID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].OrgID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].OrgRef)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].Parent)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].PersonFKID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].PersonRef)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].SectionHeaderID)
+                            @Html.HiddenFor(model => model.SideNavigationViewModel.DynamicEntities[i].ThirdPartyID)                            
+                        }
+                        @for (int y = 0; y < Model.DynamicEntityFields.Count; y++)
+                        {
+                            <div class="input-row">
+                                <div class="label-3">
+                                    @Model.DynamicEntityFields[y].FieldLabel
+                                </div>
+                                <div class="input-9">
+                                    @Html.HiddenFor(model => model.DynamicEntityFields[y].ID)
+                                    @Html.TextBoxFor(model => model.DynamicEntityFields[y].FieldValue)
+                           
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 hidden-xs hidden-sm"></div>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>

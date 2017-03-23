@@ -1,0 +1,104 @@
+﻿@model WebPMS.Models.TenancyDetailsViewModel
+
+@{
+    ViewBag.Title = "TenancyDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+
+<div class="pageTitle">
+    @Model.TenancyDetail.TenancyType Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="inputForm">
+                <div class="inputHeader">SELECT TENANCY</div>
+                <div class="input-row">
+                    <div class="input-12">
+                        @Html.DropDownListFor(m => m.SelectedTenancy, Model.PropertyTenancies, new { @id = "ddTenancyList", })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row padding">
+        @*TABULAR PAGES GO HERE*@
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @Html.Partial("_TabPartial")
+            <form method="POST" action="SaveTenancyDetails">
+                <div class="inputForm tabular">
+                    @Html.HiddenFor(m => m.PropertyID)
+                    @Html.HiddenFor(m => m. TenancyID)
+                    <div id="TenancyDetail"  class="tab ">
+                        @{Html.RenderPartial("_TenancyDetailsPartial", Model.TenancyDetail, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "TenancyDetail" } });}
+                    </div>
+                    <div id="Tenants" class="tab hideD">
+                        @{Html.RenderPartial("_TenancyTenantsPartial", Model.TenancyTenantsViewModel, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "TenancyTenantsViewModel" } }); }
+                    </div>
+                    <div id="TenancyImages" class="tab hideD">
+                        @{Html.RenderPartial("_TenancyImagesPartial", Model.Images, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "Images" } }); }
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script> 
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#' + id).fadeOut(function(){
+            --id;
+            $('#' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
+
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+        $('#' + id).fadeOut(function () {
+            ++id;
+            $('#' + id).fadeIn();
+
+        });
+    }
+
+
+    $('#startDate').datepicker();
+        $('#endDate').datepicker();
+    $(document).ready(function () {
+        $('#ddTenancyList').change(function () {
+
+        })
+    })
+    function show(el, anc) {       
+        $(".tab").each(function () {
+            $(this).hide();
+           
+        });       
+        
+       $(".tabButton").each(function () {
+           $(this).removeClass("tabButtonSelected");
+
+       });
+   
+       $("#" + el).show();
+       $("#" + anc).addClass("tabButtonSelected");
+     
+    }
+</script>

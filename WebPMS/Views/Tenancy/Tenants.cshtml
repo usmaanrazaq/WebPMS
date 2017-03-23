@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+    <p></p>
+}
+
+
+<script>
+
+    function OnGridFocusedRowChanged(s, e) {
+        var grid = s;
+        s.GetRowValues(s.GetFocusedRowIndex(), 'PropertyID', function (value) {
+            grid.PerformCallback({ pPropID: value });
+        });
+
+    }
+
+
+</script>
+<div class="pageTitle">
+    Tenants
+</div>
+<div class="content">
+
+    <div class="gridView padding">
+
+        @Html.Action("gvTenants_Partial")
+
+
+    </div>
+    @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveUp";
+                    settings.Text = "Up";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientSideEvents.Click = "btMoveUp_Click";
+                    settings.ClientVisible = false;
+                }).GetHtml()
+    @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveDown";
+                    settings.Text = "Down";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientVisible = false;
+                    settings.ClientSideEvents.Click = "btMoveDown_Click";
+                }).GetHtml()
+
+</div>
+

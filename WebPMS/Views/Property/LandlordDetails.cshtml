@@ -1,0 +1,182 @@
+﻿@model WebPMS.Models.LandlordDetailsViewModel
+
+@{
+    ViewBag.Title = "LandlordDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+
+
+<div class="pageTitle">
+    @Model.ThirdParty.ID Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        <form method="POST" action="SaveLandord"> 
+            @*FIRST HALF OF SCREEN*@
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                @Html.HiddenFor(m => m.SideNavigationViewModel)
+                @Html.HiddenFor(m => m.PropertyID)                                                
+
+                @Html.HiddenFor(m => m.ThirdParty.ID)
+                @Html.HiddenFor(m => m.ThirdParty.TypeOfPerson)
+                @Html.HiddenFor(m => m.ThirdParty.MiddleName)
+                @Html.HiddenFor(m => m.ThirdParty.Suffix)
+                @Html.HiddenFor(m => m.ThirdParty.AddressLine3)
+                @Html.HiddenFor(m => m.ThirdParty.AddressLine4)
+                @Html.HiddenFor(m => m.ThirdParty.AddressLine5)
+                @Html.HiddenFor(m => m.ThirdParty.WorkExtensionNumber)
+                @Html.HiddenFor(m => m.ThirdParty.PreferredContactMethod)
+                @Html.HiddenFor(m => m.ThirdParty.PreferredContactTime)
+                @Html.HiddenFor(m => m.ThirdParty.Dept)
+                @Html.HiddenFor(m => m.ThirdParty.Status)
+                @Html.HiddenFor(m => m.ThirdParty.LastUpdatedTime)
+                @Html.HiddenFor(m => m.ThirdParty.LastUpdatedUser)
+                @Html.HiddenFor(m => m.ThirdParty.JobTitle)
+                @Html.HiddenFor(m => m.ThirdParty.ID2)
+                @Html.HiddenFor(m => m.ThirdParty.SubType)
+                @Html.HiddenFor(m => m.ThirdParty.NINumber)
+                @Html.HiddenFor(m => m.ThirdParty.BranchID)
+                @Html.HiddenFor(m => m.ThirdParty.PaymentTerms)
+                @Html.HiddenFor(m => m.ThirdParty.SalesPerson)
+                @Html.HiddenFor(m => m.ThirdParty.ISOCountryCode)
+                @Html.HiddenFor(m => m.ThirdParty.ISOLanguageCode)
+                @Html.HiddenFor(m => m.ThirdParty.MultipleJobsPerInvoice)
+                @Html.HiddenFor(m => m.ThirdParty.TemplateType)
+                @Html.HiddenFor(m => m.ThirdParty.PaymentTermsRecurrenceInfo)
+                @Html.HiddenFor(m => m.ThirdParty.HolidayEntitlement)
+                @Html.HiddenFor(m => m.ThirdParty.MaritalStatus)
+                @Html.HiddenFor(m => m.ThirdParty.DateStarted)
+                @Html.HiddenFor(m => m.ThirdParty.DateFinished)
+                @Html.HiddenFor(m => m.ThirdParty.Department)
+                @Html.HiddenFor(m => m.ThirdParty.LineManager)
+                @Html.HiddenFor(m => m.ThirdParty.Password)
+                @Html.HiddenFor(m => m.ThirdParty.RegistrationNumber)
+                @Html.HiddenFor(m => m.ThirdParty.Apprentice)
+                @Html.HiddenFor(m => m.ThirdParty.AllowProductRequests)
+                @Html.HiddenFor(m => m.ThirdParty.EthnicOrigin)
+                @Html.HiddenFor(m => m.ThirdParty.CriminalConviction)
+                @Html.HiddenFor(m => m.ThirdParty.CriminalConvictionDetails)
+                <div class="inputForm">
+                    <div class="inputHeader">Personal Details</div>
+                    <div class="input-row">
+                        <div class="label-3">Title</div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(m => m.ThirdParty.Title)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Gender</div>
+                        <div class="input-9">
+                         @Html.TextBoxFor(m => m.ThirdParty.Gender)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Forename</div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.Forename)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Surname</div>
+                        <div class="input-9">
+                          @Html.TextBoxFor(m => m.ThirdParty.Surname)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">D.O.B</div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.DateOfBirth)
+                        </div>
+                    </div>
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Address</div>
+                    <div class="input-row">
+                        <div class="label-3">Address Line 1</div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.AddressLine1)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Address Line 2</div>
+                        <div class="input-9">
+                          @Html.TextBoxFor(m => m.ThirdParty.AddressLine2)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Postcode </div>
+                        <div class="input-9">
+                          @Html.TextBoxFor(m => m.ThirdParty.PostCode)
+                        </div>
+                    </div>
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Contact Details</div>
+                    <div class="input-row">
+                        <div class="label-3">Mobile </div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.Mobile)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Home </div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.HomePhone)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Work </div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(m => m.ThirdParty.WorkPhone)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Email </div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(m => m.ThirdParty.EmailAddress)
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Fax </div>
+                        <div class="input-9">
+                           @Html.TextBoxFor(m => m.ThirdParty.Fax)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*SECOND HALF OF SCREEN*@
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="inputForm">
+                    <div class="inputHeader"> Add Note</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            <textarea id="NoteAdd" name="note"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Notes</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            @foreach (var item in Model.ThirdParty.NotesSeperated)
+                            {
+                                <div class="PropertyNote">
+                                    @item
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+   
+</div>

@@ -1,0 +1,247 @@
+﻿@model WebPMS.Models.PropertyDetailsViewModel
+
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "Property Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+
+
+<div class="pageTitle">
+    @Model.PropertyDetail.NickName Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        <form method="POST" action="SaveDetails">      
+            @Html.HiddenFor(m => m.PropertyID)
+            @Html.HiddenFor(m => m.PropertyDetail.BranchID)
+            @Html.HiddenFor(m => m.PropertyDetail.AddressLine3)
+            @Html.HiddenFor(m => m.PropertyDetail.AddressLine4)
+            @Html.HiddenFor(m => m.PropertyDetail.AddressLine5)
+            @Html.HiddenFor(m => m.PropertyDetail.Notes)
+            @Html.HiddenFor(m => m.PropertyDetail.LandlordID)
+            @Html.HiddenFor(m => m.PropertyDetail.CurrentValue)
+            @Html.HiddenFor(m => m.PropertyDetail.ValuationDate)
+            @Html.HiddenFor(m => m.PropertyDetail.ValuationNotes)
+            @Html.HiddenFor(m => m.PropertyDetail.PurchaseType)
+            @Html.HiddenFor(m => m.PropertyDetail.PurchasePrice)
+            @Html.HiddenFor(m => m.PropertyDetail.PurchaseDate)
+            @Html.HiddenFor(m => m.PropertyDetail.PurchaseNotes)
+            @Html.HiddenFor(m => m.PropertyDetail.SalePrice)
+            @Html.HiddenFor(m => m.PropertyDetail.SaleNotes)
+            @Html.HiddenFor(m => m.PropertyDetail.LeaseStart)
+            @Html.HiddenFor(m => m.PropertyDetail.LeaseEnd)
+            @Html.HiddenFor(m => m.PropertyDetail.LeaseNotes)
+            @*FIRST HALF OF SCREEN*@
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="inputForm">
+
+                    <div class="inputHeader">Property Details</div>
+                    <div class="input-row">
+                        <div class="label-3">ID</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyID, new { @readonly = true })</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Sub Unit of</div>
+                        <div class="input-9">                            
+                            @Html.DropDownListFor(m => m.PropertyDetail.ParentID, Model.SubUnitOf, "Not a sub unit")
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Status</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.Status)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Name</div>
+                        <div class="input-9">@Html.TextBoxFor(p => p.PropertyDetail.NickName)</div>
+                    </div>
+
+                </div>
+
+
+                <div class="inputForm">
+                    <div class="inputHeader">Address</div>
+                    <div class="input-row">
+                        <div class="label-3">AddressLine 1</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.AddressLine1) </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">AddressLine 2</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.AddressLine2)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">PostCode</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.Postcode)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Latitude</div>
+                        <div class="input-3">@Html.TextBoxFor(p => p.PropertyDetail.Latitude)</div>
+                        <div class="label-3">Longtitude</div>
+                        <div class="input-3">@Html.TextBoxFor(p => p.PropertyDetail.Longtitude)</div>
+                    </div>
+
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Further Details</div>
+                    <div class="input-row">
+                        <div class="label-3">Building Type</div>
+                        <div class="input-9">@Html.TextBoxFor(p => p.PropertyDetail.BuildingType)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Year Built</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.YearBuilt)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Garages</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.Garages)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Parking Spaces</div>
+                        <div class="input-9"> @Html.TextBoxFor(p => p.PropertyDetail.ParkingSpaces)</div>
+
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">Smoke Alarms </div>
+                        <div class="input-9">@Html.TextBoxFor(p => p.PropertyDetail.SmokeAlarms)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-3">House Alarm </div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(p => p.PropertyDetail.HouseAlarm)
+                        </div>
+                    </div>
+                    </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Misc</div>
+                    <div class="input-row">
+                        <div class="label-3">Template Type </div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(p => p.PropertyDetail.TemplateType)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @*SECOND HALF OF SCREEN*@
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="inputForm">
+
+                    <div class="inputHeader">Property Images</div>
+                    @if (Model.PropertyImages.Count > 1)
+                    {
+                        <div class="input-row">
+                            <div class="input-2 arrows">
+                                <a onclick="prev();"><i style="display:none;" id="leftArrow" class="fa fa-caret-left" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="input-8">
+                                @{int i = 0;}
+                                @foreach (var item in Model.PropertyImages)
+                                {
+                                    if (i != 0)
+                                    {
+                                        <img id="@i" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " style="display:none" alt="Image" />
+                                    }
+                                    else
+                                    {
+                                        <img id="@i" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+                                    }
+                                    i++;
+
+                                }
+                            </div>
+                            <div class="input-2 arrows">
+                                <a onclick="next(@Model.PropertyImages.Count);"> <i class="fa fa-caret-right" id="rightArrow" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="input-row">
+                                            <div class="input-10">
+
+                                                @foreach (var item in Model.PropertyImages)
+                                                {
+                                                    <img src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+                                                }
+                                            </div>
+                                        </div>
+
+
+                                    }
+
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Description</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            @Html.TextAreaFor(p => p.PropertyDetail.Description)
+                        </div>
+                    </div>
+                    </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Marketing Description</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            @Html.TextAreaFor(p => p.PropertyDetail.MarketingDescription)
+                        </div>
+                    </div>
+                    </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Size</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            @Html.TextBoxFor(p => p.PropertyDetail.size)
+                        </div>
+                    </div>
+                    </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Access Information</div>
+                    <div class="input-row">
+                        <div class="input-12">
+                            @Html.TextBoxFor(p => p.PropertyDetail.AccessInformation)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#' + id).fadeOut(function(){
+            --id;
+            $('#' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
+
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+        $('#' + id).fadeOut(function(){
+            ++id;
+            $('#' + id).fadeIn();
+
+        });
+
+
+
+    }
+</script>

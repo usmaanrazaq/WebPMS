@@ -1,0 +1,58 @@
+﻿
+@model WebPMS.Models.ThirdParty
+
+@Html.HiddenFor(m=>m.TypeOfPerson)
+@Html.HiddenFor(m => m.ID)
+@Html.HiddenFor(m => m.Suffix)
+@Html.HiddenFor(m => m.DateOfBirth)
+@Html.HiddenFor(m => m.AddressLine1)
+@Html.HiddenFor(m => m.AddressLine2)
+@Html.HiddenFor(m => m.AddressLine3)
+@Html.HiddenFor(m => m.AddressLine4)
+@Html.HiddenFor(m => m.AddressLine5)
+@Html.HiddenFor(m => m.PostCode)
+@Html.HiddenFor(m => m.HomePhone)
+@Html.HiddenFor(m => m.WorkPhone)
+@Html.HiddenFor(m => m.Mobile)
+@Html.HiddenFor(m => m.MiddleName)
+@Html.HiddenFor(m => m.Fax)
+@Html.HiddenFor(m => m.TypeOfPerson)
+@Html.HiddenFor(m => m.ISOCurrencyCode)
+@Html.HiddenFor(m => m.ISOLanguageCode)
+@Html.HiddenFor(m => m.TemplateType)
+
+
+<div class="input-row">
+    <div class="label-3">Title</div>
+    <div class="input-9">
+        @{
+            List<SelectListItem> listItemsFreq = new List<SelectListItem>();
+            listItemsFreq.Add(new SelectListItem { Text = "Mr", Value = "Mr", });
+            listItemsFreq.Add(new SelectListItem { Text = "Miss", Value = "Miss" });
+            listItemsFreq.Add(new SelectListItem { Text = "Ms", Value = "Ms", });
+            listItemsFreq.Add(new SelectListItem { Text = "Mrs", Value = "Mrs" });
+            listItemsFreq.Add(new SelectListItem { Text = "Dr", Value = "Dr" });
+        }
+
+        @Html.DropDownListFor(model => model.Title, listItemsFreq, "-- Select Title --")
+    </div>
+</div>
+<div class="input-row">
+    <div class="label-3">Forename</div>
+    <div class="input-9">
+        @Html.TextBoxFor(m => m.Forename)
+    </div>
+</div>
+<div class="input-row">
+    <div class="label-3">Surname</div>
+    <div class="input-9">
+        @Html.TextBoxFor(m => m.Surname)
+    </div>
+</div>
+
+<div class="input-row">
+    <div class="label-3">Email</div>
+    <div class="input-9">
+        @Html.TextBoxFor(m => m.EmailAddress)
+    </div>
+</div>

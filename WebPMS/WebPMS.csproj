@@ -1,0 +1,491 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F36831FE-98E2-4B0D-8892-B788947F74B5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebPMS</RootNamespace>
+    <AssemblyName>WebPMS</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Office.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.SpellChecker.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxGauges.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxSpellChecker.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxThemes.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.Mvc5.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpo.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v16.1.Presets, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Sparkline.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeParser.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http.Common, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Http.Common.4.0.20126.16343\lib\net40\System.Web.Http.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\DevExpress.Charts.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.CodeParser.v16.1.dll" />
+    <Content Include="bin\DevExpress.Dashboard.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Dashboard.v16.1.Web.dll" />
+    <Content Include="bin\DevExpress.Dashboard.v16.1.Web.Mvc5.dll" />
+    <Content Include="bin\DevExpress.Data.v16.1.dll" />
+    <Content Include="bin\DevExpress.Data.v16.1.xml" />
+    <Content Include="bin\DevExpress.DataAccess.v16.1.dll" />
+    <Content Include="bin\DevExpress.DataAccess.v16.1.xml" />
+    <Content Include="bin\DevExpress.ExpressApp.PivotGrid.v16.1.dll" />
+    <Content Include="bin\DevExpress.ExpressApp.v16.1.dll" />
+    <Content Include="bin\DevExpress.Map.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Map.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Office.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Office.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Pdf.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Pdf.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Pdf.v16.1.Drawing.dll" />
+    <Content Include="bin\DevExpress.Pdf.v16.1.Drawing.xml" />
+    <Content Include="bin\DevExpress.PivotGrid.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.PivotGrid.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Printing.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Printing.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.RichEdit.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.RichEdit.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Sparkline.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Sparkline.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.SpellChecker.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.SpellChecker.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Spreadsheet.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.Spreadsheet.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.Utils.v16.1.dll" />
+    <Content Include="bin\DevExpress.Utils.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxGauges.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxGauges.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxHtmlEditor.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxHtmlEditor.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxPivotGrid.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxPivotGrid.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxRichEdit.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxRichEdit.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxScheduler.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxScheduler.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxSpellChecker.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxSpellChecker.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxSpreadsheet.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxSpreadsheet.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.ASPxThemes.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxTreeList.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.ASPxTreeList.v16.1.xml" />
+    <Content Include="bin\DevExpress.Web.Mvc5.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.Resources.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.v16.1.dll" />
+    <Content Include="bin\DevExpress.Web.v16.1.xml" />
+    <Content Include="bin\DevExpress.Xpo.v16.1.dll" />
+    <Content Include="bin\DevExpress.Xpo.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraBars.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraBars.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraCharts.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraCharts.v16.1.Web.dll" />
+    <Content Include="bin\DevExpress.XtraCharts.v16.1.Web.xml" />
+    <Content Include="bin\DevExpress.XtraCharts.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraEditors.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraEditors.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Presets.dll" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Presets.xml" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Win.dll" />
+    <Content Include="bin\DevExpress.XtraGauges.v16.1.Win.xml" />
+    <Content Include="bin\DevExpress.XtraLayout.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraLayout.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraMap.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraMap.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraPivotGrid.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraPivotGrid.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraPrinting.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraPrinting.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraReports.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraReports.v16.1.Web.dll" />
+    <Content Include="bin\DevExpress.XtraReports.v16.1.Web.xml" />
+    <Content Include="bin\DevExpress.XtraReports.v16.1.xml" />
+    <Content Include="bin\DevExpress.XtraScheduler.v16.1.Core.dll" />
+    <Content Include="bin\DevExpress.XtraScheduler.v16.1.Core.xml" />
+    <Content Include="bin\DevExpress.XtraTreeList.v16.1.dll" />
+    <Content Include="bin\DevExpress.XtraTreeList.v16.1.xml" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AI.Agent.Intercept.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.dll" />
+    <Content Include="bin\Microsoft.AI.DependencyCollector.xml" />
+    <Content Include="bin\Microsoft.AI.PerfCounterCollector.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.dll" />
+    <Content Include="bin\Microsoft.AI.ServerTelemetryChannel.xml" />
+    <Content Include="bin\Microsoft.AI.Web.dll" />
+    <Content Include="bin\Microsoft.AI.Web.xml" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.dll" />
+    <Content Include="bin\Microsoft.AI.WindowsServer.xml" />
+    <Content Include="bin\Microsoft.ApplicationInsights.dll" />
+    <Content Include="bin\Microsoft.ApplicationInsights.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.Webpages.Deployment.dll" />
+    <Content Include="bin\System.Web.Webpages.Deployment.xml" />
+    <Content Include="bin\System.Web.Webpages.dll" />
+    <Content Include="bin\System.Web.Webpages.Razor.dll" />
+    <Content Include="bin\System.Web.Webpages.Razor.xml" />
+    <Content Include="bin\System.Web.Webpages.xml" />
+    <Content Include="bin\WebGrease.dll" />
+    <Content Include="bin\WebPMS.dll" />
+    <Content Include="bin\WebPMS.pdb" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\odometer-theme-default.css" />
+    <Content Include="Content\Style.css">
+      <DependentUpon>Style.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Style.min.css">
+      <DependentUpon>Style.css</DependentUpon>
+    </Content>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\Style.less" />
+    <Content Include="bin\ApplicationInsights.config" />
+    <Content Include="bin\WebPMS.dll.config" />
+    <None Include="bundleconfig.json" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Images\UserIcon.png" />
+    <Content Include="MainLayout.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\Background\BlueBackground.jpg" />
+    <Content Include="Images\Background\NatureBackground.jpg" />
+    <Content Include="Scripts\circle-progress.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery.simpleWeather.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\odometer.min.js" />
+    <Content Include="Scripts\Resources.js" />
+    <Content Include="Scripts\Resources.min.js">
+      <DependentUpon>Resources.js</DependentUpon>
+    </Content>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Common\CommonFunctions.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="Common\DB.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TenancyController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DynamicEntityFieldsModel.cs" />
+    <Compile Include="Models\DynamicEntityModel.cs" />
+    <Compile Include="Models\InventoryListModel.cs" />
+    <Compile Include="Models\OrganisationModel.cs" />
+    <Compile Include="Models\PropertyDetailModel.cs" />
+    <Compile Include="Models\PropertyImagesModel.cs" />
+    <Compile Include="Models\PropertyModel.cs" />
+    <Compile Include="Models\PropertyNoteModel.cs" />
+    <Compile Include="Models\PropertyRoomListModel.cs" />
+    <Compile Include="Models\PropertyTenancyModel.cs" />
+    <Compile Include="Models\TaskModel.cs" />
+    <Compile Include="Models\TasksViewModel.cs" />
+    <Compile Include="Models\TenancyDetailModel.cs" />
+    <Compile Include="Models\TenancyModel.cs" />
+    <Compile Include="Models\TenancyRequirement.cs" />
+    <Compile Include="Models\TenancyTenantModel.cs" />
+    <Compile Include="Models\ThirdPartyModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\PropertyRoomModel.cs" />
+    <Compile Include="Models\ViewModels\EntityOrgViewModel.cs" />
+    <Compile Include="Models\ViewModels\EntityViewModel.cs" />
+    <Compile Include="Models\ViewModels\TenancyRequirementViewModel.cs" />
+    <Compile Include="Models\ViewModels\TenancyTenantsViewModel.cs" />
+    <Compile Include="Models\ViewModels\DynamicEntityFieldsViewModel.cs" />
+    <Compile Include="Models\ViewModels\LandlordDetailsViewModel.cs" />
+    <Compile Include="Models\ViewModels\PropertyNotesViewModel.cs" />
+    <Compile Include="Models\ViewModels\RoomDetailsViewModel.cs" />
+    <Compile Include="Models\ViewModels\SideNavigationViewModel.cs" />
+    <Compile Include="Models\ViewModels\TenancyDetailsViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Common\Session.cs" />
+    <Compile Include="Common\TDES.cs" />
+    <Compile Include="Models\ViewModels\PropertyDetailsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Property\Home.cshtml" />
+    <Content Include="Views\Property\_gvPropertiesPartial.cshtml" />
+    <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Property\PropertyDetails.cshtml" />
+    <Content Include="Views\Shared\_SideNavPartial.cshtml" />
+    <Content Include="Views\Property\RoomDetails.cshtml" />
+    <Content Include="Views\Property\_RoomDetailsPartial.cshtml" />
+    <Content Include="Views\Property\PropertyNotes.cshtml" />
+    <Content Include="Views\Property\LandlordDetails.cshtml" />
+    <Content Include="Views\Property\EntityDetailsD.cshtml" />
+    <Content Include="Views\Shared\_ToolbarPartial.cshtml" />
+    <Content Include="Views\Tenancy\Tenants.cshtml" />
+    <Content Include="Views\Tenancy\_gvTenants_Partial.cshtml" />
+    <Content Include="Views\Tenancy\Tenancies.cshtml" />
+    <Content Include="Views\Tenancy\_gvTenancy_Partial.cshtml" />
+    <Content Include="Views\Tenancy\TenancyDetails.cshtml" />
+    <Content Include="Views\Tenancy\_TabPartial.cshtml" />
+    <Content Include="Views\Tenancy\_TenancyDetailsPartial.cshtml" />
+    <Content Include="Views\Tenancy\_TenancyTenantsPartial.cshtml" />
+    <Content Include="Views\Tenancy\_TenancyImagesPartial.cshtml" />
+    <Content Include="Views\Tenancy\TenancyRequirements.cshtml" />
+    <Content Include="Views\Property\Entities.cshtml" />
+    <Content Include="Views\Property\_EntityDetailsPartial.cshtml" />
+    <Content Include="Views\Property\_EntityContactDetailsPartial.cshtml" />
+    <Content Include="Views\Task\DueSoon.cshtml" />
+    <Content Include="Views\Task\DueLater.cshtml" />
+    <Content Include="Views\Task\_gvDueSoon.cshtml" />
+    <Content Include="Views\Task\_gvDueLater.cshtml" />
+    <Content Include="Views\Task\TaskToolbarPartial.cshtml" />
+    <Content Include="Views\Task\TasksPartial.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="bin\de\" />
+    <Folder Include="bin\es\" />
+    <Folder Include="bin\ja\" />
+    <Folder Include="bin\roslyn\" />
+    <Folder Include="bin\ru\" />
+    <Folder Include="Insight\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56564</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56564/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

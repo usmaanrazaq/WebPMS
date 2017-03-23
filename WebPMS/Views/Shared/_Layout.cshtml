@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Insight</title>
+    <link href="~/Content/Style.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/odometer-theme-default.css" rel="stylesheet" type="text/css" />
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
+          rel="stylesheet" type='text/css'>
+ 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/odometer-theme-default.css" rel="stylesheet" />
+
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="~/Scripts/jquery.simpleWeather.min.js"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Resources.min.js"></script>
+    <script src="~/Scripts/circle-progress.min.js"></script>
+    <script src="~/Scripts/odometer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.4.4/sweetalert2.min.css">
+    @RenderSection("scripts", required: false)
+    @Html.DevExpress().GetStyleSheets(
+    new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+    new StyleSheet { ExtensionSuite = ExtensionSuite.GridView }
+    )
+    @Html.DevExpress().GetScripts(
+    new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+    new Script { ExtensionSuite = ExtensionSuite.Editors },
+    new Script { ExtensionSuite = ExtensionSuite.GridView }
+    )
+
+
+</head>
+
+
+<body>
+
+    <div class="navbar navbar-custom navbar-fixed-top">
+        <div class="userHolder">
+          <img src="~/Images/userplaceholder.jpg" /> @WebPMS.SessionManager.getCurrentUser().Forename   @WebPMS.SessionManager.getCurrentUser().Surname
+        </div>
+        <div class="links"><a onclick="location.href='@Url.Action("Logout","Home")'">Logout</a></div>
+    
+       
+    </div>
+
+    @*<div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+
+    </div>*@
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li id="1" onclick="slide('Propertiesdd', '#1')">
+                    <a> Properties <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+                </li>
+                <li id="Propertiesdd" class="dropdown hideD">
+
+                    <ul>
+                        <li>
+                            <a  onclick="location.href='@Url.Action("Home","Property")'">    <i class="fa fa-building" aria-hidden="true"></i>  Properties</a>
+                        </li>
+
+                    </ul>
+
+
+                </li>
+                <li id="2" onclick="slide('Tenancydd', '#2')">
+                    <a> Tenancy <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+                </li>
+                <li id="Tenancydd" class="dropdown hideD">
+
+                    <ul>
+                        <li >
+
+                            <a onclick="location.href='@Url.Action("Tenants","Tenancy")'"><i class="fa fa-users" aria-hidden="true"></i> Tenants</a>
+
+                        <li>
+                            <a onclick="location.href='@Url.Action("Tenancies","Tenancy")'"><i class="fa fa-file" aria-hidden="true"></i>  Tenancies</a>
+                        </li>
+
+                    </ul>
+
+
+                </li>
+                <li id="3" onclick="slide('Tasksdd', '#3')">
+                    <a> Tasks <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+                </li>
+                <li id="Tasksdd" class="dropdown hideD">
+
+                    <ul>
+                        <li>
+
+                            <a onclick="location.href='@Url.Action("duesoon","Task")'"><i class="fa fa-clock-o" aria-hidden="true"></i>Due Soon</a>
+
+                        <li>
+                            <a  onclick="location.href='@Url.Action("duelater","Task")'"><i class="fa fa-clipboard" aria-hidden="true"></i>  Due Later</a>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+            <ul class="weatherwidget">
+                <li>
+                    <div class="daywidget">
+                        @DateTime.Now.ToString("dd")
+                    </div>
+                    <div class="daywidget" style="font-size:22px">
+                        @DateTime.Now.ToString("dddd")
+                    </div>
+                </li>
+                <li>
+                    <div id="weather"></div>
+
+                </li>
+            </ul>
+
+
+        </div>
+
+
+        <div class="container-fluid body-content">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 noPadding">
+                    <div class="contentNav">
+                        @RenderSection("SideNav")
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    @RenderBody()
+                </div>
+            </div>
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+    </div>
+
+
+    <div id="coverbackground" class="coverbackgroundpp"></div>
+    <div id="popup" class="popup zero"></div>
+
+    <div id="notConfirmation" class="notification">@Html.Raw(ViewBag.Confirmation) <i class="fa fa-check" aria-hidden="true"></i></div>
+</body>
+
+</html>
+<style>
+    .notification {
+        display:none;
+        position: fixed;
+        background: #9c9bd9 ;
+        z-index: 500000;
+        width: 342px;
+        padding: 12px;
+        color: white;
+        text-transform: capitalize;
+        right: 48px;
+        top: 49px;
+        border-radius: 0 0 10px 10px;
+      font-size: 16px;
+      box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+    }
+    .notification div {
+    padding-bottom: 7px;
+}
+    .notification i {
+            float: right;
+    padding: 2px;
+    }
+</style>
+<script>
+    if ('@ViewBag.showPopup' === 'true') {
+        setTimeout(function () { $('#notConfirmation').slideDown(600); }, 500);
+        setTimeout(function () { $('#notConfirmation').slideUp(600); }, 4000);
+        
+        
+    }        
+</script>
+<script>
+
+    function isParam(field){
+        var url = window.location.href;
+        if (url.indexOf('?' + field + '=') != -1)
+            return true;
+        else if (url.indexOf('&' + field + '=') != -1)
+            return true;
+        return false
+    }
+    function getQueryStringValue(key) {
+        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    }
+
+    function closePopup(){
+        $('#coverbackground').fadeOut();
+        $('#popup').fadeOut();
+    }
+    function showPopup(){
+        $('#coverbackground').fadeIn();
+        $('#popup').fadeIn();
+    }
+    $(document).ready(function () {
+      
+
+        $('#coverbackground').click(function () {            
+            swal({
+                title: 'Are you sure?',
+                text: "Any unsaved changes will be lost!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes im sure!'
+            }).then(function () {
+                closePopup();
+            })
+        });
+        $(function () {
+            // This will make every element with the class "date-picker" into a DatePicker element
+            $('.date-picker').datepicker();
+        })
+
+
+
+
+
+        //TASKS
+        $('#newTask').click(function () {
+            $('#popup').removeClass("zero");
+            if(isParam("PropertyID")){
+                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=Property&ID=0&PropertyID=' + getQueryStringValue("PropertyID") + "&returnURL=" + window.location.href, function () {
+                    showPopup();
+                });
+            } else {
+                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=0', function () {
+                    showPopup();
+                });
+            }
+
+        });
+        getWeather(); //Get the initial weather.
+        setInterval(getWeather, 600000); //Update the weather every 10 minutes
+    });
+
+    function slide(el, clicked) {
+        $(clicked).toggleClass("pressed");
+
+        $(clicked).children('a').children('i').toggleClass("fa fa-angle-up fa fa-angle-down selected");
+
+        $('#' + el).slideToggle(200);
+    }
+    function getWeather() {
+        $.simpleWeather({
+            location: 's14rf',
+            unit: 'c',
+            success: function (weather) {
+                html = '<h1 class="icon-' + weather.code + '">   </h1>';
+                html += '<p>' + weather.temp + '&deg;' + weather.units.temp + "</p>";
+
+                html += ' <div> <p> &nbsp; ' + weather.currently + ' </div></p>';
+
+
+                $("#weather").html(html);
+            },
+            error: function (error) {
+                $("#weather").html('<p>' + error + '</p>');
+            }
+        });
+    }
+
+
+</script>

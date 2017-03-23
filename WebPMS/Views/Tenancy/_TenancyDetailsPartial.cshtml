@@ -1,0 +1,126 @@
+﻿@model WebPMS.Models.TenancyDetail
+
+
+<div class="row padding">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="inputForm">
+            @Html.HiddenFor(m => m.ID)
+            @Html.HiddenFor(m => m.PropertyID)
+            @Html.HiddenFor(m => m.TenantName)
+            @Html.HiddenFor(m => m.RentDueDay)
+            @Html.HiddenFor(m => m.DateDepositProtected)
+            <div class="inputHeader">Tenancy Details</div>
+            <div class="input-row">
+                <div class="label-3">Status</div>
+                <div class="input-9">
+                    @{
+                        List<SelectListItem> listItems = new List<SelectListItem>();
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "Active",
+                            Value = "Active",
+
+                        });
+                        listItems.Add(new SelectListItem
+                        {
+                            Text = "Expired",
+                            Value = "Expired"
+
+                        });
+
+                    }
+
+                    @Html.DropDownListFor(model => model.Status, listItems, "-- Select Status --")
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Type</div>
+                <div class="input-9">
+                    @{
+                        List<SelectListItem> listItemsTType = new List<SelectListItem>();
+                        listItemsTType.Add(new SelectListItem{Text = "Agricultural", Value = "Agricultural"});
+                        listItemsTType.Add(new SelectListItem { Text = "Assured", Value = "Assured" });
+                        listItemsTType.Add(new SelectListItem { Text = "Assured Shorthold Tenancy", Value = "Assured Shorthold Tenancy" });
+                        listItemsTType.Add(new SelectListItem { Text = "Lease", Value = "Lease" });
+                        listItemsTType.Add(new SelectListItem { Text = "Licence", Value = "Licence" });
+                        listItemsTType.Add(new SelectListItem { Text = "Regulated", Value = "Regulated" });
+                    }
+
+                    @Html.DropDownListFor(model => model.TenancyType, listItemsTType, "-- Select Type --")
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Start Date</div>
+                <div class="input-3">
+                    @Html.TextBoxFor(model => model.StartDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })
+                </div>
+                <div class="label-3">End Date</div>
+                <div class="input-3">
+                    @Html.TextBoxFor(model => model.EndDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Rent £</div>
+                <div class="input-9">
+                    @Html.TextBoxFor(m => m.Rent, new { @type = "number" })
+                   
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="label-3">Frequency</div>
+                <div class="input-9">
+                    @{
+                        List<SelectListItem> listItemsFreq = new List<SelectListItem>();
+                        listItemsFreq.Add(new SelectListItem { Text = "None", Value = "None", });
+                        listItemsFreq.Add(new SelectListItem { Text = "Daily", Value = "Daily" });
+                        listItemsFreq.Add(new SelectListItem { Text = "Weekly", Value = "Weekly", });
+                        listItemsFreq.Add(new SelectListItem { Text = "Monthly", Value = "Monthly" });
+                        listItemsFreq.Add(new SelectListItem { Text = "Yearly", Value = "Yearly" });
+                    }
+
+                    @Html.DropDownListFor(model => model.Frequency, listItemsFreq, "-- Select Frequency --")
+                </div>
+
+            </div>
+            <div class="input-row">
+                <div class="label-3">Payment Reference</div>
+                <div class="input-9">@Html.TextBoxFor(m => m.PaymentReference) </div>
+            </div>     
+            <div class="input-row">
+                <div class="label-3">Deposit Received £</div>
+                <div class="input-3">
+                    @Html.TextBoxFor(model => model.DepositReceived, new { @type = "number"  })
+                </div>
+                <div class="label-3">Deposit Returned £</div>
+                <div class="input-3">
+                    @Html.TextBoxFor(model => model.DepositReturned, new { @type = "number"  })
+                </div>
+            </div>
+        </div>
+
+        <div class="inputForm">
+            <div class="inputHeader">Deposit Notes</div>
+            <div class="input-row">
+                <div class="input-12">
+                    @Html.TextAreaFor(m => m.DepositNotes)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*SECOND HALF OF SCREEN*@
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="inputForm">
+
+            <div class="inputHeader">Notes</div>
+            <div class="input-row">
+                <div class="input-12">
+                    @Html.TextAreaFor(m => m.Notes)
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

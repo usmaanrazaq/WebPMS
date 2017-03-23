@@ -1,0 +1,57 @@
+﻿
+@model WebPMS.Models.PropertyNotesViewModel
+@{
+    ViewBag.Title = "PropertyNotes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+
+<div class="pageTitle">
+    Property Notes
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+
+        @*FIRST HALF OF SCREEN*@
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <form method="post" action="SaveNote">               
+                <div class="hidden">
+                    @Html.TextBoxFor(m => m.PropertyID, new { @name = "PropertyID" })
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader"> Add Note</div>
+                    <div class="input-row">
+                        <div class="input-10">
+                            <textarea id="Note" name="Note"></textarea>
+                        </div>
+                        <div class="input-2">
+                            <button type="submit"> Add Note <i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="inputForm">
+                <div class="inputHeader">Notes</div>
+                <div class="input-12">
+                    @foreach (var item in Model.PropertyNotes.NotesSeperated)
+                    {
+                        <div class="PropertyNote">
+                            @item
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
