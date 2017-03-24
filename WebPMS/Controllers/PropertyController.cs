@@ -212,24 +212,35 @@ namespace WebPMS.Controllers
 
         public ActionResult LandlordDetails(int PropertyID)
         {
-            PropertyDetail Detail = BuildProperyDetail.ViewProperty(PropertyID);
-            ThirdParty LandlordDetails = BuildThirdParty.ViewThirdParty(Detail.LandlordID);
-            DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
+              DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
 
-            var SideNavModel = new SideNavigationViewModel
+                var SideNavModel = new SideNavigationViewModel
+                {
+                    DynamicEntities = Entities,
+                    PropertyID = PropertyID,
+                };
+            if (PropertyID != 0)
             {
-                DynamicEntities = Entities,
-                PropertyID = PropertyID,
-            };
+                PropertyDetail Detail = BuildProperyDetail.ViewProperty(PropertyID);
+                ThirdParty LandlordDetails = BuildThirdParty.ViewThirdParty(Detail.LandlordID);
+              
+                LandlordDetailsViewModel modelUpdate = new LandlordDetailsViewModel
+                {
+                    PropertyID = PropertyID,
+                    ThirdParty = LandlordDetails,
+                    SideNavigationViewModel = SideNavModel
+
+                };
+                return View(modelUpdate);
+            }
+
             LandlordDetailsViewModel model = new LandlordDetailsViewModel
             {
-                PropertyID = PropertyID,
-                ThirdParty = LandlordDetails,
+                PropertyID = 0,
+                ThirdParty = new ThirdParty(),
                 SideNavigationViewModel = SideNavModel
 
             };
-
-
             return View(model);
         }
 
@@ -299,14 +310,15 @@ namespace WebPMS.Controllers
 
         public ActionResult SaveEntity(int PropertyID, Organisation orgDetail, int? DynamicOrgID, string ID, DynamicEntityFields DEF)
         {
-        
+            int updateInt = 0;
             if (PropertyID != 0)
             {
                 if (DynamicOrgID == 0)// insert
                 {
                     DynamicOrgID = null;
                 }           
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicOrg, DB.StoredProcedures.uspUpdateDynamicOrg(DynamicOrgID, PropertyID, orgDetail.ID, ID, null, DynamicOrgID)) == 1)
+
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicOrg, DB.StoredProcedures.uspUpdateDynamicOrg(DynamicOrgID, PropertyID, orgDetail.ID, ID, null, DynamicOrgID), ref updateInt) == 1)
                 {
                     ViewBag.showPopup = "true";
                     ViewBag.Confirmation = orgDetail.Name +  " Saved Succesfully!";
@@ -314,7 +326,7 @@ namespace WebPMS.Controllers
                     {
                         foreach(DynamicEntityField d in DEF)
                         {
-                            if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicData, DB.StoredProcedures.uspUpdateDynamicData(0, DynamicOrgID,null, PropertyID, d.ID, d.FieldValue, null)) == 1)
+                            if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicData, DB.StoredProcedures.uspUpdateDynamicData(0, DynamicOrgID, null, PropertyID, d.ID, d.FieldValue, null), ref updateInt) == 1)
                             {
                                 ViewBag.Confirmation = orgDetail.Name + " Saved Succesfully! ";
                             }
@@ -383,37 +395,32 @@ namespace WebPMS.Controllers
         public ActionResult SaveDetails(PropertyDetailsViewModel PropertyDetailsViewModel)
         {
 
-            if (PropertyDetailsViewModel.PropertyID != 0)
+            int updateInt = 0;
+            PropertyDetailsViewModel.PropertyDetail.BranchID = 1;
+            if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateProperty, DB.StoredProcedures.uspUpdateProperty(PropertyDetailsViewModel.PropertyDetail, PropertyDetailsViewModel.PropertyID, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
             {
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateProperty, DB.StoredProcedures.uspUpdateProperty(PropertyDetailsViewModel.PropertyDetail, PropertyDetailsViewModel.PropertyID, "Asad")) == 1)
-                    ViewBag.showPopup = "true";
+                ViewBag.showPopup = "true";
                 ViewBag.Confirmation = PropertyDetailsViewModel.PropertyDetail.NickName + " Saved Succesfully!";
                 return View("Home");
             }
-            else
-            {
-                return View(PropertyDetailsViewModel);
-            }
 
-            return Json("ERROR");
-
+            return View("Home");
         }
         [HttpPost]
         public ActionResult SaveRoom(RoomDetailsViewModel RoomDetailsViewModel)
         {
-
-            if (RoomDetailsViewModel.PropertyRoom.PropertyID != 0)
-            {
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdatePropertyRoom, DB.StoredProcedures.uspUpdatePropertyRoom(RoomDetailsViewModel.PropertyRoom, "Asad")) == 1)
-                    ViewBag.showPopup = "true";
+            int updateInt = 0;
+            RoomDetailsViewModel.PropertyRoom.PropertyID = RoomDetailsViewModel.PropertyID;
+            if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdatePropertyRoom, DB.StoredProcedures.uspUpdatePropertyRoom(RoomDetailsViewModel.PropertyRoom, "Asad"),ref updateInt) == 1)
+            {                
+                ViewBag.showPopup = "true";
                 ViewBag.Confirmation = RoomDetailsViewModel.PropertyRoom.Title + " Saved Succesfully!";
                 return View("Home");
+            }
 
-            }
-            else
-            {
-                return View(RoomDetailsViewModel);
-            }
+          
+              
+            
 
             return Json("ERROR");
         }
@@ -421,9 +428,9 @@ namespace WebPMS.Controllers
         [HttpPost]
         public ActionResult SaveNote(string Note, int PropertyID)
         {
-
+            int updateInt = 0;
             string newNote = DateTime.Now.ToString("ddMMMyy HH:mm") + " (" + SessionManager.getCurrentUser().ID + ")" + Note;
-            if (DB.UpdateData(Constants.StoredProcedures.Update.uspAppendPropertyNotes, DB.StoredProcedures.uspAppendPropertyNotes(PropertyID, newNote)) == 1)
+            if (DB.UpdateData(Constants.StoredProcedures.Update.uspAppendPropertyNotes, DB.StoredProcedures.uspAppendPropertyNotes(PropertyID, newNote), ref updateInt) == 1)
                 ViewBag.showPopup = "true";
             ViewBag.Confirmation = Note + " Saved Succesfully!";
             return View("Home");
@@ -431,16 +438,42 @@ namespace WebPMS.Controllers
             return Json("Error");
         }
 
+
         [HttpPost]
         public ActionResult SaveLandord(LandlordDetailsViewModel LandlordDetailsViewModel, string note)
         {
-            string newNote = DateTime.Now.ToString("ddMMMyy HH:mm") + " (" + SessionManager.getCurrentUser().ID + ")" + note;
-            LandlordDetailsViewModel.ThirdParty.Notes += newNote;
-            if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateThirdParty, DB.StoredProcedures.uspUpdateThirdParty(LandlordDetailsViewModel.ThirdParty, SessionManager.getCurrentUser().ID)) == 1)
+            int updateInt = 0;
+            if (!string.IsNullOrEmpty(LandlordDetailsViewModel.ThirdParty.ID))
             {
-                ViewBag.showPopup = "true";
-                ViewBag.Confirmation = LandlordDetailsViewModel.ThirdParty.ID + " Saved Succesfully!";
-                return View("Home");
+                string newNote = DateTime.Now.ToString("ddMMMyy HH:mm") + " (" + SessionManager.getCurrentUser().ID + ")" + note;
+                LandlordDetailsViewModel.ThirdParty.Notes += newNote;
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateThirdParty, DB.StoredProcedures.uspUpdateThirdParty(LandlordDetailsViewModel.ThirdParty, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
+                {
+                    ViewBag.showPopup = "true";
+                    ViewBag.Confirmation = LandlordDetailsViewModel.ThirdParty.ID + " Saved Succesfully!";
+                    return View("Home");
+                }
+            }else // new landlord
+            {
+                string newNote = DateTime.Now.ToString("ddMMMyy HH:mm") + " (" + SessionManager.getCurrentUser().ID + ")" + note;
+                LandlordDetailsViewModel.ThirdParty.Notes += newNote;
+                LandlordDetailsViewModel.ThirdParty.TypeOfPerson = "Landlord";
+          
+                LandlordDetailsViewModel.ThirdParty.ID = Functions.GenerateThirdPartyID(LandlordDetailsViewModel.ThirdParty.Title, LandlordDetailsViewModel.ThirdParty.MiddleName, LandlordDetailsViewModel.ThirdParty.Forename, LandlordDetailsViewModel.ThirdParty.Surname);
+                if (!String.IsNullOrEmpty(DB._UpdateDataS(Constants.StoredProcedures.Insert.uspInsertThirdParty, DB.StoredProcedures.uspInsertThirdParty(LandlordDetailsViewModel.ThirdParty, SessionManager.getCurrentUser().ID))))
+                {
+
+                    PropertyDetail property = BuildProperyDetail.ViewProperty(LandlordDetailsViewModel.PropertyID);
+                    property.LandlordID = LandlordDetailsViewModel.ThirdParty.ID;
+                    property.LandlordID = LandlordDetailsViewModel.ThirdParty.TypeOfPerson = "Landlord";
+                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateProperty, DB.StoredProcedures.uspUpdateProperty(property, LandlordDetailsViewModel.PropertyID, SessionManager.getCurrentUser().ID), ref updateInt) == 1)
+                    {
+                        ViewBag.showPopup = "true";
+                        ViewBag.Confirmation = LandlordDetailsViewModel.ThirdParty.ID + " Saved Succesfully!";
+                        return View("Home");
+                    }
+                    return View("Home");
+                }
             }
 
             return Json("Error");

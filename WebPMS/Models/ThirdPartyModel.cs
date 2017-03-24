@@ -211,6 +211,7 @@ namespace WebPMS.Models
         {
             get
             {
+                if (this.Notes == null) return new string[1];
                 var items = this.Notes.Split(new[] { "\r\n\r\n" }, StringSplitOptions.None);
                 return items;
             }
@@ -249,7 +250,7 @@ public static class BuildThirdParty
         {
             return BuildThirdPartyByRow(DT.Rows[0]);
         }
-        return null;
+        return new ThirdParty();
     }
 
     public static ThirdParties ViewOrgContacts(string ID)

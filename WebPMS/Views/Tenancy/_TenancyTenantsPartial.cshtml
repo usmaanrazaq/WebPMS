@@ -6,24 +6,53 @@
             <div class="inputHeader">SELECT TENANT</div>
             <div class="input-row">
                 <div class="input-12">
-                    @Html.DropDownListFor(m => m.SelectedTenancyTenant, Model.TenancyTenants, new { @id = "ddTenancyTenantList", })
+                    @Html.DropDownListFor(m => m.Tenant.ID, Model.TenancyTenants, "Add Tenant", new { @id = "ddTenancyTenantList", })
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div id="insertTen" class="inputForm">           
+
+            <div class="inputHeader">Tenant Details</div>
+            <div class="input-row">
+                <div class="label-1">Name</div>
+                <div class="input-11">
+                    @Html.TextBoxFor(m => m.Tenant.Name)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Status</div>
+                <div class="input-11">
+                    @Html.TextBoxFor(m => m.Tenant.Status)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Vat Registered</div>
+                <div class="input-11">
+
+
+                    @Html.CheckBoxFor(m => m.Tenant.VATRegistered)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Vat No</div>
+                <div class="input-11">
+                    @Html.TextBoxFor(m => m.Tenant.VATNo)
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
 
         <div class="inputForm">
-            @Html.HiddenFor(m => m.Tenant.ID)
+            @Html.HiddenFor(m => m.Tenant.ID)            
             @Html.HiddenFor(m => m.Tenant.TypeOfOrganisation)
-            @Html.HiddenFor(m => m.Tenant.Name)
             @Html.HiddenFor(m => m.Tenant.AddressLine4)
             @Html.HiddenFor(m => m.Tenant.AddressLine5)
             @Html.HiddenFor(m => m.Tenant.HomePage)
-            @Html.HiddenFor(m => m.Tenant.VATRegistered)
-            @Html.HiddenFor(m => m.Tenant.VATNo)
-            @Html.HiddenFor(m => m.Tenant.Status)
             @Html.HiddenFor(m => m.Tenant.Sector)
             @Html.HiddenFor(m => m.Tenant.SubSector)
             @Html.HiddenFor(m => m.Tenant.LastUpdatedTime)
@@ -96,4 +125,24 @@
 
     </div>
 
-</div>
+    </div>
+
+<script>
+    $(document).ready(function () {
+
+        if ( $("#ddTenancyTenantList").val() == 0)
+            $('#insertTen').show();
+        else
+            $('#insertTen').hide();
+
+
+        $("#ddTenancyTenantList").change(function () {
+            var val = $(this).val();
+            if (val == 0) {    
+                $('#insertTen').show();
+            }
+            else
+                $('#insertTen').hide();
+        })
+    })
+</script>

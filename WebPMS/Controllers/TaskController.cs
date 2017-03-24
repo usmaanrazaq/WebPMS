@@ -76,11 +76,12 @@ namespace WebPMS.Controllers
 
         public ActionResult SaveTask(TasksViewModel TasksViewModel)
         {
+            int updateInt = 0;
             if (TasksViewModel.Task != null)
             {
                 if (TasksViewModel.Task.ID == 0) //insert
                 {
-                    if (DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertTask, DB.StoredProcedures.uspInsertTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID)) == 1)
+                    if (DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertTask, DB.StoredProcedures.uspInsertTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                     {
                         ViewBag.showPopup = "true";
                         ViewBag.Confirmation = "Task for " + TasksViewModel.Task.UserID + " Added!";
@@ -90,10 +91,10 @@ namespace WebPMS.Controllers
                 }
                 else
                 {
-                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTask, DB.StoredProcedures.uspUpdateTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID)) == 1)
+                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTask, DB.StoredProcedures.uspUpdateTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID), ref updateInt) == 1)
                     {
                         ViewBag.showPopup = "true";
-                        ViewBag.Confirmation = "Task for " + TasksViewModel.Task.UserID  + " Updated!";
+                        ViewBag.Confirmation = "Task for " + TasksViewModel.Task.UserID + " Updated!";
 
                     }
 
@@ -102,6 +103,7 @@ namespace WebPMS.Controllers
 
             if (String.IsNullOrEmpty(TasksViewModel.returnURL))
             {
+
                 return View("DueSoon");
             }
             return Redirect(TasksViewModel.returnURL);

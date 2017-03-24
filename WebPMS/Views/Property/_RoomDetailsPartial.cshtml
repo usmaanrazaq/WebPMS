@@ -3,6 +3,7 @@
 @*FIRST HALF OF SCREEN*@
 <form method="POST" action="SaveRoom">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        @Html.HiddenFor(m => m.PropertyID)        
         @Html.HiddenFor(m => m.SideNavigationViewModel)
         @Html.HiddenFor(m => m.PropertyRoomList)
         @Html.HiddenFor(m => m.PropertyImages)

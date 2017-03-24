@@ -37,6 +37,8 @@ namespace WebPMS
                 public const string uspRetrieveTasksByUser  =  "uspRetrieveTasksByUser";
                 public const string uspRetrieveUsers = "uspRetrieveUsers";
                 public const string uspRetrieveTask = "uspRetrieveTask";
+                public const string uspGetNewPersonID = "uspGetNewPersonID";
+                public const string UspGetNewOrgID = "UspGetNewOrgID";
             }
             public static class Update
             {
@@ -57,6 +59,8 @@ namespace WebPMS
             public static class Insert
             {
                 public const string uspInsertTask = "uspInsertTask";
+                public const string uspInsertThirdParty = "uspInsertThirdParty";
+                public const string uspInsertOrg = "uspInsertOrg";
             }
         }
 

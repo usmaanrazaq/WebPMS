@@ -37,7 +37,7 @@ namespace WebPMS.Models
 
         public string _comboDisplay { get
             {
-                return Status + " " + TenancyType + " " + tenant_list + " " + StartDate.Value.ToString("dd/MM/yyyy") + " " + EndDate.Value.ToString("dd/MM/yyyy");
+                return Status + " " + TenancyType + " " + tenant_list + " " + StartDate.Value.ToString("dd/MM/yyyy") + " ";// TODO + EndDate.Value.ToString("dd/MM/yyyy");
             }
         }
 

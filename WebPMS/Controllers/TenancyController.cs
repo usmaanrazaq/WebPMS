@@ -14,14 +14,14 @@ namespace WebPMS.Controllers
         // GET: Tenancy
         public ActionResult Tenants()
         {
-            Organisations orgs = BuildOrganisations.ViewExsistingOrgs("", "Solicitor", false, "All");            
+            Organisations orgs = BuildOrganisations.ViewExsistingOrgs("", "Solicitor", false, "All");
             return View();
         }
         public ActionResult Tenancies()
         {
             return View();
         }
-        
+
         public ActionResult TenancyRequirements(int PropertyID)
         {
             DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
@@ -30,7 +30,7 @@ namespace WebPMS.Controllers
                 DynamicEntities = Entities,
                 PropertyID = PropertyID,
             };
-  
+
             var model = new TenancyRequirementViewModel
             {
                 SideNavigationViewModel = SideNavModel,
@@ -42,13 +42,14 @@ namespace WebPMS.Controllers
         }
         public ActionResult TenancyDetails(int PropertyID)
         {
+
             DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
             var SideNavModel = new SideNavigationViewModel
             {
                 DynamicEntities = Entities,
                 PropertyID = PropertyID,
             };
-                              
+
             TenancyDetail TenancyDetail = new TenancyDetail();
             Organisation Tenant = new Organisation();
             var model = new TenancyDetailsViewModel
@@ -64,9 +65,9 @@ namespace WebPMS.Controllers
                 SideNavigationViewModel = SideNavModel,
                 TenancyID = TenancyDetail.ID,
                 PropertyID = PropertyID,
-       
-            };           
-           
+
+            };
+
             return View(model);
         }
 
@@ -74,11 +75,11 @@ namespace WebPMS.Controllers
         {
             PropertyRoomList RoomList = BuildPropertyRoomList.ViewPropertyRoomList(PropertyID);
             PropertyImages Images = new PropertyImages();
-       
+
             foreach (PropertyRoomItem room in RoomList)
             {
                 string path = "/Insight/Property " + PropertyID.ToString() + "/Tenancy " + TenancyID.ToString() + "/Room " + room.ID;
-                DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));       
+                DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));
                 Images.AddRange(BuildPropertyImages.ViewPropertyImages(Constants.ImageTypes.ImageType_Tenancy, PropertyID, room.ID, TenancyID, 0, path));
             }
             return Images;
@@ -86,29 +87,37 @@ namespace WebPMS.Controllers
         private IEnumerable<SelectListItem> GetTenancyTenantsList(int TenancyID, ref Organisation Tenant)
         {
             TenancyTenants TenancyTenants = BuildTenancyTenant.ViewTenancyTenants(TenancyID);
-            Tenant = BuildOrganisations.ViewOrganisation(TenancyTenants[0].TenantID, 0);
+            if(TenancyTenants.Count > 0)
+                Tenant = BuildOrganisations.ViewOrganisation(TenancyTenants[0].TenantID, 0);
             var tenancy = TenancyTenants.Select(x =>
                                 new SelectListItem
                                 {
-                                    Value = x.TenantID.ToString(),
-                                    Text = x.Forename + " " + x.Surname
+                                    Value = x.TenantID,
+                                    Text = x.Name
                                 });
 
             return new SelectList(tenancy, "Value", "Text");
         }
         private IEnumerable<SelectListItem> GetPropertyTenancyList(int PropertyID, ref TenancyDetail TenancyDetail) // passing by reference so this function can set the value of the tenancy detail to show first result
         {
+            PropertyTenancies Tenancies = new PropertyTenancies();
+            
+                Tenancies = BuildPropertyTenancy.ViewPropertyTenancies(PropertyID);
+                if(Tenancies.Count > 0)
+                    TenancyDetail = BuildTenancyDetail.ViewTenancyDetail(Tenancies[0].ID); // PRESELECT FIRST OPTION ALL THE TIME
+            
+                var tenancy = Tenancies.Select(x =>
+                                    new SelectListItem
+                                    {
+                                        Value = x.ID.ToString(),
+                                        Text = x._comboDisplay
+                                    });
 
-            PropertyTenancies Tenancies = BuildPropertyTenancy.ViewPropertyTenancies(PropertyID);
-            TenancyDetail = BuildTenancyDetail.ViewTenancyDetail(Tenancies[0].ID); // PRESELECT FIRST OPTION ALL THE TIME
-            var tenancy = Tenancies.Select(x =>
-                                new SelectListItem
-                                {
-                                    Value = x.ID.ToString(),
-                                    Text = x._comboDisplay
-                                });
-
-            return new SelectList(tenancy, "Value", "Text", TenancyDetail.ID.ToString());
+                return new SelectList(tenancy, "Value", "Text", TenancyDetail.ID.ToString());
+            
+         
+           
+           
         }
 
 
@@ -140,40 +149,54 @@ namespace WebPMS.Controllers
             {
                 return RedirectToAction("TenancyDetails", new { PropertyID = pPropID });
             }
-      
+
         }
         [HttpPost]
         public ActionResult SaveTenancyDetails(TenancyDetailsViewModel TenancyDetailsViewModel)
         {
-            
-                if (TenancyDetailsViewModel.PropertyID != 0)
-            {
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateOrg, DB.StoredProcedures.uspUpdateOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID)) == 1) //Upading Org, if passed move to next update  
-                {
-                    ViewBag.showPopup = "true";
-                  
-                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyTenants, DB.StoredProcedures.uspUpdateTenancyTenants(TenancyDetailsViewModel.TenancyID, TenancyDetailsViewModel.TenancyDetail.ID, TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID, "Asad")) == 1)
-                    {
-         
-                        if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyDetails, DB.StoredProcedures.uspUpdateTenancyDetails(TenancyDetailsViewModel.TenancyDetail, SessionManager.getCurrentUser().ID)) == 1) //Upading Org, if passed move to next update  
 
-                            ViewBag.Confirmation += "<div> " + TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID + " Saved Succesfully!" + " </div>";
-                            return View("Tenants");
-                        }
+            // saving tenancy details goes an
+            int updateInt = 0;
+            if (TenancyDetailsViewModel.PropertyID != 0)
+            {
+                if (string.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID))// CREATE NEW TENANT 
+                {
+                    TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID = Functions.GenerateOrgID(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.Name);
+                    TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.TypeOfOrganisation = "Tenant";
+                    DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertOrg, DB.StoredProcedures.uspInsertOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID), ref updateInt);                
+
+                    
+                }else
+                {
+                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateOrg, DB.StoredProcedures.uspUpdateOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
+                    {//Upading Org, if passed move to next update                     
+                        ViewBag.showPopup = "true";
                     }
                 }
+                
+                if(TenancyDetailsViewModel.TenancyDetail.PropertyID == 0) // if new attach to property currently viewing
+                {
+                    TenancyDetailsViewModel.TenancyDetail.PropertyID = TenancyDetailsViewModel.PropertyID;                    
+                }
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyDetails, DB.StoredProcedures.uspUpdateTenancyDetails(TenancyDetailsViewModel.TenancyDetail, SessionManager.getCurrentUser().ID),ref updateInt) == 1) //Upading Org, if passed move to next update  
+                {
+                    DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyTenants, DB.StoredProcedures.uspUpdateTenancyTenants(0, updateInt, TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID, "Asad"), ref updateInt);
+                     ViewBag.Confirmation += "Tenancy & Tenant Details  Saved Succesfully!";
+                    return View("Tenants");
 
-                  
+                }               
+            }
             return Json("ERROR");
         }
 
         [HttpPost]
         public ActionResult SaveRequirements(TenancyRequirementViewModel TenancyRequirementViewModel)
         {
-            if(TenancyRequirementViewModel.PropertyID != 0)
+            int updateInt = 0;
+            if (TenancyRequirementViewModel.PropertyID != 0)
             {
                 TenancyRequirementViewModel.Requirement.PropertyID = TenancyRequirementViewModel.PropertyID;
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyRequirements, DB.StoredProcedures.uspUpdateTenancyRequirements(TenancyRequirementViewModel.Requirement, SessionManager.getCurrentUser().ID)) == 1)
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyRequirements, DB.StoredProcedures.uspUpdateTenancyRequirements(TenancyRequirementViewModel.Requirement, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                 {
                     ViewBag.showPopup = "true";
                     ViewBag.Confirmation += "Requirements Saved Succesfully!";
@@ -184,5 +207,5 @@ namespace WebPMS.Controllers
         }
     }
 
-   
+
 }

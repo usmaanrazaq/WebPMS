@@ -32,11 +32,84 @@ namespace WebPMS
             }
             return DT;
         }
-        public static int  UpdateData(string ProcName, SqlParameter[] Params)
+
+        public static string ReturnPersonID(string ProcName, SqlParameter[] Params)
+        {          
+            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string ID;
+            //Your Connection
+            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
+            {
+                sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+                //Create a command to execute your Stored Procedure
+                sda.SelectCommand.Parameters.AddRange(Params);
+                //Open your connection
+                SqlParameter outputParam = sda.SelectCommand.Parameters.Add("@NewID", SqlDbType.VarChar);
+                outputParam.Direction = ParameterDirection.Output;
+                outputParam.Size = 10;
+                conn.Open();
+                //Execute your Stored Procedure
+                sda.SelectCommand.ExecuteNonQuery();
+                ID = Convert.ToString(outputParam.Value);
+                //Close the connection
+                conn.Close();
+            }
+            return ID;
+        }
+        public static int  UpdateData(string ProcName, SqlParameter[] Params, ref int ID)
         {
          
             string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             int result;
+            //Your Connection
+            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
+            {
+                SqlParameter OutID = new SqlParameter();
+                int index = 0;
+                sda.UpdateCommand = new SqlCommand(ProcName, conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                foreach(SqlParameter p in Params)
+                {
+                    if (p.ParameterName == "@OutID")
+                    {
+                        OutID = p;
+                    }else
+                    {
+                        sda.UpdateCommand.Parameters.Add(p);
+                    }
+                           
+                }
+
+                if (OutID.ParameterName == "@OutID")
+                {
+                    OutID.Direction = ParameterDirection.Output;
+                    OutID.SqlDbType = SqlDbType.Int;
+                    OutID.Size = 32;
+                    sda.UpdateCommand.Parameters.Add(OutID);
+                }
+                //Create a command to execute your Stored Procedure              
+                //Open your connection
+                conn.Open();            
+                //Execute your Stored Procedure
+                result = Functions.ToInt32(sda.UpdateCommand.ExecuteNonQuery());
+
+                ID = Convert.ToInt32(OutID.Value);
+
+                //Close the connection
+                conn.Close();
+            }
+            return result;
+        }
+        public static string _UpdateDataS(string ProcName, SqlParameter[] Params)
+        {
+
+            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            string result;
             //Your Connection
             using (SqlConnection conn = new SqlConnection(connString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
@@ -50,8 +123,9 @@ namespace WebPMS
                 sda.UpdateCommand.Parameters.AddRange(Params);
                 //Open your connection
                 conn.Open();
+
                 //Execute your Stored Procedure
-                result = sda.UpdateCommand.ExecuteNonQuery();
+                result = Functions.ToString(sda.UpdateCommand.ExecuteNonQuery());
                 //Close the connection
                 conn.Close();
             }
@@ -69,6 +143,11 @@ namespace WebPMS
             public static SqlParameter[] uspRetrieveUsers(string UserID)
             {
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@UserID", UserID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspGetNewPersonID(string Title, string Forename, string MiddleName, string Surname)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@Title", Title), new SqlParameter("@Forename", Forename), new SqlParameter("@MiddleName", MiddleName), new SqlParameter("@Surname", Surname) };
                 return sqlParams;
             }
             public static SqlParameter[] uspRetrieveTasksByUser(string UserID, int NoOfDays, bool BeforeDays)
@@ -233,6 +312,22 @@ namespace WebPMS
 
                 return sqlParams;
             }
+            public static SqlParameter[] uspInsertThirdParty(ThirdParty cs, string UserID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@TypeOfPerson", cs.TypeOfPerson), new SqlParameter("@AddressLine1", cs.AddressLine1), new SqlParameter("@AddressLine2", cs.AddressLine2),
+                    new SqlParameter("@AddressLine3", cs.AddressLine3), new SqlParameter("@AddressLine4", cs.AddressLine4), new SqlParameter("@AddressLine5", cs.AddressLine5), new SqlParameter("@EmailAddress", cs.EmailAddress), new SqlParameter("@Fax", cs.Fax),
+                    new SqlParameter("@Forename", cs.Forename), new SqlParameter("@Gender", cs.Gender), new SqlParameter("@HomePhone", cs.HomePhone), new SqlParameter("@Middlename", cs.MiddleName), new SqlParameter("@Mobile", cs.Mobile), new SqlParameter("@Postcode", cs.PostCode),
+                    new SqlParameter("@Surname", cs.Surname), new SqlParameter("@WorkExtensionNumber", cs.WorkExtensionNumber), new SqlParameter("@WorkPhone", cs.WorkPhone), new SqlParameter("@PreferredContactMethod", cs.PreferredContactMethod),
+                    new SqlParameter("@PreferredContactTime", cs.PreferredContactTime), new SqlParameter("@Title", cs.Title), new SqlParameter("@DateOfBirth", cs.DateOfBirth), new SqlParameter("@Notes", cs.Notes), new SqlParameter("@Dept", cs.Dept),
+                    new SqlParameter("@Status", cs.Status), new SqlParameter("@UserID", UserID), new SqlParameter("@Suffix", cs.Suffix), new SqlParameter("@JobTitle", cs.JobTitle), new SqlParameter("@ID2", cs.ID2), new SqlParameter("@SubType", cs.SubType),
+                    new SqlParameter("@NINUmber", cs.NINumber), new SqlParameter("@BranchID", cs.BranchID), new SqlParameter("@PaymentTerms", cs.PaymentTerms), new SqlParameter("@SalesPerson", cs.SalesPerson), new SqlParameter("@ISOCountryCode", cs.ISOCountryCode),
+                    new SqlParameter("@ISOCurrencyCode", cs.ISOCurrencyCode), new SqlParameter("@ISOLanguageCode", cs.ISOLanguageCode), new SqlParameter("@MultipleJobsPerInvoice", cs.MultipleJobsPerInvoice), new SqlParameter("@TemplateType", cs.TemplateType),
+                    new SqlParameter("@PaymentTermsRecurrenceInfo", cs.PaymentTermsRecurrenceInfo), new SqlParameter("@HolidayEntitlement", cs.HolidayEntitlement), new SqlParameter("@MaritalStatus", cs.MaritalStatus), new SqlParameter("@DateStarted", cs.DateStarted),
+                    new SqlParameter("@DateFinished", cs.DateFinished), new SqlParameter("@Department", cs.Department), new SqlParameter("@LineManager", cs.LineManager), new SqlParameter("@Password", cs.Password), new SqlParameter("@RegistrationNumber", cs.RegistrationNumber),
+                    new SqlParameter("@Apprentice", cs.Apprentice), new SqlParameter("@AllowProductRequests", cs.AllowProductRequests), new SqlParameter("@EthnicOrigin", cs.EthnicOrigin), new SqlParameter("@CriminalConviction", cs.CriminalConviction),
+                    new SqlParameter("@CriminalConvictionDetails", cs.CriminalConvictionDetails), new SqlParameter("@Identity", 0) };
+                return sqlParams;
+            }
             public static SqlParameter[] uspUpdateDynamicData(int ID, int? DynamicOrgID, int? DynamicPersonID, int? FKID, int? FieldID, string FieldValue, int? EntityID)
             {
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@DynamicOrgID", DynamicOrgID), new SqlParameter("@DynamicPersonID", DynamicPersonID), new SqlParameter("@FKID", FKID), new SqlParameter("@FieldID", FieldID), new SqlParameter("@FieldValue", FieldValue), new SqlParameter("@EntityID", EntityID) };
@@ -251,6 +346,23 @@ namespace WebPMS
                     new SqlParameter("@PaymentTermsRecurrenceInfo", cs.PaymentTermsRecurrenceInfo) };
                 return sqlParams;
             }
+            public static SqlParameter[] UspGetNewOrgID(string Name)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@Name", Name) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspInsertOrg(Organisation cs, string UserID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@TypeOfOrganisation", cs.TypeOfOrganisation), new SqlParameter("@Name", cs.Name), new SqlParameter("@AddressLine1", cs.AddressLine1),
+                    new SqlParameter("@AddressLine2", cs.AddressLine2), new SqlParameter("@AddressLine3", cs.AddressLine3), new SqlParameter("@AddressLine4", cs.AddressLine4), new SqlParameter("@AddressLine5", cs.AddressLine5),
+                    new SqlParameter("@Postcode", cs.PostCode), new SqlParameter("@Phone", cs.Phone), new SqlParameter("@Fax", cs.Fax), new SqlParameter("@HomePage", cs.HomePage), new SqlParameter("@VATRegistered", cs.VATRegistered),
+                    new SqlParameter("@VATNo", cs.VATNo), new SqlParameter("@Status", cs.Status), new SqlParameter("@Sector", cs.Sector), new SqlParameter("@SubSector", cs.SubSector), new SqlParameter("@Notes", cs.Notes),
+                    new SqlParameter("@UserID", UserID), new SqlParameter("@Source", cs.Source), new SqlParameter("@AlternativeRef", cs.AlternativeRef), new SqlParameter("@OurAccountNo", cs.OurAccountNo),
+                    new SqlParameter("@BillingContactID", cs.BillingContactID), new SqlParameter("@PaymentTerms", cs.PaymentTerms), new SqlParameter("@SalesPerson", cs.SalesPerson), new SqlParameter("@ISOCountryCode", cs.ISOCountryCode),
+                    new SqlParameter("@ISOCurrencyCode", cs.ISOCurrencyCode), new SqlParameter("@ISOLanguageCode", cs.ISOLanguageCode), new SqlParameter("@MultipleJobsPerInvoice", cs.MultipleJobsPerInvoice),
+                    new SqlParameter("@TemplateType", cs.TemplateType), new SqlParameter("@PaymentTermsRecurrenceInfo", cs.PaymentTermsRecurrenceInfo), new SqlParameter("@Identity", 0) };
+                return sqlParams;
+            }
             public static SqlParameter[] uspUpdateTenancyTenants(int ID, int TenancyDetailsID, string TenantID, string UserID)
             {
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@TenancyDetailsID", TenancyDetailsID), new SqlParameter("@TenantID", TenantID), new SqlParameter("@UserID", UserID) };
@@ -261,7 +373,7 @@ namespace WebPMS
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@PropertyID", cs.PropertyID), new SqlParameter("@Status", cs.Status), new SqlParameter("@TenancyType", cs.TenancyType), new SqlParameter("@StartDate", cs.StartDate),
                     new SqlParameter("@EndDate", cs.EndDate), new SqlParameter("@Rent", cs.Rent), new SqlParameter("@Frequency", cs.Frequency), new SqlParameter("@RentDueDay", cs.RentDueDay), new SqlParameter("@DepositReceived", cs.DepositReceived),
                     new SqlParameter("@DepositNotes", cs.DepositNotes), new SqlParameter("@DateDepositProtected", cs.DateDepositProtected), new SqlParameter("@DepositReturned", cs.DepositReturned),
-                    new SqlParameter("@PaymentReference", cs.PaymentReference), new SqlParameter("@Notes", cs.Notes), new SqlParameter("@UserID", UserID), new SqlParameter("@OutID", cs.ID) };
+                    new SqlParameter("@PaymentReference", cs.PaymentReference), new SqlParameter("@Notes", cs.Notes), new SqlParameter("@UserID", UserID), new SqlParameter("@OutID", ParameterDirection.Output) };
                 return sqlParams;
             }
             public static SqlParameter[] uspUpdateTenancyRequirements(TenancyRequirement cs, string UserID)
@@ -281,6 +393,7 @@ namespace WebPMS
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@Type", cs.Type), new SqlParameter("@Status", cs.Status), new SqlParameter("@UserID", cs.UserID), new SqlParameter("@LinkedReference", cs.LinkedReference), new SqlParameter("@Task", cs.task), new SqlParameter("@Priority", cs.Priority), new SqlParameter("@DueDate", cs.DueDate), new SqlParameter("@StartDate", cs.StartDate), new SqlParameter("@CompletedDate", cs.CompletedDate), new SqlParameter("@Overdue", cs.OverDue), new SqlParameter("@AutoReminder", cs.AutoReminder), new SqlParameter("@ReminderDate", cs.ReminderDate), new SqlParameter("@UpdateTime", DateTime.Now), new SqlParameter("@UpdateUser", UserID) };
                 return sqlParams;
             }
+
         }
     }
 }

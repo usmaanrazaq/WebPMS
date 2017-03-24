@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -91,6 +92,18 @@ namespace WebPMS
             {
                 return Convert.ToDateTime(val);
             }
+        }
+
+        public static string GenerateThirdPartyID(string Title, string MiddleName, string Forename, string Surname)
+        {            
+            string ID = DB.ReturnPersonID(Constants.StoredProcedures.Read.uspGetNewPersonID, DB.StoredProcedures.uspGetNewPersonID(Title, Forename, MiddleName, Surname));       
+            return ID;
+        }
+        public static string GenerateOrgID(string Name)
+        {
+
+           string ID = DB.ReturnPersonID(Constants.StoredProcedures.Read.UspGetNewOrgID, DB.StoredProcedures.UspGetNewOrgID(Name));
+            return ID;
         }
     }
 }

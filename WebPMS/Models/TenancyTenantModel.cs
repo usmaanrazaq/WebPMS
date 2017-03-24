@@ -16,22 +16,16 @@ namespace WebPMS.Models
 
     public class TenancyTenant
     {
-        public TenancyTenant(string TenantID, string Status, string TypeOfPerson, string Title, string Surname, string Forename )
+        public TenancyTenant(string TenantID, string Status, string Name)
         {
             this.TenantID = TenantID;
             this.Status = Status;
-            this.TypeOfPerson = TypeOfPerson;
-            this.Title = Title;
-            this.Surname = Surname;
-            this.Forename = Forename;
+            this.Name = Name;
 
         }
         public string TenantID { get; set; }
         public string Status { get; set; }
-        public string TypeOfPerson { get; set; }
-        public string Title { get; set; }
-        public string Surname { get; set; }
-        public string Forename { get; set; }
+        public string Name { get; set; }
 
     }
 
@@ -54,7 +48,7 @@ namespace WebPMS.Models
 
         private static TenancyTenant BuildTenancyTenantFromDataRow(DataRow dr)
         {
-            return new TenancyTenant(Functions.ToString(dr["TenantID"]), Functions.ToString(dr["Status"]), Functions.ToString(dr["TypeOfPerson"]), Functions.ToString(dr["Title"]), Functions.ToString(dr["Surname"]), Functions.ToString(dr["Forename"]));
+            return new TenancyTenant(Functions.ToString(dr["TenantID"]), Functions.ToString(dr["Status"]), Functions.ToString(dr["Name"]));
         }
     }
 }
