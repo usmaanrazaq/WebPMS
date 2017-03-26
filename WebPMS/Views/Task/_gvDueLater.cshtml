@@ -1,5 +1,7 @@
 @{
     var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "gvDueLater";
+        settings.CallbackRouteValues = new { Controller = "Task", Action = "gvDueLater" };
         settings.KeyFieldName = "ID; CompletedDate";
         settings.SettingsPager.PageSize = 25;
         settings.SettingsBehavior.AllowGroup = true;
@@ -13,12 +15,12 @@
         settings.SettingsSearchPanel.Visible = true;
         settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
         settings.Columns.Add("ID");
-        settings.Columns.Add("UserID");
-        settings.Columns.Add("task");
-        settings.Columns.Add("LinkedReference");
+        settings.Columns.Add("UserID", "User");
+        settings.Columns.Add("task", "Task");
+        settings.Columns.Add("LinkedReference", "Ref");
         settings.Columns.Add("Priority");
-        settings.Columns.Add("DueDate");
-        settings.Columns.Add("CompletedDate");
+        settings.Columns.Add("DueDate", "Due Date", MVCxGridViewColumnType.DateEdit);
+        settings.Columns.Add("CompletedDate", "Completed Date", MVCxGridViewColumnType.DateEdit);
 
         settings.HtmlRowPrepared = (sender, e) =>
         {

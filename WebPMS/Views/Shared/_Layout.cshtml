@@ -9,16 +9,19 @@
     <link href="~/Content/odometer-theme-default.css" rel="stylesheet" type="text/css" />
     <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"
           rel="stylesheet" type='text/css'>
- 
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/odometer-theme-default.css" rel="stylesheet" />
 
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.6/jquery.validate.unobtrusive.js"></script>
     <script src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-    <script src="~/Scripts/jquery.simpleWeather.min.js"></script>
 
     <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery.simpleWeather.min.js"></script>
     <script src="~/Scripts/Resources.min.js"></script>
     <script src="~/Scripts/circle-progress.min.js"></script>
     <script src="~/Scripts/odometer.min.js"></script>
@@ -37,6 +40,11 @@
     )
 
 
+    @if (!WebPMS.SessionManager.isLoggedIn())
+    {
+        Response.Redirect(Url.Action("Login", "Home"));
+        return;
+    }
 </head>
 
 
@@ -44,24 +52,24 @@
 
     <div class="navbar navbar-custom navbar-fixed-top">
         <div class="userHolder">
-          <img src="~/Images/userplaceholder.jpg" /> @WebPMS.SessionManager.getCurrentUser().Forename   @WebPMS.SessionManager.getCurrentUser().Surname
+            <img src="~/Images/userplaceholder.jpg" /> @WebPMS.SessionManager.getCurrentUser().Forename   @WebPMS.SessionManager.getCurrentUser().Surname
         </div>
         <div class="links"><a onclick="location.href='@Url.Action("Logout","Home")'">Logout</a></div>
-    
-       
+
+
     </div>
 
     @*<div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
 
 
-    </div>*@
+        </div>*@
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -74,7 +82,7 @@
 
                     <ul>
                         <li>
-                            <a  onclick="location.href='@Url.Action("Home","Property")'">    <i class="fa fa-building" aria-hidden="true"></i>  Properties</a>
+                            <a onclick="location.href='@Url.Action("Home","Property")'">    <i class="fa fa-building" aria-hidden="true"></i>  Properties</a>
                         </li>
 
                     </ul>
@@ -87,7 +95,7 @@
                 <li id="Tenancydd" class="dropdown hideD">
 
                     <ul>
-                        <li >
+                        <li>
 
                             <a onclick="location.href='@Url.Action("Tenants","Tenancy")'"><i class="fa fa-users" aria-hidden="true"></i> Tenants</a>
 
@@ -110,7 +118,7 @@
                             <a onclick="location.href='@Url.Action("duesoon","Task")'"><i class="fa fa-clock-o" aria-hidden="true"></i>Due Soon</a>
 
                         <li>
-                            <a  onclick="location.href='@Url.Action("duelater","Task")'"><i class="fa fa-clipboard" aria-hidden="true"></i>  Due Later</a>
+                            <a onclick="location.href='@Url.Action("duelater","Task")'"><i class="fa fa-clipboard" aria-hidden="true"></i>  Due Later</a>
                         </li>
 
                     </ul>
@@ -150,7 +158,7 @@
             </div>
             <hr />
             <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                <p>&copy; @DateTime.Now.Year -  Property Management System</p>
             </footer>
         </div>
     </div>
@@ -159,45 +167,45 @@
     <div id="coverbackground" class="coverbackgroundpp"></div>
     <div id="popup" class="popup zero"></div>
 
-    <div id="notConfirmation" class="notification">@Html.Raw(ViewBag.Confirmation) <i class="fa fa-check" aria-hidden="true"></i></div>
+    <div id="notConfirmation" class="notification"><i class="fa fa-check" aria-hidden="true"></i>@Html.Raw(ViewBag.Confirmation)</div>
 </body>
 
 </html>
 <style>
     .notification {
-        display:none;
+        display: none;
         position: fixed;
-        background: #9c9bd9 ;
+        background: #fff;
         z-index: 500000;
-        width: 342px;
-        padding: 12px;
+        width: auto;
+        padding: 18px;
         color: white;
         text-transform: capitalize;
         right: 48px;
-        top: 49px;
-        border-radius: 0 0 10px 10px;
-      font-size: 16px;
-      box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+        top: 97px;
+        color: black !important;
+        font-size: 20px;
+        box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.75);
+        border: 2px solid #95c97b;
     }
-    .notification div {
-    padding-bottom: 7px;
-}
-    .notification i {
-            float: right;
-    padding: 2px;
-    }
+
+        .notification div {
+            padding-bottom: 7px;
+        }
+
+        .notification i {
+            color: #95c97b;
+            border-right: 1px solid;
+            font-size: 32px;
+            padding-right: 20px;
+            margin-right: 37px;
+        }
 </style>
-<script>
-    if ('@ViewBag.showPopup' === 'true') {
-        setTimeout(function () { $('#notConfirmation').slideDown(600); }, 500);
-        setTimeout(function () { $('#notConfirmation').slideUp(600); }, 4000);
-        
-        
-    }        
-</script>
+
 <script>
 
-    function isParam(field){
+
+    function isParam(field) {
         var url = window.location.href;
         if (url.indexOf('?' + field + '=') != -1)
             return true;
@@ -209,18 +217,28 @@
         return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     }
 
-    function closePopup(){
+    function closePopup() {
         $('#coverbackground').fadeOut();
+        $('#popup').html("") // clearing html, getting rid of extra form tag that would be rendered on page
         $('#popup').fadeOut();
     }
-    function showPopup(){
+    function showPopup() {
         $('#coverbackground').fadeIn();
         $('#popup').fadeIn();
     }
-    $(document).ready(function () {
-      
+    $(function () {
+        // This will make every element with the class "date-picker" into a DatePicker element
+        $('.date-picker').datepicker();
+    })
 
-        $('#coverbackground').click(function () {            
+    $(document).ready(function () {
+
+        if ('@ViewBag.showPopup' === "True") {
+            setTimeout(function () { $('#notConfirmation').slideDown(600); }, 500);
+            setTimeout(function () { $('#notConfirmation').fadeOut(); }, 4000);
+        }
+
+        $('#coverbackground').click(function () {
             swal({
                 title: 'Are you sure?',
                 text: "Any unsaved changes will be lost!",
@@ -233,10 +251,6 @@
                 closePopup();
             })
         });
-        $(function () {
-            // This will make every element with the class "date-picker" into a DatePicker element
-            $('.date-picker').datepicker();
-        })
 
 
 
@@ -245,7 +259,7 @@
         //TASKS
         $('#newTask').click(function () {
             $('#popup').removeClass("zero");
-            if(isParam("PropertyID")){
+            if (isParam("PropertyID")) {
                 $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=Property&ID=0&PropertyID=' + getQueryStringValue("PropertyID") + "&returnURL=" + window.location.href, function () {
                     showPopup();
                 });
@@ -266,6 +280,14 @@
         $(clicked).children('a').children('i').toggleClass("fa fa-angle-up fa fa-angle-down selected");
 
         $('#' + el).slideToggle(200);
+    }
+
+    function submitForm() {
+        if ($("form").valid()) {
+            $("form").submit();
+        } else {
+            return false;
+        }
     }
     function getWeather() {
         $.simpleWeather({

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -51,14 +52,19 @@ namespace WebPMS.Models
         public int ParentID { get; set; }
         public string ParentNickName { get; set; }
         public int BranchID { get; set; }
+
+     
         public string Status { get; set; }
+ 
         public string NickName { get; set; }
+  
         public string BuildingType { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string AddressLine5 { get; set; }
+ 
         public string PostCode { get; set; }
         public int DisplayIndex { get; set; }
     }

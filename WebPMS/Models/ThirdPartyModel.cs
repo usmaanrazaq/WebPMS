@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -167,7 +168,7 @@ namespace WebPMS.Models
             this.CriminalConviction = CriminalConviction;
             this.CriminalConvictionDetails = CriminalConvictionDetails;
         }
-
+        [Required]
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
@@ -183,9 +184,11 @@ namespace WebPMS.Models
         public DateTime? DateStarted { get; set; }
         public string Department { get; set; }
         public string Dept { get; set; }
+        [Required]
         public string EmailAddress { get; set; }
         public string EthnicOrigin { get; set; }
         public string Fax { get; set; }
+        [Required]
         public string Forename { get; set; }
         public string Gender { get; set; }
         public double HolidayEntitlement { get; set; }
@@ -227,8 +230,10 @@ namespace WebPMS.Models
         public string Status { get; set; }
         public string SubType { get; set; }
         public string Suffix { get; set; }
+        [Required]
         public string Surname { get; set; }
         public string TemplateType { get; set; }
+        [Required]
         public string Title { get; set; }
         public string TypeOfPerson { get; set; }
         public string WorkExtensionNumber { get; set; }
@@ -236,6 +241,7 @@ namespace WebPMS.Models
 
 
         //ORG CONTACTS 
+        [Required]
         public string Name { get; set; }
     }
 }

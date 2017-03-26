@@ -13,17 +13,30 @@ namespace WebPMS.Controllers
         // GET: Task
         public ActionResult DueSoon()
         {
+            if (TempData["Confirmation"] != null)
+            {
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }
             return View();
         }
         public ActionResult DueLater()
         {
+            if (TempData["Confirmation"] != null)
+            {
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }
             return View();
         }
 
         [ValidateInput(false)]
         public ActionResult gvDueSoon()
         {
-            
+            if (!SessionManager.isLoggedIn())
+            {
+                return RedirectToAction("Login", "Home");
+            }
 
             int noOfDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             var model = BuildTask.ViewTasksByUser(SessionManager.getCurrentUser().ID, noOfDays, true);
@@ -33,6 +46,10 @@ namespace WebPMS.Controllers
         [ValidateInput(false)]
         public ActionResult gvDueLater()
         {
+            if (!SessionManager.isLoggedIn())
+            {
+                return RedirectToAction("Login", "Home");
+            }
             int noOfDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             var model = BuildTask.ViewTasksByUser(SessionManager.getCurrentUser().ID, noOfDays, false);
             return PartialView("_gvDueLater", model);
@@ -40,6 +57,7 @@ namespace WebPMS.Controllers
 
         public ActionResult TasksPartial(string Type, int ID, bool complete = false, int PropertyID = 0, string returnURL = "")
         {
+
             Task t = new Task();
             string mode = "Add";
             if (ID > 0)
@@ -83,8 +101,8 @@ namespace WebPMS.Controllers
                 {
                     if (DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertTask, DB.StoredProcedures.uspInsertTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                     {
-                        ViewBag.showPopup = "true";
-                        ViewBag.Confirmation = "Task for " + TasksViewModel.Task.UserID + " Added!";
+                        
+                        TempData["Confirmation"] = "Task for " + TasksViewModel.Task.UserID + " Added!";
 
                     }
 
@@ -93,8 +111,8 @@ namespace WebPMS.Controllers
                 {
                     if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTask, DB.StoredProcedures.uspUpdateTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID), ref updateInt) == 1)
                     {
-                        ViewBag.showPopup = "true";
-                        ViewBag.Confirmation = "Task for " + TasksViewModel.Task.UserID + " Updated!";
+                      
+                        TempData["Confirmation"] = "Task for " + TasksViewModel.Task.UserID + " Updated!";
 
                     }
 

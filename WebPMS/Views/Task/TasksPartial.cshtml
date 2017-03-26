@@ -4,8 +4,9 @@
 </div>
     <div class="row">
         <div class="col-lg-12">
-      <form method="post" action="/Task/SaveTask">
-          @Html.HiddenFor(m=> m.Task.ID)
+           @using (@Html.BeginForm("SaveTask", "Task", FormMethod.Post))
+      {
+          @Html.HiddenFor(m => m.Task.ID)
           @Html.HiddenFor(m => m.returnURL)
             <div class="inputForm noBottomMargin">               
                 <div class="input-row MarginTop">
@@ -76,7 +77,7 @@
                     </div>
                 </div>
             </div>
-          </form>
+          }
         </div>
     </div>
 
@@ -86,7 +87,12 @@
     $('#Task_StartDate').datepicker();
     $('#reminderDate').datepicker(); 
     $('#Task_DueDate').datepicker();
+    $(function () {
+        //allow the validation framework to re-prase the DOM
+        jQuery.validator.unobtrusive.parse();
 
+        jQuery.validator.unobtrusive.parse("form");
+    });
     $(document).ready(function () {
         if ($("#cbreminder").checked) {
             $('#reminderDate').show();

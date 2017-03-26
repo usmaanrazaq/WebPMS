@@ -43,12 +43,14 @@ namespace WebPMS.Models
         }
         public int ID { get; set; }
         public int PropertyID { get; set; }
+        [Required]
         public string Status { get; set; }
+        [Required]
         public string TenancyType { get; set; }
         public int TenantName { get; set; }
-
+        [Required]
         public DateTime? StartDate { get; set; }
-
+        [Required]
         public DateTime? EndDate { get; set; }
         public double Rent { get; set; }
         public string Frequency { get; set; }

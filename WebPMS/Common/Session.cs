@@ -26,7 +26,7 @@ namespace WebPMS
         //check to see if the user is logged in
         public static bool isLoggedIn()
         {
-            if (HttpContext.Current.Session["isLoggedIn"].Equals(null))
+            if (HttpContext.Current.Session["isLoggedIn"] == null)
                 return false;
             else
                 return true;

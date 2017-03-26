@@ -36,7 +36,7 @@ namespace WebPMS
             }
             else
             {
-                throw new Exception("The data is not in the correct format.");
+                return false; //TODO
             }
         }
 

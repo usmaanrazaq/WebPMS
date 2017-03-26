@@ -14,7 +14,7 @@
         settings.Styles.Row.CssClass = "draggable";
         settings.SettingsSearchPanel.Visible = true;
         settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
-       
+
         settings.CustomJSProperties = (s, e) =>
         {
             var gridView = (MVCxGridView)s;
@@ -38,7 +38,14 @@
             gridView.FocusedRowIndex = ViewBag.VisibleIndex;
         };
 
-
+        settings.Columns.Add("PropertyID", "Property ID");
+        settings.Columns.Add("BranchID", "Branch ID");
+        settings.Columns.Add("Status");
+        settings.Columns.Add("NickName", "Nick Name");
+        settings.Columns.Add("BuildingType", "Building Type");
+        settings.Columns.Add("AddressLine1", "Address Line 1");
+        settings.Columns.Add("AddressLine3", "Address Line 3");
+        settings.Columns.Add("PostCode", "Post Code");
 
     });
 }

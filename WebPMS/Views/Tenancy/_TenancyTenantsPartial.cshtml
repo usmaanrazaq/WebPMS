@@ -14,6 +14,7 @@
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div id="insertTen" class="inputForm">           
 
+
             <div class="inputHeader">Tenant Details</div>
             <div class="input-row">
                 <div class="label-1">Name</div>
@@ -24,7 +25,13 @@
             <div class="input-row">
                 <div class="label-1">Status</div>
                 <div class="input-11">
-                    @Html.TextBoxFor(m => m.Tenant.Status)
+                    @{
+                        List<SelectListItem> listItemsStatus = new List<SelectListItem>();
+                        listItemsStatus.Add(new SelectListItem { Text = "Active", Value = "Active", });
+                        listItemsStatus.Add(new SelectListItem { Text = "Archived", Value = "Archived" });
+
+                    }
+                    @Html.DropDownListFor(m => m.Tenant.Status, listItemsStatus, "-- Select Status --")                    
                 </div>
             </div>
             <div class="input-row">

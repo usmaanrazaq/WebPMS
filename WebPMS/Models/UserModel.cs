@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -41,16 +42,17 @@ namespace WebPMS.Models
             this.cViewInWord = cViewInWord;
         }
         public User() { }
-
+        [Required]
         public string ID { get; set; }
         public string Surname { get; set; }
         public string Forename { get; set; }
         public string MiddleName { get; set; }
         public string Title { get; set; }
         public bool ViewAdjustments { get; set; }
-        public bool AddAdjustments { get; set; }
+        public bool AddAdjustments { get; set; } 
         public string JobTitle { get; set; }
         public float? ChargingRate { get; set; }
+        [Required]
         public string Password { get; set; }
         public string AccessLevel { get; set; }
         public string Revoked { get; set; }

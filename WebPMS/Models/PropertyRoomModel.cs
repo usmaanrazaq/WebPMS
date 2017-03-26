@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -42,7 +43,9 @@ namespace WebPMS.Models
         public string Notes { get; set; }
         public int PropertyID { get; set; }
         public int Sequence { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Type { get; set; }
         public double Width { get; set; }
     }

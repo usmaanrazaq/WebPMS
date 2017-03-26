@@ -28,12 +28,37 @@ ul ul {
   list-style-type: none;
   padding: 5px;
 }
+input:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
 input {
   width: 100%;
   height: 32px;
   border-radius: 3px;
   padding: 5px;
   background: #F7F8FA;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+@keyframes border-pulsate {
+  0% {
+    border-color: #ff0033;
+  }
+  50% {
+    border-color: #fbbcc8;
+  }
+  100% {
+    border-color: #ff0033;
+  }
+}
+.input-validation-error {
+  border: 1px solid #ff0033 !important;
+  animation: border-pulsate 0.9s infinite;
 }
 .input-spacing {
   padding: 10px;
@@ -68,8 +93,8 @@ input[type=button] {
 }
 .login {
   width: 376px;
-  margin: 200px auto;
-  height: 458px;
+  margin: 233px auto;
+  height: 494px;
   background: url(../Images/Background/login.jpg) no-repeat center center fixed;
   padding-top: 1px;
   box-shadow: 25px 23px 72px 36px rgba(0, 0, 0, 0.3);
@@ -676,6 +701,10 @@ li.dropdown i {
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
+.deleteButton {
+  background: #ff0033;
+  color: white;
+}
 .navButton a {
   color: #2f323a !important;
 }
@@ -772,7 +801,7 @@ select {
 }
 #weather h1 {
   margin: 0;
-  color: #95c97b !important;
+  color: #62d4d6 !important;
   font-family: weather;
   font-size: 80px;
   font-weight: normal;
@@ -790,7 +819,7 @@ select {
   width: 100%;
   height: 240px;
   position: relative;
-  color: #95c97b;
+  color: #62d4d6;
   list-style: none;
   display: inline;
   float: left;

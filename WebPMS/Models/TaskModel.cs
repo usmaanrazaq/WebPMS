@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -38,13 +39,19 @@ namespace WebPMS.Models
 
         }
         public int ID { get; set; }
+        [Required]
         public string Status { get; set; }
         public string Type { get; set; }
+        [Required]
         public string UserID { get; set; }
         public string LinkedReference { get; set; }
+        [Required]
         public string task { get; set; }
+        [Required]
         public string Priority { get; set; }
+        [Required]
         public DateTime? StartDate { get; set; }
+        [Required]
         public DateTime? DueDate { get; set; }
         public DateTime? CompletedDate { get; set; }
         public string OverDue { get; set; }

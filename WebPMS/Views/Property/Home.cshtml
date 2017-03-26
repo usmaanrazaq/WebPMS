@@ -20,6 +20,27 @@
 
     }
 
+    $(document).ready(function () {
+
+        $('#viewProperty').click(function () {
+            var value = $('.dxgvFocusedRow > td ').first().html()                         
+            window.location.href = '@Url.Action("PropertyDetails", "Property")?PropertyID=' + value;        
+            });
+        });
+
+        $('#completeTask').click(function () {
+            var value = $('.dxgvFocusedRow > td ').first().html();
+            $('#popup').addClass("zero", function () { // makign sure that the popup dosent go visible, only showing it to populate task details on controller
+                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value + '&complete=true', function () {
+                    $("form").submit();
+
+                });
+
+            });
+
+
+        });
+
 
 </script>
 <div class="pageTitle">

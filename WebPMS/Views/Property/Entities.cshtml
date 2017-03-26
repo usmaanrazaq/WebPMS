@@ -15,57 +15,58 @@
         @Html.Partial("_ToolbarPartial")
     </div>
     <div class="row padding">
-        <form method="POST" action="SaveEntity">
-            <div class="hidden">
-                @Html.TextBoxFor(m => m.PropertyID, new { @readonly = true })
-                @Html.TextBoxFor(m => m.DynamicOrgID, new { @readonly = true })
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="inputForm">
-                    <div class="inputHeader">Name</div>
-                    <div class="input-row">
-                        <div class="input-12">
-                            @Html.DropDownListFor(m => m.EntityOrgViewModel.orgDetail.ID, Model.Organisations, "-- Select --", new { @id = "ddOrg", })
+       @using (Html.BeginForm("SaveEntity", "Property", FormMethod.Post))
+        {
+        <div class="hidden">
+            @Html.TextBoxFor(m => m.PropertyID, new { @readonly = true })
+            @Html.TextBoxFor(m => m.DynamicOrgID, new { @readonly = true })
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="inputForm">
+                <div class="inputHeader">Name</div>
+                <div class="input-row">
+                    <div class="input-12">
+                        @Html.DropDownListFor(m => m.EntityOrgViewModel.orgDetail.ID, Model.Organisations, "-- Select --", new { @id = "ddOrg", })
 
-                        </div>
                     </div>
                 </div>
-                <div id="EntityDetail" class="row padding">
-                    @{Html.RenderPartial("_EntityDetailsPartial", Model.EntityOrgViewModel);}
-                </div>
-
+            </div>
+            <div id="EntityDetail" class="row padding">
+                @{Html.RenderPartial("_EntityDetailsPartial", Model.EntityOrgViewModel);}
             </div>
 
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="inputForm">
-                    <div class="inputHeader">Additional Information</div>                 
-                        @for (int i = 0; i < Model.DEF.Count; i++)
-                        {
-                        @Html.HiddenFor(m => m.DEF[i].ID)
-                        @Html.HiddenFor(m => m.DEF[i].FieldType)
-                        @Html.HiddenFor(m => m.DEF[i].FieldMinValue)
-                        @Html.HiddenFor(m => m.DEF[i].FieldMaxValue)
-                        @Html.HiddenFor(m => m.DEF[i].FieldDisplayWidth)
-                        @Html.HiddenFor(m => m.DEF[i].FieldDisplayHeight)
-                        @Html.HiddenFor(m => m.DEF[i].FieldParamCodeListID)
-                        @Html.HiddenFor(m => m.DEF[i].FieldDisplayControlType)
-                        @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
-                        @Html.HiddenFor(m => m.DEF[i].FieldMaskType)
-                        @Html.HiddenFor(m => m.DEF[i].FieldMaxLength)
-                        @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
-                        @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
-                            <div class="input-row">
-                                <div class="label-3">@Model.DEF[i].FieldLabel</div>
-                                <div class="input-9">
-                                    @Html.TextBoxFor(m => m.DEF[i].FieldValue, new { name = Model.DEF[i].FieldValue, @value= Model.DEF[i].FieldValue })
-                            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div class="inputForm">
+                <div class="inputHeader">Additional Information</div>
+                @for (int i = 0; i < Model.DEF.Count; i++)
+                {
+                    @Html.HiddenFor(m => m.DEF[i].ID)
+                    @Html.HiddenFor(m => m.DEF[i].FieldType)
+                    @Html.HiddenFor(m => m.DEF[i].FieldMinValue)
+                    @Html.HiddenFor(m => m.DEF[i].FieldMaxValue)
+                    @Html.HiddenFor(m => m.DEF[i].FieldDisplayWidth)
+                    @Html.HiddenFor(m => m.DEF[i].FieldDisplayHeight)
+                    @Html.HiddenFor(m => m.DEF[i].FieldParamCodeListID)
+                    @Html.HiddenFor(m => m.DEF[i].FieldDisplayControlType)
+                    @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
+                    @Html.HiddenFor(m => m.DEF[i].FieldMaskType)
+                    @Html.HiddenFor(m => m.DEF[i].FieldMaxLength)
+                    @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
+                    @Html.HiddenFor(m => m.DEF[i].FieldEditMask)
+                    <div class="input-row">
+                        <div class="label-3">@Model.DEF[i].FieldLabel</div>
+                        <div class="input-9">
+                            @Html.TextBoxFor(m => m.DEF[i].FieldValue, new { name = Model.DEF[i].FieldValue, @value = Model.DEF[i].FieldValue })
                         </div>
-                       }
-           
+                    </div>
+                }
+
             </div>
-            </div>
-            </form>
-</div>
+        </div>
+        }
+    </div>
 
 </div>
 <script>
@@ -82,4 +83,4 @@
 
 
     })
- </script>
+</script>

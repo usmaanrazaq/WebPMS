@@ -18,7 +18,8 @@
         @Html.Partial("_ToolbarPartial")
     </div>
     <div class="row padding">
-        <form method="POST" action="SaveLandord"> 
+       @using (Html.BeginForm("SaveLandord", "Property", FormMethod.Post))
+       { 
             @*FIRST HALF OF SCREEN*@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 @Html.HiddenFor(m => m.SideNavigationViewModel)
@@ -68,13 +69,37 @@
                     <div class="input-row">
                         <div class="label-3">Title</div>
                         <div class="input-9">
-                            @Html.TextBoxFor(m => m.ThirdParty.Title)
+
+                            @{
+                                    List<SelectListItem> listItemsTitle = new List<SelectListItem>();
+               listItemsTitle.Add(new SelectListItem { Text = "Mr", Value = "Mr" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Mrs", Value = "Mrs" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Miss", Value = "Miss" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Ms", Value = "Ms" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Dr", Value = "Dr" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Coporate", Value = "Coporate" });
+                                    listItemsTitle.Add(new SelectListItem { Text = "Master", Value = "Master" });
+
+                                    }
+    
+
+                                @Html.DropDownListFor(m => m.ThirdParty.Title, listItemsTitle, "-- Select Title --")
+                            </div>
+    
                         </div>
-                    </div>
-                    <div class="input-row">
+    
+                        <div class="input-row">
                         <div class="label-3">Gender</div>
                         <div class="input-9">
-                         @Html.TextBoxFor(m => m.ThirdParty.Gender)
+                            @{
+                                List<SelectListItem> listItemsGender = new List<SelectListItem>();
+                                listItemsGender.Add(new SelectListItem { Text = "Female", Value = "F" });
+                                listItemsGender.Add(new SelectListItem { Text = "Male", Value = "M" });
+                                
+
+
+                            }
+                            @Html.DropDownListFor(m => m.ThirdParty.Gender, listItemsGender, "-- Select Gender --")                  
                         </div>
                     </div>
                     <div class="input-row">
@@ -175,8 +200,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+       
     </div>
-   
+                                }
 </div>

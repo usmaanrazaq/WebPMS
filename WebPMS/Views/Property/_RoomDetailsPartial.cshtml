@@ -1,16 +1,19 @@
 ﻿@model WebPMS.Models.RoomDetailsViewModel
 
 @*FIRST HALF OF SCREEN*@
-<form method="POST" action="SaveRoom">
+
+
+     @using (Html.BeginForm("SaveRoom", "Property", FormMethod.Post))
+     {
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        @Html.HiddenFor(m => m.PropertyID)        
+        @Html.HiddenFor(m => m.PropertyID)
         @Html.HiddenFor(m => m.SideNavigationViewModel)
         @Html.HiddenFor(m => m.PropertyRoomList)
         @Html.HiddenFor(m => m.PropertyImages)
         @Html.HiddenFor(m => m.PropertyPath)
         @Html.HiddenFor(m => m.SelectedRoomList)
         @Html.HiddenFor(m => m.InventoryList)
-                        
+
         @Html.HiddenFor(m => m.PropertyRoom.ID)
         @Html.HiddenFor(m => m.PropertyRoom.PropertyID)
         <div class="inputForm">
@@ -22,7 +25,19 @@
             <div class="input-row">
                 <div class="label-3">Type</div>
                 <div class="input-9">
-              @Html.TextBoxFor(m => m.PropertyRoom.Type)
+                  @{
+                      List<SelectListItem> listItemsType = new List<SelectListItem>();
+                      listItemsType.Add(new SelectListItem { Text = "Bathroom", Value = "Bathroom" });
+                      listItemsType.Add(new SelectListItem { Text = "Bedroom", Value = "Bedroom" });
+                      listItemsType.Add(new SelectListItem { Text = "Dining Room", Value = "Dining Room" });
+                      listItemsType.Add(new SelectListItem { Text = "Garage", Value = "Garage" });
+                      listItemsType.Add(new SelectListItem { Text = "Hallway", Value = "Hallway" });
+                      listItemsType.Add(new SelectListItem { Text = "Kitchen", Value = "Kitchen" });
+                      listItemsType.Add(new SelectListItem { Text = "Living Room", Value = "Living Room" });
+
+                }
+
+                @Html.DropDownListFor(m => m.PropertyRoom.Type, listItemsType, "-- Select Type --")
                 </div>
             </div>
             <div class="input-row">
@@ -32,7 +47,7 @@
                 </div>
             </div>
             <div class="input-row">
-                <div class="label-3">Dimensions (L x W x H)</div>
+                <div class="label-3">Dimensions(L x W x H)</div>
                 <div class="input-3">
                   @Html.TextBoxFor(m => m.PropertyRoom.Length)
                 </div>
@@ -66,18 +81,19 @@
 
         <div class="inputForm">
 
-            <div id="tempheader" class="inputHeader">Room Tempreture</div>
-        
-                
-                    <div id="circle" class="temp"></div>
-                
-            
-                    <div  class="temp " >Fahrenheight <span id="Farenheight" class="odometer">0.00</span>&deg;F</div>                            
-              
-                    <div class="temp ">Celcius <span id="Celcius" class="odometer">0.00</span>&deg;C </div>
-            <div id="tempicon"> </div>
-             
-  
+            <div id = "tempheader" class="inputHeader">Room Tempreture</div>
+
+
+                    <div id = "circle" class="temp"></div>
+
+
+                    <div class="temp " >Fahrenheight<span id="Farenheight" class="odometer">0.00</span>&deg;F</div>
+
+                    <div class="temp ">Celcius<span id="Celcius" class="odometer">0.00</span>&deg;C</div>
+            <div id = "tempicon" > </div>
+
+
+
         </div>
         </div>
 
@@ -153,7 +169,7 @@
 
     </div>
 
-    </form>
+                            }
 
 <script>
     var celci = document.querySelector('#Celcius');
@@ -175,11 +191,16 @@
         fill: { color: 'red' }
     });
 
+    $(function(){ 
+        //allow the validation framework to re-prase the DOM
+        jQuery.validator.unobtrusive.parse(); 
 
+        jQuery.validator.unobtrusive.parse("form");
+    });
 
     function getTemp(){
     $.ajax({
-        url: 'http://54.229.150.4:8080/api/temp/1',
+        url: 'http://54.229.150.4:8080/api/temp/' + @Model.PropertyRoom.ID,
         dataType: 'json',
     })
     .done(function (res) {

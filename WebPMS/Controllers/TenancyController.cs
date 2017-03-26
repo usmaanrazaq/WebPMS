@@ -14,61 +14,87 @@ namespace WebPMS.Controllers
         // GET: Tenancy
         public ActionResult Tenants()
         {
-            Organisations orgs = BuildOrganisations.ViewExsistingOrgs("", "Solicitor", false, "All");
+            if (TempData["Confirmation"] != null)
+            {
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }      
             return View();
         }
         public ActionResult Tenancies()
         {
+            if (TempData["Confirmation"] != null)
+            {
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }
             return View();
         }
 
         public ActionResult TenancyRequirements(int PropertyID)
         {
-            DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
-            var SideNavModel = new SideNavigationViewModel
+            if (TempData["Confirmation"] != null)
             {
-                DynamicEntities = Entities,
-                PropertyID = PropertyID,
-            };
-
-            var model = new TenancyRequirementViewModel
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }
+            if (PropertyID != 0)
             {
-                SideNavigationViewModel = SideNavModel,
-                Requirement = BuildTenancyRequirement.ViewTenancyRequirement(PropertyID),
-                PropertyID = PropertyID
-            };
+                DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
+                var SideNavModel = new SideNavigationViewModel
+                {
+                    DynamicEntities = Entities,
+                    PropertyID = PropertyID,
+                };
 
-            return View(model);
+                var model = new TenancyRequirementViewModel
+                {
+                    SideNavigationViewModel = SideNavModel,
+                    Requirement = BuildTenancyRequirement.ViewTenancyRequirement(PropertyID),
+                    PropertyID = PropertyID
+                };
+
+                return View(model);
+            }
+            return RedirectToAction("PropertyDetails","Property", new { PropertyID = 0 });
         }
         public ActionResult TenancyDetails(int PropertyID)
         {
-
-            DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
-            var SideNavModel = new SideNavigationViewModel
+            if (TempData["Confirmation"] != null)
             {
-                DynamicEntities = Entities,
-                PropertyID = PropertyID,
-            };
-
-            TenancyDetail TenancyDetail = new TenancyDetail();
-            Organisation Tenant = new Organisation();
-            var model = new TenancyDetailsViewModel
+                ViewBag.showPopup = true;
+                ViewBag.Confirmation = TempData["Confirmation"];
+            }
+            if (PropertyID != 0)
             {
-                PropertyTenancies = GetPropertyTenancyList(PropertyID, ref TenancyDetail),
-                TenancyDetail = TenancyDetail,
-                TenancyTenantsViewModel = new TenancyTenantsViewModel
+                DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
+                var SideNavModel = new SideNavigationViewModel
                 {
-                    TenancyTenants = GetTenancyTenantsList(TenancyDetail.ID, ref Tenant),
-                    Tenant = Tenant,
-                },
-                Images = GetTenancyImages(PropertyID, TenancyDetail.ID),
-                SideNavigationViewModel = SideNavModel,
-                TenancyID = TenancyDetail.ID,
-                PropertyID = PropertyID,
+                    DynamicEntities = Entities,
+                    PropertyID = PropertyID,
+                };
 
-            };
+                TenancyDetail TenancyDetail = new TenancyDetail();
+                Organisation Tenant = new Organisation();
+                var model = new TenancyDetailsViewModel
+                {
+                    PropertyTenancies = GetPropertyTenancyList(PropertyID, ref TenancyDetail),
+                    TenancyDetail = TenancyDetail,
+                    TenancyTenantsViewModel = new TenancyTenantsViewModel
+                    {
+                        TenancyTenants = GetTenancyTenantsList(TenancyDetail.ID, ref Tenant),
+                        Tenant = Tenant,
+                    },
+                    Images = GetTenancyImages(PropertyID, TenancyDetail.ID),
+                    SideNavigationViewModel = SideNavModel,
+                    TenancyID = TenancyDetail.ID,
+                    PropertyID = PropertyID,
 
-            return View(model);
+                };
+                return View(model);
+            }
+            return RedirectToAction("PropertyDetails","Property", new { PropertyID = 0 });
+            
         }
 
         private PropertyImages GetTenancyImages(int PropertyID, int TenancyID)
@@ -170,7 +196,7 @@ namespace WebPMS.Controllers
                 {
                     if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateOrg, DB.StoredProcedures.uspUpdateOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                     {//Upading Org, if passed move to next update                     
-                        ViewBag.showPopup = "true";
+                       
                     }
                 }
                 
@@ -181,8 +207,8 @@ namespace WebPMS.Controllers
                 if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyDetails, DB.StoredProcedures.uspUpdateTenancyDetails(TenancyDetailsViewModel.TenancyDetail, SessionManager.getCurrentUser().ID),ref updateInt) == 1) //Upading Org, if passed move to next update  
                 {
                     DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyTenants, DB.StoredProcedures.uspUpdateTenancyTenants(0, updateInt, TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID, "Asad"), ref updateInt);
-                     ViewBag.Confirmation += "Tenancy & Tenant Details  Saved Succesfully!";
-                    return View("Tenants");
+                    TempData["Confirmation"] = "Tenancy & Tenant Details  Saved Succesfully!";                   
+                    return RedirectToAction("Tenants");
 
                 }               
             }
@@ -198,9 +224,9 @@ namespace WebPMS.Controllers
                 TenancyRequirementViewModel.Requirement.PropertyID = TenancyRequirementViewModel.PropertyID;
                 if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyRequirements, DB.StoredProcedures.uspUpdateTenancyRequirements(TenancyRequirementViewModel.Requirement, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                 {
-                    ViewBag.showPopup = "true";
-                    ViewBag.Confirmation += "Requirements Saved Succesfully!";
-                    return View("Tenants");
+                   
+                    TempData["Confirmation"] = "Requirements Saved Succesfully!";
+                    return RedirectToAction("TenancyDetails", new { PropertyID = TenancyRequirementViewModel.Requirement.PropertyID });
                 }
             }
             return Json("ERROR");

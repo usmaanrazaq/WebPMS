@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -63,6 +64,7 @@ namespace WebPMS.Models
         }
 
         public string AccessInformation { get;  set; }
+        [Required]
         public string AddressLine1 { get;  set; }
         public string AddressLine2 { get;  set; }
         public string AddressLine3 { get;  set; }
@@ -83,20 +85,27 @@ namespace WebPMS.Models
         public DateTime? LeaseStart { get;  set; }
         public double Longtitude { get;  set; }
         public string MarketingDescription { get;  set; }
+
+        [Required]
         public string NickName { get;  set; }
         public string Notes { get;  set; }
-        public int ParentID { get;  set; }
+       
+
+       
         public int ParkingSpaces { get;  set; }
+        [Required]
         public string Postcode { get;  set; }
         public DateTime? PurchaseDate { get;  set; }
         public string PurchaseNotes { get;  set; }
         public double PurchasePrice { get;  set; }
         public string PurchaseType { get;  set; }
         public DateTime? SaleDate { get;  set; }
+        public int ParentID { get; set; }
         public string SaleNotes { get;  set; }
         public double SalePrice { get;  set; }
         public string size { get;  set; }
         public int SmokeAlarms { get;  set; }
+        [Required]
         public string Status { get;  set; }
         public string TemplateType { get;  set; }
         public DateTime? ValuationDate { get;  set; }

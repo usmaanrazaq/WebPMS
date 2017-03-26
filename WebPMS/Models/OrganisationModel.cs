@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -160,13 +161,17 @@ namespace WebPMS
 
         }
         public string ID { get; set; }
+
         public string TypeOfOrganisation { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string AddressLine5 { get; set; }
+        [Required]
         public string PostCode { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
