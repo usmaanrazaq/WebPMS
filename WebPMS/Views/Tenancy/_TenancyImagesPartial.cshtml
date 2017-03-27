@@ -5,55 +5,88 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="inputForm">
 
-            <div class="inputHeader">Tenancy Images</div>
+            <div class="inputHeader">Tenancy Images</div>        
             @if (Model.Count > 1)
             {
-            <div class="input-row">
-                <div class="input-2 arrows">
-                    <a onclick="prev();"><i style="display:none;" id="leftArrow" class="fa fa-caret-left" aria-hidden="true"></i></a>
-                </div>
-                <div class="input-8">
-                    @{int i = 0;}
-                    @foreach (var item in Model)
-                    {
-                    if (i != 0)
-                    {
-                    <img id="@i" class="tenancyimg" src="@Url.Content(item._tenancyPath + '/' + item.Filename) " style="display:none" alt="Image" />
-                    }
-                    else
-                    {
-                    <img id="@i" class="tenancyimg" src="@Url.Content(item._tenancyPath + '/' + item.Filename) " alt="Image" />
-                    }
-                    i++;
 
-                    }
-                </div>
-                <div class="input-2 arrows">
-                    <a onclick="next(@Model.Count);"> <i class="fa fa-caret-right" id="rightArrow" aria-hidden="true"></i></a>
-                </div>
-            </div>
-            }
-            else
-            {
-            <div class="input-row">
-                <div class="input-12">
-
-                    @foreach (var item in Model)
-                    {
-                    <img class="tenancyimg" src="@Url.Content(item._tenancyPath + '/' + item.Filename) " alt="Image" />
-                    <div class="text-center">
-                        <h3> @item.Title</h3>
-                        @item.Description
+                <div class="input-row">
+                    <div class="input-2 arrows">
+                        <a onclick="prev();"><i style="display:none;" id="leftArrow" class="fa fa-caret-left" aria-hidden="true"></i></a>
                     </div>
-                    }
+                    <div class="input-8">
+                        @{int i = 0;}
+                        @foreach (var item in Model)
+                        {
+                            @Html.Hidden("imgID" + i, item.ID);
+                            var id = "image" + i;
+                            if (i != 0)
+                            {
+
+                                <img id="@id" src="@Url.Content(item._tenancyPath + '/' + item.Filename) " style="display:none" alt="Image" />
+
+                            }
+                            else
+                            {
+                                <img id="@id" src="@Url.Content(item._tenancyPath + '/' + item.Filename) " alt="Image" />
+
+                            }
+                            i++;
+
+                        }
+                    </div>
+                    <div class="input-2 arrows">
+                        <a onclick="next(@Model.Count);"> <i class="fa fa-caret-right" id="rightArrow" aria-hidden="true"></i></a>
+                    </div>
                 </div>
-            </div>
+                            }
+                            else
+                            {
+
+                                <div class="input-row">
+                                    <div class="input-10">
+
+                                        @foreach (var item in Model)
+                                        {
+                                            @Html.Hidden("imgID0", item.ID);
+                                            <img src="@Url.Content(item._tenancyPath + '/' + item.Filename) " alt="Image" />
+                                        }
+                                    </div>
+                                </div>
 
 
-            }
+                            }
 
         </div>
     </div>
 
 
 </div>
+
+<script>
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#image' + id).fadeOut(function () {
+            --id;
+            $('#image' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
+
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+
+        $('#image' + id).fadeOut(function () {
+            ++id;
+            console.log(id);
+            $('#image' + id).fadeIn();
+
+        });
+
+    }
+</script>

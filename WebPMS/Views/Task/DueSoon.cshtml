@@ -12,8 +12,7 @@
 <script>
 
     function OnGridFocusedRowChanged(s, e) {
-        var grid = s;
-        console.log("hit");
+        var grid = s;    
         s.GetRowValues(s.GetFocusedRowIndex(), 'ID', function (value) {
             $('#popup').removeClass("zero");
             $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value , function () {

@@ -63,6 +63,11 @@ input {
 .input-spacing {
   padding: 10px;
 }
+.ui-button {
+  color: white !important;
+  border-radius: 7px;
+  border: none !important;
+}
 button {
   border: 1px solid #95C97B;
   background: #95C97B;
@@ -91,6 +96,9 @@ input[type=button] {
   background: #DEDEE0;
   height: 100vh;
 }
+.arrows A {
+  COLOR: #95C97B !important;
+}
 .login {
   width: 376px;
   margin: 233px auto;
@@ -99,6 +107,12 @@ input[type=button] {
   padding-top: 1px;
   box-shadow: 25px 23px 72px 36px rgba(0, 0, 0, 0.3);
   border-radius: 7px;
+}
+.marginright {
+  margin-right: 5px;
+}
+.floatleft {
+  float: left !important;
 }
 .login input {
   width: 100%;
@@ -180,7 +194,7 @@ input[type=button] {
   border-radius: 63px;
   height: 40px;
   max-width: 10%;
-  border: 1px solid #62d4d6;
+  border: 2px solid #95c97b;
   padding: 1px;
 }
 .links {
@@ -1242,4 +1256,55 @@ div#tempicon {
   bottom: 100% !important;
   left: 100% !important;
   top: 100% !important;
+}
+#TaskReminder {
+  position: fixed;
+  width: 500px;
+  float: left;
+  bottom: 0;
+  right: 0;
+  padding: 24px;
+  z-index: 500;
+}
+.Reminder {
+  background: #f7f8fa;
+  border-radius: 3px;
+  margin-top: 31px;
+  display: none;
+  cursor: pointer;
+  opacity: .7;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid #d5d7d9;
+  box-shadow: 2px 4px 19px 0 rgba(0, 0, 0, 0.75);
+}
+.Reminder:hover {
+  opacity: 1;
+}
+.Normal {
+  background: #95c97b  !important;
+}
+.Low {
+  background: #62d4d6 !important;
+}
+.High {
+  background: red !important;
+}
+.ReminderTitle {
+  font-size: 20px;
+  background: #494c56;
+  padding: 11px;
+  color: white;
+  margin-bottom: 12px;
+}
+.ReminderDetails {
+  padding: 10px;
+  line-height: 31px;
+  font-size: 16px;
+}
+sub#reminderTasks {
+  color: #62d4d6;
 }

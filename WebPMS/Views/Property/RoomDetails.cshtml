@@ -20,10 +20,15 @@
          
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="inputForm">
+                @Html.HiddenFor(m => m.PropertyPath)
                 <div class="inputHeader">SELECT ROOM</div>
                 <div class="input-row">
-                    <div class="input-12">
+                    <div class="input-9">
                         @Html.DropDownListFor(m => m.SelectedRoomList, Model.PropertyRoomList, "-- Add New Room--", new { @id = "ddRoomList", })
+
+                    </div>
+                    <div class="input-3">
+                       <button onclick="DeleteRoom()" class="deleteButton" type="button">Delete Room</button>
 
                     </div>
                 </div>
@@ -43,37 +48,49 @@
             var RoomID = $(this).val();
             if (RoomID == '')
                 RoomID = 0
-           
+
             $("#RoomDetail").load('@(Url.Action("RoomDetailsSelected", "Property",null, Request.Url.Scheme))?RoomID=' + RoomID, function () {
                 getTemp();
             });
-       
+
         })
     })
 
-    var id = 0;
-    function prev() {
-        $('#rightArrow').show();
-        $('#' + id).fadeOut(function () {
-            --id;
-            $('#' + id).fadeIn();
-            if (id == 0) {
-                $('#leftArrow').hide();
-            }
-        });
+    function DeleteRoom() {
+        var RoomID = $('#ddRoomList').val();
+        console.log(RoomID);
+        var PropertyID = @Model.PropertyID;
+        if(RoomID == 0){
+            swal("Select Room to delete")
+        }else{
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete room " + RoomID + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes Delete!'
+            }).then(function () {
+                var dataObject = JSON.stringify({
+                    'ID': RoomID,
+                    'PropertyID': PropertyID
+                });
+                $.ajax({
+                    url: '/Property/DeleteRoom',
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    data: dataObject,
+                    success: successFunc
+                });
 
-    }
-    function next(count) {
-        if (id == count - 2) {
-            $('#rightArrow').hide();
+                function successFunc() {
+                    window.location.reload()
+                }
+            })
         }
-        $('#leftArrow').show();
-        $('#' + id).fadeOut(function () {
-            ++id;
-            $('#' + id).fadeIn();
-
-        });
-
-
     }
+
+
+
 </script>

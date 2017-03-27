@@ -5,8 +5,12 @@
         <div class="inputForm">
             <div class="inputHeader">SELECT TENANT</div>
             <div class="input-row">
-                <div class="input-12">
+                <div class="input-9">
                     @Html.DropDownListFor(m => m.Tenant.ID, Model.TenancyTenants, "Add Tenant", new { @id = "ddTenancyTenantList", })
+                </div>
+                <div class="input-3">
+                    <button onclick="DeleteTenant()" class="deleteButton" type="button">Delete Tenant</button>
+
                 </div>
             </div>
         </div>
@@ -145,11 +149,13 @@
 
         $("#ddTenancyTenantList").change(function () {
             var val = $(this).val();
-            if (val == 0) {    
+            if (val == 0) {
                 $('#insertTen').show();
             }
             else
                 $('#insertTen').hide();
         })
     })
+
+
 </script>

@@ -434,6 +434,7 @@
     <Content Include="Views\Task\TaskToolbarPartial.cshtml" />
     <Content Include="Views\Task\TasksPartial.cshtml" />
     <Content Include="Views\Property\PropertyToolbarPartial.cshtml" />
+    <Content Include="Views\Tenancy\TenancyToolBarPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

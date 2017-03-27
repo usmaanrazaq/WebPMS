@@ -27,7 +27,7 @@
                 </div>
                 <div class="input-row">
                     <div class="label-2">Due Date</div>
-                    <div class="input-4">@Html.TextBoxFor(m => m.Task.DueDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.DueDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
                     <div class="label-2">Status</div>
                     <div class="input-4">@{
                         List<SelectListItem> listItemsStatus = new List<SelectListItem>();
@@ -42,7 +42,7 @@
                 </div>
                 <div class="input-row">
                     <div class="label-2">Start Date</div>
-                    <div class="input-4">@Html.TextBoxFor(m => m.Task.StartDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.StartDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
                     <div class="label-2">Priority</div>
                     <div class="input-4">
                         @{
@@ -54,22 +54,13 @@
 
                     @Html.DropDownListFor(model => model.Task.Priority, listItemsPriorities, "-- Select Priority --")
                 </div></div>
-              
+                           
                 <div class="input-row">
-                    <div class="label-2">Reminder</div>
-                    <div class="input-10"><input type="checkbox" id="cbreminder" /></div>                 
-                </div>
-
-                <div class="input-row">
-                    <div class="label-2"></div>                   
-                    <div class="input-3">@Html.TextBoxFor(m => m.Task.ReminderDate, "{0:dd MMM yyyy}", new { @class = "date-picker" , @id="reminderDate"})</div>
+                    <div class="label-2">Reminder</div>                   
+                    <div class="input-3">@Html.TextBoxFor(m => m.Task.ReminderDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
                     <div class="label-3">Completed Date</div>
-                    <div class="input-4">@Html.TextBoxFor(m => m.Task.CompletedDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })</div>
-                </div>
-                <div class="input-row">
-                    <div class="label-2">Overdue</div>
-                    <div class="input-10"><input type="checkbox" id="cbOverdue" /></div>
-                </div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.CompletedDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
+                </div>              
                 <div class="input-row">
                     <div class="formButtons">
                         <button type="button" onclick="closePopup();"> Cancel</button>
@@ -83,32 +74,37 @@
 
 <script>
 
+    $.datepicker.setDefaults({
+        dateFormat: 'dd/mm/yy'
+    });
     $('#Task_CompletedDate').datepicker();
     $('#Task_StartDate').datepicker();
-    $('#reminderDate').datepicker(); 
+    $('#Task_ReminderDate').datepicker();
     $('#Task_DueDate').datepicker();
+
     $(function () {
         //allow the validation framework to re-prase the DOM
         jQuery.validator.unobtrusive.parse();
 
         jQuery.validator.unobtrusive.parse("form");
-    });
-    $(document).ready(function () {
-        if ($("#cbreminder").checked) {
-            $('#reminderDate').show();
 
-        } else {
-            $('#reminderDate').val("")
-            $('#reminderDate').hide();
-        }
-        $("#cbreminder").change(function () {
-            if (this.checked) {
-                $('#reminderDate').show();
-            } else {
-                $('#reminderDate').val("")
-                $('#reminderDate').hide();
+    });
+    jQuery(function ($) {
+        $.validator.addMethod('date',
+        function (value, element) {
+            if (this.optional(element)) {
+                return true;
             }
+
+            var ok = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                ok = false;
+            }
+            return ok;
         });
-    })
+    });
 
 </script>

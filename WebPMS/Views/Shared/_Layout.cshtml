@@ -108,7 +108,7 @@
 
                 </li>
                 <li id="3" onclick="slide('Tasksdd', '#3')">
-                    <a> Tasks <i class="fa fa-angle-up" aria-hidden="true"></i></a>
+                    <a> Tasks <sub class="powerof" id="reminderTasks"></sub> <i class="fa fa-angle-up" aria-hidden="true"></i></a>
                 </li>
                 <li id="Tasksdd" class="dropdown hideD">
 
@@ -163,7 +163,7 @@
         </div>
     </div>
 
-
+    <div id="TaskReminder"></div>
     <div id="coverbackground" class="coverbackgroundpp"></div>
     <div id="popup" class="popup zero"></div>
 
@@ -230,6 +230,10 @@
         // This will make every element with the class "date-picker" into a DatePicker element
         $('.date-picker').datepicker();
     })
+    function setfilename(val) {
+        var fileName = val.substr(val.lastIndexOf("\\") + 1, val.length);
+        document.getElementById("ImageTitle").innerHTML = fileName;
+    }
 
     $(document).ready(function () {
 
@@ -251,10 +255,10 @@
                 closePopup();
             })
         });
+  
 
 
-
-
+        setTimeout(getTasks(), 5000); //Update the weather every 10 minutes
 
         //TASKS
         $('#newTask').click(function () {
@@ -274,6 +278,62 @@
         setInterval(getWeather, 600000); //Update the weather every 10 minutes
     });
 
+    function getTasks() {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetTodaysTasks", "Home")' ,
+            cache: false,
+            success: function (Tasks) {
+                var taskLength = Tasks.length;
+                $('#reminderTasks').html(taskLength);
+                var html = "";
+                if (taskLength == 0) return;
+                for (var i = 0; i < taskLength; i++) {
+                    
+                    var priority;
+
+                    if (Tasks[i].Priority == "N")
+                        priority = "Normal"
+                    if (Tasks[i].Priority == "L")
+                        priority = "Low"
+                    if (Tasks[i].Priority == "H")
+                        priority = "High"
+
+                    var status
+                    if (Tasks[i].Status == "N")
+                        status = "Not Started"
+                    if (Tasks[i].Status == "I")
+                        status = "In Progress"
+                    if (Tasks[i].Status == "C")
+                        status = "Completed"
+                    if (Tasks[i].Status == "W")
+                        status = "Waiting On Someone"
+                    if (Tasks[i].Status == "D")
+                        status = "Deffered"
+                 
+
+                    html += "<div onclick='openTask(" +Tasks[i].ID +");' class='Reminder'>" +
+                                    "<div class='ReminderTitle " + priority + "'> " +
+                                        "Task:  " + Tasks[i].task +
+                                    "</div>" +
+                                    "<div class='ReminderDetails'> " +
+                                        "Start Date: " + parseJsonDate(Tasks[i].StartDate).toDateString() + "<br />" +
+                                        "End Date: " + parseJsonDate(Tasks[i].DueDate).toDateString() + "<br />" +
+                                        "Priority: " + priority + "<br />" +
+                                        "Status:   " + status + "<br />" +
+                                    "</div>" +
+                               "</div>";
+                }
+
+                    $('#TaskReminder').html(html);
+                    $('.Reminder').show();
+             
+            }
+        });      
+    }
+    function parseJsonDate(jsonDateString) {
+        return new Date(parseInt(jsonDateString.replace('/Date(', '')));
+    }
     function slide(el, clicked) {
         $(clicked).toggleClass("pressed");
 
@@ -282,6 +342,13 @@
         $('#' + el).slideToggle(200);
     }
 
+
+    function openTask(ID) {
+        $('#popup').removeClass("zero");
+        $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID='+ ID, function () {
+            showPopup();
+        });
+    }
     function submitForm() {
         if ($("form").valid()) {
             $("form").submit();

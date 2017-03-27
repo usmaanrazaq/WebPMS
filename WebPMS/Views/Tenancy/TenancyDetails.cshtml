@@ -39,7 +39,7 @@
             {
                 <div class="inputForm tabular">
                     @Html.HiddenFor(m => m.PropertyID)
-                    @Html.HiddenFor(m => m. TenancyID)
+                    @Html.HiddenFor(m => m.TenancyID)
                     <div id="TenancyDetail"  class="tab ">
                         @{Html.RenderPartial("_TenancyDetailsPartial", Model.TenancyDetail, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "TenancyDetail" } });}
                     </div>
@@ -55,52 +55,65 @@
     </div>
 </div>
 
-<script> 
-    var id = 0;
-    function prev() {
-        $('#rightArrow').show();
-        $('#' + id).fadeOut(function(){
-            --id;
-            $('#' + id).fadeIn();
-            if (id == 0) {
-                $('#leftArrow').hide();
-            }
-        });
+<script>
 
-    }
-    function next(count) {
-        if (id == count - 2) {
-            $('#rightArrow').hide();
+    function DeleteTenant() {
+        var TenantID = $('#ddTenancyTenantList').val();
+        var TenancyDetailID  = @Model.TenancyID ;
+        console.log(TenancyDetailID);
+        console.log(TenantID);
+        if(TenantID == ''){
+            swal("Select a Tenant")
+        }else{
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete tentant? ?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes Delete!'
+            }).then(function () {
+                var dataObject = JSON.stringify({
+                    'TenancyDetailID': TenancyDetailID,
+                    'TenantID': TenantID
+                });
+                $.ajax({
+                    url: '/Tenancy/DeleteTenant',
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    data: dataObject,
+                    success: successFunc
+                });
+
+                function successFunc() {
+                    window.location.reload()
+                }
+            })
         }
-        $('#leftArrow').show();
-        $('#' + id).fadeOut(function () {
-            ++id;
-            $('#' + id).fadeIn();
-
-        });
     }
-
 
     $('#startDate').datepicker();
-        $('#endDate').datepicker();
+    $('#endDate').datepicker();
     $(document).ready(function () {
         $('#ddTenancyList').change(function () {
-
+            $("#TenancyDetail").load('@(Url.Action("TenancyDetailsSelected", "Tenancy",null, Request.Url.Scheme))?TenancyID=' + encodeURIComponent($(this).val()));
+            $("#Tenants").load('@(Url.Action("TenancyTenantsSelected", "Tenancy",null, Request.Url.Scheme))?TenancyID=' + encodeURIComponent($(this).val()));
         })
     })
-    function show(el, anc) {       
+    function show(el, anc) {
         $(".tab").each(function () {
             $(this).hide();
-           
-        });       
-        
-       $(".tabButton").each(function () {
-           $(this).removeClass("tabButtonSelected");
 
-       });
-   
-       $("#" + el).show();
-       $("#" + anc).addClass("tabButtonSelected");
-     
+        });
+
+        $(".tabButton").each(function () {
+            $(this).removeClass("tabButtonSelected");
+
+        });
+
+        $("#" + el).show();
+        $("#" + anc).addClass("tabButtonSelected");
+
     }
 </script>

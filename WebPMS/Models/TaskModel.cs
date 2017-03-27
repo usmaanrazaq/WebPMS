@@ -49,13 +49,17 @@ namespace WebPMS.Models
         public string task { get; set; }
         [Required]
         public string Priority { get; set; }
+    
         [Required]
         public DateTime? StartDate { get; set; }
+   
         [Required]
         public DateTime? DueDate { get; set; }
         public DateTime? CompletedDate { get; set; }
         public string OverDue { get; set; }
         public string AutoReminder { get; set; }
+
+       
         public DateTime? ReminderDate { get; set; }
         public DateTime? LastUpdatedTime { get; set; }
         public string LastUpdatedUser { get; set; }

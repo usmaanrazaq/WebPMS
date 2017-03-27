@@ -3,7 +3,7 @@
 @*FIRST HALF OF SCREEN*@
 
 
-     @using (Html.BeginForm("SaveRoom", "Property", FormMethod.Post))
+     @using (Html.BeginForm("SaveRoom", "Property", FormMethod.Post, new { enctype = "multipart/form-data" }))
      {
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         @Html.HiddenFor(m => m.PropertyID)
@@ -101,9 +101,23 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="inputForm">
 
-            <div class="inputHeader">Property Images</div>
+            <div class="inputHeader">Room Images</div>
+            <div class="input-row section">
+
+                <div class="input-12">
+                    <button id="fileUpload" type="button" class="floatleft marginright">Upload Image</button>
+                    <div id="ImageTitle" class="floatleft marginright"></div>
+                    <div class="hidden">
+                        <input type="file" name="photo" onchange="setfilename(this.value)" id="photo" />
+                    </div>
+                    <button type="button" onclick="removeImage()" class="deleteButton floatleft">Delete Image</button>
+                </div>
+
+
+            </div>
             @if (Model.PropertyImages.Count > 1)
             {
+
                 <div class="input-row">
                     <div class="input-2 arrows">
                         <a onclick="prev();"><i style="display:none;" id="leftArrow" class="fa fa-caret-left" aria-hidden="true"></i></a>
@@ -112,13 +126,18 @@
                         @{int i = 0;}
                         @foreach (var item in Model.PropertyImages)
                         {
+                            @Html.Hidden("imgID" + i, item.ID);
+                            var id = "image" + i;
                             if (i != 0)
                             {
-                                <img id="@i" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " style="display:none" alt="Image" />
+
+                                <img id="@id" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " style="display:none" alt="Image" />
+
                             }
                             else
                             {
-                                <img id="@i" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+                                <img id="@id" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+
                             }
                             i++;
 
@@ -131,15 +150,18 @@
                             }
                             else
                             {
+
                                 <div class="input-row">
                                     <div class="input-10">
 
                                         @foreach (var item in Model.PropertyImages)
                                         {
+                                            @Html.Hidden("imgID0", item.ID);
                                             <img src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
                                         }
                                     </div>
                                 </div>
+
 
                             }
             </div>
@@ -241,5 +263,66 @@
         console.log('Error: ' + err.status);
      });
     }
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#image' + id).fadeOut(function () {
+            --id;
+            $('#image' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
 
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+   
+        $('#image' + id).fadeOut(function () {
+            ++id;
+            console.log(id);
+            $('#image' + id).fadeIn();
+
+        });
+
+    }
+    function removeImage() {
+        console.log(id);
+        var value = $('#imgID' + id).val();
+        var PropertyID = @Model.PropertyID        
+        swal({
+            title: 'Are you sure?',
+            text: "Are you sure you want to delete image?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#62d4d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes Delete!'
+        }).then(function () {
+            var dataObject = JSON.stringify({
+                'ID': value,
+                'PropertyID': PropertyID
+            });
+            $.ajax({
+                url: '/Property/DeleteRoomImage',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: dataObject,
+                success: successFunc
+                
+            });
+
+            function successFunc(data, status) {
+                window.location.reload();
+            }
+        })
+    }
+    $(document).ready(function () {
+        $('#fileUpload').click(function () {
+            $('#photo').trigger("click");
+        })
+    })
 </script>

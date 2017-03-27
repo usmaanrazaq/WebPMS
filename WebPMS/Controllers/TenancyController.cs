@@ -96,6 +96,39 @@ namespace WebPMS.Controllers
             return RedirectToAction("PropertyDetails","Property", new { PropertyID = 0 });
             
         }
+        [HttpGet]
+        public ActionResult TenancyDetailsSelected(int TenancyID)
+        {
+            if (TenancyID == 0)
+            {
+                return PartialView("_TenancyDetailsPartial", new TenancyDetail());
+            } else
+            {
+                TenancyDetail TenancyDetail = BuildTenancyDetail.ViewTenancyDetail(TenancyID);
+                return PartialView("_TenancyDetailsPartial", TenancyDetail);
+            }
+        }
+        [HttpGet]
+        public ActionResult TenancyTenantsSelected(int TenancyID)
+        {
+            if (TenancyID == 0)
+            {
+                return PartialView("_TenancyTenantsPartial", new TenancyTenantsViewModel());
+            }
+            else
+            {
+                Organisation Tenant = new Organisation();
+                var TenancyTenantsViewModel = new TenancyTenantsViewModel
+                {
+                    TenancyTenants = GetTenancyTenantsList(TenancyID, ref Tenant),
+                    Tenant = Tenant,
+                };
+                return PartialView("_TenancyTenantsPartial", TenancyTenantsViewModel);
+            }
+        }
+
+
+        
 
         private PropertyImages GetTenancyImages(int PropertyID, int TenancyID)
         {
@@ -104,9 +137,13 @@ namespace WebPMS.Controllers
 
             foreach (PropertyRoomItem room in RoomList)
             {
+                string Roompath = "/Insight/Property " + PropertyID.ToString() + "/Room " + room.ID;
+                
                 string path = "/Insight/Property " + PropertyID.ToString() + "/Tenancy " + TenancyID.ToString() + "/Room " + room.ID;
+            
                 DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));
-                Images.AddRange(BuildPropertyImages.ViewPropertyImages(Constants.ImageTypes.ImageType_Tenancy, PropertyID, room.ID, TenancyID, 0, path));
+                Functions.copyDirectory(Server.MapPath(Roompath), Server.MapPath(path));
+                Images.AddRange(BuildPropertyImages.ViewPropertyImages(Constants.ImageTypes.ImageType_Room, PropertyID, room.ID, 0, 0, path));
             }
             return Images;
         }
@@ -121,7 +158,7 @@ namespace WebPMS.Controllers
                                     Value = x.TenantID,
                                     Text = x.Name
                                 });
-
+          
             return new SelectList(tenancy, "Value", "Text");
         }
         private IEnumerable<SelectListItem> GetPropertyTenancyList(int PropertyID, ref TenancyDetail TenancyDetail) // passing by reference so this function can set the value of the tenancy detail to show first result
@@ -178,10 +215,8 @@ namespace WebPMS.Controllers
 
         }
         [HttpPost]
-        public ActionResult SaveTenancyDetails(TenancyDetailsViewModel TenancyDetailsViewModel)
+        public ActionResult SaveTenancyDetails(TenancyDetailsViewModel TenancyDetailsViewModel, HttpPostedFileBase photo)
         {
-
-            // saving tenancy details goes an
             int updateInt = 0;
             if (TenancyDetailsViewModel.PropertyID != 0)
             {
@@ -231,7 +266,21 @@ namespace WebPMS.Controllers
             }
             return Json("ERROR");
         }
-    }
 
-
+        [HttpDelete]
+        public ActionResult DeleteTenancy(int TenancyID, int PropertyID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeleteTenancy, DB.StoredProcedures.uspDeleteTenancy(TenancyID, PropertyID));
+            TempData["Confirmation"] = "Tennacy " + TenancyID.ToString() + " Deleted!";
+            return View("Home");
+        }
+        [HttpDelete]
+        public ActionResult DeleteTenant(int TenancyDetailID, string TenantID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeleteTenancyTenants, DB.StoredProcedures.uspDeleteTenancyTenants(TenancyDetailID,TenantID));
+            TempData["Confirmation"] = TenantID  + " Deleted!";
+            return View("Home");
+        }
+        
+    } 
 }

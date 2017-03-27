@@ -58,6 +58,30 @@ namespace WebPMS
             }
             return ID;
         }
+        public static void DeleteData(string ProcName, SqlParameter[] Params)
+        {        
+            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //Your Connection
+            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
+            {
+                sda.UpdateCommand = new SqlCommand(ProcName, conn)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+             
+                //Create a command to execute your Stored Procedure              
+                //Open your connection
+                conn.Open();
+                sda.UpdateCommand.Parameters.AddRange(Params);
+                //Execute your Stored Procedure
+                sda.UpdateCommand.ExecuteNonQuery();
+
+                //Close the connection
+                conn.Close();
+            }
+       
+        }
         public static int  UpdateData(string ProcName, SqlParameter[] Params, ref int ID)
         {
          
@@ -68,6 +92,7 @@ namespace WebPMS
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 SqlParameter OutID = new SqlParameter();
+                SqlParameter DyanmicOrgID = new SqlParameter();
                 int index = 0;
                 sda.UpdateCommand = new SqlCommand(ProcName, conn)
                 {
@@ -78,11 +103,15 @@ namespace WebPMS
                     if (p.ParameterName == "@OutID")
                     {
                         OutID = p;
-                    }else
+                    }
+                    else if (p.ParameterName == "@NewDynamicOrgID")
+                    {
+                        DyanmicOrgID = p;
+                    }else 
                     {
                         sda.UpdateCommand.Parameters.Add(p);
                     }
-                           
+
                 }
 
                 if (OutID.ParameterName == "@OutID")
@@ -92,6 +121,13 @@ namespace WebPMS
                     OutID.Size = 32;
                     sda.UpdateCommand.Parameters.Add(OutID);
                 }
+                if (DyanmicOrgID.ParameterName == "@NewDynamicOrgID")
+                {
+                    DyanmicOrgID.Direction = ParameterDirection.InputOutput;
+                    DyanmicOrgID.SqlDbType = SqlDbType.Int;
+                    DyanmicOrgID.Size = 32;
+                    sda.UpdateCommand.Parameters.Add(DyanmicOrgID);
+                }
                 //Create a command to execute your Stored Procedure              
                 //Open your connection
                 conn.Open();            
@@ -99,6 +135,9 @@ namespace WebPMS
                 result = Functions.ToInt32(sda.UpdateCommand.ExecuteNonQuery());
 
                 ID = Convert.ToInt32(OutID.Value);
+                if(ID == 0)
+                ID = Convert.ToInt32(DyanmicOrgID.Value);
+
 
                 //Close the connection
                 conn.Close();
@@ -393,7 +432,41 @@ namespace WebPMS
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@Type", cs.Type), new SqlParameter("@Status", cs.Status), new SqlParameter("@UserID", cs.UserID), new SqlParameter("@LinkedReference", cs.LinkedReference), new SqlParameter("@Task", cs.task), new SqlParameter("@Priority", cs.Priority), new SqlParameter("@DueDate", cs.DueDate), new SqlParameter("@StartDate", cs.StartDate), new SqlParameter("@CompletedDate", cs.CompletedDate), new SqlParameter("@Overdue", cs.OverDue), new SqlParameter("@AutoReminder", cs.AutoReminder), new SqlParameter("@ReminderDate", cs.ReminderDate), new SqlParameter("@UpdateTime", DateTime.Now), new SqlParameter("@UpdateUser", UserID) };
                 return sqlParams;
             }
-
+            public static SqlParameter[] uspDeleteTenancyTenants(int TenancyDetailsID, string TenantID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@TenancyDetailsID", TenancyDetailsID), new SqlParameter("@TenantID", TenantID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspDeleteProperty(int ID, string UserID, string DeleteComments)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@UserID", UserID), new SqlParameter("@DeleteComments", DeleteComments) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspInsertOrgContact(string OrgID, string ContactID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@OrgID", OrgID), new SqlParameter("@ContactID", ContactID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspUpdatePropertyImage(int ID, int PropertyID, int? TenancyID, int? RoomID, int? InventoryID, string Type, string Title, string Description, string Filename, int Sequence, DateTime? DateAdded, string UserID, int OutID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@PropertyID", PropertyID), new SqlParameter("@TenancyID", TenancyID), new SqlParameter("@RoomID", RoomID), new SqlParameter("@InventoryID", InventoryID), new SqlParameter("@Type", Type), new SqlParameter("@Title", Title), new SqlParameter("@Description", Description), new SqlParameter("@Filename", Filename), new SqlParameter("@Sequence", Sequence), new SqlParameter("@DateAdded", DateAdded), new SqlParameter("@UserID", UserID), new SqlParameter("@OutID", OutID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspDeletePropertyImage(int ID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspDeleteTenancy(int ID, int PropertyID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@PropertyID", PropertyID) };
+                return sqlParams;
+            }
+            public static SqlParameter[] uspDeletePropertyRoom(int ID, int PropertyID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@PropertyID", PropertyID) };
+                return sqlParams;
+            }
         }
     }
 }

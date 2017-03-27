@@ -33,7 +33,7 @@ namespace WebPMS.Controllers
             return View();
         }
 
-
+        
 
 
 
@@ -83,10 +83,14 @@ namespace WebPMS.Controllers
                 };
                 return PartialView("_RoomDetailsPartial", Empty);
             }
+         
             //SELECTED ROOM BY DROPDOWN LIST
             PropertyRoom Room = BuildPropertyRoom.ViewPropertyRoom(RoomID);
+
             string path = "/Insight/Property " + Room.PropertyID.ToString() + "/Room " + RoomID.ToString();
-            PropertyImages Images = BuildPropertyImages.ViewPropertyImages(Constants.CaseType.CaseType_Property_Room, Room.PropertyID, RoomID, 0, 0);
+            DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));
+
+            PropertyImages Images = BuildPropertyImages.ViewPropertyImages(Constants.ImageTypes.ImageType_Room, Room.PropertyID, RoomID, 0, 0);
             InventoryList InvList = BuildInventoryList.ViewInventoryList(Constants.CaseType.CaseType_Property_Room, Room.PropertyID, RoomID, 0);
             var model = new RoomDetailsViewModel
             {
@@ -107,9 +111,11 @@ namespace WebPMS.Controllers
             {
                 ViewBag.showPopup = true;
                 ViewBag.Confirmation = TempData["Confirmation"];
+               
             }
             if (PropertyID != 0)
             {
+
                 DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
 
 
@@ -157,8 +163,8 @@ namespace WebPMS.Controllers
                 };
 
                 PropertyDetail Detail = BuildProperyDetail.ViewProperty(PropertyID);
-                PropertyImages Images = BuildPropertyImages.ViewPropertyImages(Constants.SubCaseType.CaseSubType_Property, PropertyID, 0, 0, 0);
-                InventoryList InvList = BuildInventoryList.ViewInventoryList(Constants.SubCaseType.CaseSubType_Property, PropertyID, 0, 0);
+                PropertyImages Images = BuildPropertyImages.ViewPropertyImages(Constants.ImageTypes.ImageType_Property, PropertyID, 0, 0, 0);
+                InventoryList InvList = BuildInventoryList.ViewInventoryList(Constants.CaseType.CaseType_Property, PropertyID, 0, 0);
                 var model = new PropertyDetailsViewModel
                 {
                     PropertyID = PropertyID,
@@ -310,7 +316,7 @@ namespace WebPMS.Controllers
             if (PropertyID != 0)
             {
                 DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
-
+                
                 var SideNavModel = new SideNavigationViewModel
                 {
                     DynamicEntities = Entities,
@@ -319,13 +325,19 @@ namespace WebPMS.Controllers
                 DynamicEntityFields DEF = BuildDynamicEntityFields.ViewDynamicEntityFields(Constants.CaseType.CaseType_Property, Constants.SubCaseType.CaseSubType_Property, EntityID, EntityName, PropertyID, OrgID, null);
                 Organisations ExsistingOrgs = BuildOrganisations.ViewExsistingOrgs("", EntityName, false, "All");
 
-                Organisation orgDetails = new Organisation(); //DropDownDetail for ExsistingORgs
-                ThirdParties orgContacts = new ThirdParties(); // orgContacts Dorpdown
-                ThirdParty orgContactDetail = new ThirdParty(); // Dropdown for orgcontactDetails
+                Organisation orgDetails = BuildOrganisations.ViewOrgDetail(OrgID, false);
+                ThirdParties orgContacts = new ThirdParties();
+                if (!string.IsNullOrEmpty(orgDetails.ID))
+                    orgContacts = BuildThirdParty.ViewOrgContacts(orgDetails.ID);
+                ThirdParty orgContactDetail = new ThirdParty();
+             
+                if(orgContacts.Count > 0)
+                    orgContactDetail = BuildThirdParty.ViewExsistingPeople(orgContacts[0].ID); // PRESELECT FIRST ONE
+       
 
                 var EntityOrgViewModel = new EntityOrgViewModel
                 {
-                    orgDetail = new Organisation(),
+                    orgDetail =orgDetails,
                     orgContacts = GetOrgContactList(orgContacts),
                     orgContactDetail = orgContactDetail
                 };
@@ -350,23 +362,41 @@ namespace WebPMS.Controllers
         }
 
 
-        public ActionResult SaveEntity(int PropertyID, Organisation orgDetail, int? DynamicOrgID, string ID, DynamicEntityFields DEF)
+        public ActionResult SaveEntity(int PropertyID, Organisation orgDetail, int? DynamicOrgID, ThirdParty OrgContactDetail, DynamicEntityFields DEF, string EntityName)
         {
             int updateInt = 0;
+            
             if (PropertyID != 0)
             {
-                if (DynamicOrgID == 0)// insert
-                {
-                    DynamicOrgID = null;
-                }           
+               
+                
 
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicOrg, DB.StoredProcedures.uspUpdateDynamicOrg(DynamicOrgID, PropertyID, orgDetail.ID, ID, null, DynamicOrgID), ref updateInt) == 1)
+                if (String.IsNullOrEmpty(orgDetail.ID))
                 {
-                  
-                    TempData["Confirmation"] = orgDetail.Name +  " Saved Succesfully!";
+                    orgDetail.TypeOfOrganisation = EntityName;
+                    orgDetail.ID = Functions.GenerateOrgID(orgDetail.Name);                    
+                    DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertOrg, DB.StoredProcedures.uspInsertOrg(orgDetail, SessionManager.getCurrentUser().ID), ref updateInt);               
+                }
+                if (String.IsNullOrEmpty(OrgContactDetail.ID)) // ADD NEW THIRD PARTY CONTACT ID
+                {
+                    OrgContactDetail.TypeOfPerson = "Contact";
+                    OrgContactDetail.BranchID = 1;
+                
+                    OrgContactDetail.ID = Functions.GenerateThirdPartyID(OrgContactDetail.Title, OrgContactDetail.MiddleName, OrgContactDetail.Forename, OrgContactDetail.Surname);
+                    DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertThirdParty, DB.StoredProcedures.uspInsertThirdParty(OrgContactDetail, SessionManager.getCurrentUser().ID), ref updateInt);
+                    DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertOrgContact, DB.StoredProcedures.uspInsertOrgContact(orgDetail.ID,OrgContactDetail.ID), ref updateInt);
+                }
+
+       
+
+
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicOrg, DB.StoredProcedures.uspUpdateDynamicOrg(DynamicOrgID, PropertyID, orgDetail.ID, OrgContactDetail.ID, null, 0), ref updateInt) == 1)
+                {
+                    DynamicOrgID = updateInt;
+                    TempData["Confirmation"] = orgDetail.Name + " Saved Succesfully!";
                     if (DEF != null)
                     {
-                        foreach(DynamicEntityField d in DEF)
+                        foreach (DynamicEntityField d in DEF)
                         {
                             if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateDynamicData, DB.StoredProcedures.uspUpdateDynamicData(0, DynamicOrgID, null, PropertyID, d.ID, d.FieldValue, null), ref updateInt) == 1)
                             {
@@ -376,7 +406,7 @@ namespace WebPMS.Controllers
                     }
 
                 }
-                           return RedirectToAction("PropertyDetails", new { PropertyID = PropertyID });
+                return RedirectToAction("PropertyDetails", new { PropertyID = PropertyID });
             }
             else
             {
@@ -384,9 +414,10 @@ namespace WebPMS.Controllers
             }
 
 
-       
+
         }
-        
+
+   
         public ActionResult EntitySelected(string orgDetailID)
         {
             Organisation orgDetails = BuildOrganisations.ViewOrgDetail(orgDetailID, false);
@@ -434,13 +465,24 @@ namespace WebPMS.Controllers
 
 
         [HttpPost]
-        public ActionResult SaveDetails(PropertyDetailsViewModel PropertyDetailsViewModel)
+        public ActionResult SaveDetails(PropertyDetailsViewModel PropertyDetailsViewModel, HttpPostedFileBase photo)
         {
-
             int updateInt = 0;
+        
             PropertyDetailsViewModel.PropertyDetail.BranchID = 1;
             if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateProperty, DB.StoredProcedures.uspUpdateProperty(PropertyDetailsViewModel.PropertyDetail, PropertyDetailsViewModel.PropertyID, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
             {
+                if (photo != null)
+                {
+                    string path = "/Insight/Property " + updateInt.ToString();
+                    DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));
+                    var extension = Path.GetExtension(photo.FileName);
+                    var fileName = "IMG_" + DateTime.Now.ToString("dd_MM_yyyymmhhss") + extension;
+                    photo.SaveAs(Path.Combine(Server.MapPath(path), fileName));
+                    DB.UpdateData(Constants.StoredProcedures.Update.uspUpdatePropertyImage, DB.StoredProcedures.uspUpdatePropertyImage(0, updateInt, null, null, null, Constants.ImageTypes.ImageType_Property, "Property Image for " + PropertyDetailsViewModel.PropertyDetail.NickName, "Property Image for " + PropertyDetailsViewModel.PropertyDetail.NickName, fileName, 1, DateTime.Now, SessionManager.getCurrentUser().ID, 0), ref updateInt);
+                }
+
+
                 ViewBag.showPopup = "true";
                 TempData["Confirmation"] = PropertyDetailsViewModel.PropertyDetail.NickName + " Saved Succesfully!";
                 return RedirectToAction("Home");
@@ -449,14 +491,26 @@ namespace WebPMS.Controllers
             return RedirectToAction("Home");
         }
         [HttpPost]
-        public ActionResult SaveRoom(RoomDetailsViewModel RoomDetailsViewModel)
+        public ActionResult SaveRoom(RoomDetailsViewModel RoomDetailsViewModel, HttpPostedFileBase photo)
         {
             int updateInt = 0;
+
             if (RoomDetailsViewModel.PropertyRoom.PropertyID == 0)
                 RoomDetailsViewModel.PropertyRoom.PropertyID = RoomDetailsViewModel.PropertyID;
             if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdatePropertyRoom, DB.StoredProcedures.uspUpdatePropertyRoom(RoomDetailsViewModel.PropertyRoom, "Asad"),ref updateInt) == 1)
-            {                
-           
+            {
+               
+                if (photo != null)
+                {
+                    string path = "/Insight/Property " + RoomDetailsViewModel.PropertyRoom.PropertyID.ToString() + "/Room " + updateInt.ToString();
+                    DirectoryInfo di = Directory.CreateDirectory(Server.MapPath(path));
+
+                    var extension = Path.GetExtension(photo.FileName);
+                    var fileName = "IMG_" + DateTime.Now.ToString("dd_MM_yyyymmhhss") + extension;
+                    photo.SaveAs(Path.Combine(Server.MapPath(path), fileName));
+                    DB.UpdateData(Constants.StoredProcedures.Update.uspUpdatePropertyImage, DB.StoredProcedures.uspUpdatePropertyImage(0, RoomDetailsViewModel.PropertyRoom.PropertyID, null, updateInt, null, Constants.ImageTypes.ImageType_Room, "Room Image for " + RoomDetailsViewModel.PropertyRoom.Title, "Room Image for " + RoomDetailsViewModel.PropertyRoom.Title, fileName, 1, DateTime.Now, SessionManager.getCurrentUser().ID, 0), ref updateInt);
+                }
+
                 TempData["Confirmation"] = RoomDetailsViewModel.PropertyRoom.Title + " Saved Succesfully!";
                 return RedirectToAction("RoomDetails", new { PropertyID = RoomDetailsViewModel.PropertyRoom.PropertyID });
             }
@@ -521,6 +575,35 @@ namespace WebPMS.Controllers
 
             return Json("Error");
 
+        }
+
+        [HttpDelete]
+        public ActionResult DeleteProperty(int PropertyID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeleteProperty, DB.StoredProcedures.uspDeleteProperty(PropertyID, SessionManager.getCurrentUser().ID, "Deleted From Web Property Home"));
+            TempData["Confirmation"] = "Property " + PropertyID.ToString() + " Deleted!";
+            return View("Home");
+        }
+        [HttpDelete]
+        public ActionResult DeletePropertyImage(int ID, int PropertyID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeletePropertyImage, DB.StoredProcedures.uspDeletePropertyImage(ID));
+            TempData["Confirmation"] = "Image Deleted!";
+            return Json("Success");
+        }
+        [HttpDelete]
+        public ActionResult DeleteRoomImage(int ID, int PropertyID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeletePropertyImage, DB.StoredProcedures.uspDeletePropertyImage(ID));
+            TempData["Confirmation"] = "Image Deleted!";
+            return Json("Success");
+        }
+        [HttpDelete]
+        public ActionResult DeleteRoom(int ID, int PropertyID)
+        {
+            DB.DeleteData(Constants.StoredProcedures.Delete.uspDeletePropertyRoom, DB.StoredProcedures.uspDeletePropertyRoom(ID, PropertyID));
+            TempData["Confirmation"] = "Room Deleted!";
+            return Json("Success");
         }
     }
     

@@ -23,20 +23,32 @@
     $(document).ready(function () {
 
         $('#viewProperty').click(function () {
-            var value = $('.dxgvFocusedRow > td ').first().html()                         
-            window.location.href = '@Url.Action("PropertyDetails", "Property")?PropertyID=' + value;        
+            var value = $('.dxgvFocusedRow > td ').first().html()
+            window.location.href = '@Url.Action("PropertyDetails", "Property")?PropertyID=' + value;
             });
         });
 
-        $('#completeTask').click(function () {
+        $('#deleteProperty').click(function () {
             var value = $('.dxgvFocusedRow > td ').first().html();
-            $('#popup').addClass("zero", function () { // makign sure that the popup dosent go visible, only showing it to populate task details on controller
-                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value + '&complete=true', function () {
-                    $("form").submit();
-
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete property " + value + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes Delete!'
+            }).then(function () {
+                var dataObject = JSON.stringify({
+                    'PropertyID': value
                 });
-
-            });
+                $.ajax({
+                    url: '/Property/DeleteProperty',
+                    type: 'DELETE',
+                    contentType: 'application/json',                  
+                    data: dataObject
+                });
+            })
 
 
         });

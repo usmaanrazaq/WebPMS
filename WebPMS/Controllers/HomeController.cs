@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 using WebPMS.Models;
 
 
@@ -51,6 +52,25 @@ namespace WebPMS.Controllers
           
         }
 
+        [HttpGet]
+        public ActionResult GetTodaysTasks()
+        {
+            int noOfDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
+            WebPMS.Models.Tasks AllTasks = BuildTask.ViewTasksByUser(SessionManager.getCurrentUser().ID, noOfDays, true);
+            WebPMS.Models.Tasks TasksToRemind = new Tasks();
+            foreach (WebPMS.Models.Task T in AllTasks)
+            {
+                if (T.ReminderDate == null) continue;
+                if (T.ReminderDate.Value.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy")){
+                    if(T.CompletedDate == null )
+                    TasksToRemind.Add(T);
+                }
+            }
+
+            var json = new JavaScriptSerializer().Serialize(TasksToRemind);
+            return Json(TasksToRemind,JsonRequestBehavior.AllowGet);
+
+        }
         public ActionResult Logout()
         {
             SessionManager.clearSession();

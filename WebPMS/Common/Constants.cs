@@ -51,9 +51,9 @@ namespace WebPMS
                 public const string uspUpdateTenancyDetails = "uspUpdateTenancyDetails";
                 public const string uspUpdateTenancyTenants = "uspUpdateTenancyTenants";
                 public const string uspUpdateTenancyRequirements = "uspUpdateTenancyRequirements";
-                public const string uspUpdateDynamicOrg = "uspUpdateDynamicOrg";
-           
+                public const string uspUpdateDynamicOrg = "uspUpdateDynamicOrg";           
                 public const string uspUpdateTask = "uspUpdateTask";
+                public const string uspUpdatePropertyImage = "uspUpdatePropertyImage";
 
             }
             public static class Insert
@@ -61,6 +61,15 @@ namespace WebPMS
                 public const string uspInsertTask = "uspInsertTask";
                 public const string uspInsertThirdParty = "uspInsertThirdParty";
                 public const string uspInsertOrg = "uspInsertOrg";
+                public const string uspInsertOrgContact = "uspInsertOrgContact";
+            }
+
+            public static class Delete {
+                public const string uspDeleteProperty = "uspDeleteProperty";
+                public const string uspDeletePropertyImage = "uspDeletePropertyImage";
+                public const string uspDeleteTenancy = "uspDeleteTenancy";
+                public const string uspDeletePropertyRoom = "uspDeletePropertyRoom";
+                public const string uspDeleteTenancyTenants = "uspDeleteTenancyTenants";
             }
         }
 

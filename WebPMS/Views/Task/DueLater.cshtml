@@ -5,18 +5,17 @@
 }
 
 @section SideNav{
-    <p></p>
+ @Html.Partial("TaskToolbarPartial")
 }
 
 
 <script>
 
     function OnGridFocusedRowChanged(s, e) {
-        var grid = s;
-        console.log("hit");
+        var grid = s;  
         s.GetRowValues(s.GetFocusedRowIndex(), 'ID', function (value) {
-
-            $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value , function () {
+            $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value, function () {
+                $('#popup').removeClass("zero");
                 $('#coverbackground').fadeIn();
                 $('#popup').fadeIn();
             });
@@ -31,6 +30,7 @@
                 var value = $('.dxgvFocusedRow > td ').first().html()
 
                 $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value, function () {
+                    $('#popup').removeClass("zero");
                     $('#coverbackground').fadeIn();
                     $('#popup').fadeIn();
                 });

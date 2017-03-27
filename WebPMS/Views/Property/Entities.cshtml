@@ -20,22 +20,23 @@
         <div class="hidden">
             @Html.TextBoxFor(m => m.PropertyID, new { @readonly = true })
             @Html.TextBoxFor(m => m.DynamicOrgID, new { @readonly = true })
+            @Html.TextBoxFor(m => m.EntityName, new { @readonly = true })
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div class="inputForm">
                 <div class="inputHeader">Name</div>
                 <div class="input-row">
                     <div class="input-12">
-                        @Html.DropDownListFor(m => m.EntityOrgViewModel.orgDetail.ID, Model.Organisations, "-- Select --", new { @id = "ddOrg", })
+                        @Html.DropDownListFor(m => m.EntityOrgViewModel.orgDetail.ID, Model.Organisations, "-- Add New --", new { @id = "ddOrg", })
 
                     </div>
                 </div>
             </div>
             <div id="EntityDetail" class="row padding">
-                @{Html.RenderPartial("_EntityDetailsPartial", Model.EntityOrgViewModel);}
-            </div>
+                @{Html.RenderPartial("_EntityDetailsPartial", Model.EntityOrgViewModel); }
 
         </div>
+            </div>
 
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div class="inputForm">
@@ -66,20 +67,35 @@
             </div>
         </div>
         }
+            
     </div>
+    </div>
+  
+     
 
-</div>
 <script>
 
     $(document).ready(function () {
         $('#ddOrg').change(function () {
             var orgDetailID = $(this).val();
+            if (orgDetailID == 0) {
+                $('#insertOrg').show();
+                return;
+            }
+            else
+                $('#insertOrg').hide();
+
             var replaced = orgDetailID.split(' ').join('+');
             console.log(replaced);
             if (orgDetailID == '')
                 return;
             $("#EntityDetail").load('@(Url.Action("EntitySelected", "Property",null, Request.Url.Scheme))?orgDetailID=' + encodeURIComponent(orgDetailID));
         });
+
+        if ($("#ddOrg").val() == 0)
+            $('#insertOrg').show();
+        else
+            $('#insertOrg').hide();
 
 
     })

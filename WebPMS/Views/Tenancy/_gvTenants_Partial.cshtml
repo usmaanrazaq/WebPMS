@@ -16,13 +16,16 @@
         settings.SettingsSearchPanel.Visible = true;
         settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
 
-        settings.Columns.Add("BranchID", "Branch ID");
+
+        settings.Columns.Add("TenancyID", "ID");
         settings.Columns.Add("PropertyID", "Property ID");
-        settings.Columns.Add("NickName", "Nick name");
+        settings.Columns.Add("BranchID", "Branch ID");
+        settings.Columns.Add("TenantNames", "Tenant Name");
+        settings.Columns.Add("NickName", "Property");
         settings.Columns.Add("TenancyType", "Tenancy Type");
         settings.Columns.Add("StartDate","Start Date", MVCxGridViewColumnType.DateEdit);
         settings.Columns.Add("EndDate","End Date",  MVCxGridViewColumnType.DateEdit);
-        settings.Columns.Add("TenantNames", "Tenant Names");
+
         settings.Columns.Add("TenancyStatus", "Tenancy Status");
 
         settings.BeforeGetCallbackResult = (s, e) =>

@@ -1,6 +1,7 @@
 ﻿using DevExpress.Web.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -92,13 +93,22 @@ namespace WebPMS.Controllers
             return PartialView(model);
         }
 
-        public ActionResult SaveTask(TasksViewModel TasksViewModel)
+        public ActionResult SaveTask(TasksViewModel TasksViewModel, FormCollection Form)
         {
             int updateInt = 0;
             if (TasksViewModel.Task != null)
             {
+                var reminder = Form["Task.ReminderDate"];
+                DateTime parsed;
+                if (DateTime.TryParseExact(reminder, "dd/MM/yyyy",
+                    CultureInfo.CurrentCulture, DateTimeStyles.None, out parsed))
+                {
+                    TasksViewModel.Task.ReminderDate = parsed;
+                }
+             
                 if (TasksViewModel.Task.ID == 0) //insert
                 {
+
                     if (DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertTask, DB.StoredProcedures.uspInsertTask(TasksViewModel.Task, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
                     {
                         

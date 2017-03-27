@@ -5,7 +5,7 @@
 }
 
 @section SideNav{
-    <p></p>
+ @Html.Partial("TenancyToolbarPartial")
 }
 
 
@@ -18,7 +18,45 @@
         });
 
     }
+    $(document).ready(function () {
 
+        $('#viewTenancy').click(function () {
+            var value = $('.dxgvFocusedRow > td:eq( 1 ) ').first().html()
+            window.location.href = '@Url.Action("TenancyDetails", "Tenancy")?PropertyID=' + value;
+        });
+    });
+
+    $('#deleteTenancy').click(function () {
+        var value = $('.dxgvFocusedRow > td ').first().html();
+        var PropertyID = $('.dxgvFocusedRow > td:eq( 1 ) ').first().html()
+        swal({
+            title: 'Are you sure?',
+            text: "Are you sure you want to delete tenancy " + value + "?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#62d4d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes Delete!'
+        }).then(function () {
+            var dataObject = JSON.stringify({
+                'TenancyID': value,
+                'PropertyID': PropertyID
+            });
+            $.ajax({
+                url: '/Tenancy/DeleteTenancy',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: dataObject,
+                success: successFunc
+            });
+
+            function sucessFunc() {
+                window.location.reload()
+            }
+        })
+
+
+    });
 
 </script>
 <div class="pageTitle">

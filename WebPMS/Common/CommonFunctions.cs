@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -8,6 +9,27 @@ namespace WebPMS
 {
     public static class Functions
     {
+        public static void copyDirectory(string strSource, string strDestination)
+        {
+            if (!Directory.Exists(strDestination))
+            {
+                Directory.CreateDirectory(strDestination);
+            }
+
+            DirectoryInfo dirInfo = new DirectoryInfo(strSource);
+            FileInfo[] files = dirInfo.GetFiles();
+            foreach (FileInfo tempfile in files)
+            {                     
+                tempfile.CopyTo(Path.Combine(strDestination, tempfile.Name),true);
+            }
+
+            DirectoryInfo[] directories = dirInfo.GetDirectories();
+            foreach (DirectoryInfo tempdir in directories)
+            {
+                copyDirectory(Path.Combine(strSource, tempdir.Name), Path.Combine(strDestination, tempdir.Name));
+            }
+
+        }
         public static bool ToBool(object val)
         {
             string input;
@@ -105,5 +127,7 @@ namespace WebPMS
            string ID = DB.ReturnPersonID(Constants.StoredProcedures.Read.UspGetNewOrgID, DB.StoredProcedures.UspGetNewOrgID(Name));
             return ID;
         }
+        
+
     }
 }

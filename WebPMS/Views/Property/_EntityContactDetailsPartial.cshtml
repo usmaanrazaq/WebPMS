@@ -11,8 +11,6 @@
 @Html.HiddenFor(m => m.AddressLine5)
 @Html.HiddenFor(m => m.PostCode)
 @Html.HiddenFor(m => m.HomePhone)
-@Html.HiddenFor(m => m.WorkPhone)
-@Html.HiddenFor(m => m.Mobile)
 @Html.HiddenFor(m => m.MiddleName)
 @Html.HiddenFor(m => m.Fax)
 @Html.HiddenFor(m => m.TypeOfPerson)
@@ -54,4 +52,26 @@
     <div class="input-9">
         @Html.TextBoxFor(m => m.EmailAddress)
     </div>
+</div>
+<div id="insertContact" style="display:none" >    
+    <div class="input-row">
+        <div class="label-3">Direct Tel</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.WorkPhone)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Mobile</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.Mobile)
+        </div>
+    </div>
+
+    <div class="input-row">
+        <div class="label-3">Department</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.Dept)
+        </div>
+    </div>
+
 </div>
