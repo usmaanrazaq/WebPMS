@@ -115,3 +115,4 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.X
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.XtraLayout.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Release\WebPMS.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Release\WebPMS.pdb
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Release\WebPMS.csprojResolveAssemblyReference.cache

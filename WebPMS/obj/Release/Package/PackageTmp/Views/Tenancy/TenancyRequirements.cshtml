@@ -1,0 +1,102 @@
+﻿@model WebPMS.Models.TenancyRequirementViewModel
+
+@{
+    ViewBag.Title = "Tenancy Requirements";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+
+
+<div class="pageTitle">
+    Requirements
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+    <div class="row padding">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            @using (@Html.BeginForm("SaveRequirements", "Tenancy", FormMethod.Post))
+           {
+                @Html.HiddenFor(m => m.PropertyID)
+                @Html.HiddenFor(m => m.Requirement.PropertyID)
+                @Html.HiddenFor(m => m.Requirement.Notes)
+                <div class="inputForm">
+                    <div class="inputHeader">Property</div>
+                    <div class="input-row">
+                        <div class="label-2">Furnished Status</div>
+                        <div class="input-10">
+                            @{
+                                List<SelectListItem> listItemsFurn = new List<SelectListItem>();
+                                listItemsFurn.Add(new SelectListItem { Text = "Fully", Value = "Fully", });
+                                listItemsFurn.Add(new SelectListItem { Text = "None", Value = "None" });
+                                listItemsFurn.Add(new SelectListItem { Text = "Partly", Value = "Partly", });
+                            }
+                            @Html.DropDownListFor(model => model.Requirement.FurnishedStatus, listItemsFurn, "-- Select Furnished Status --")
+                        </div>
+
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Expected Rent £</div>
+                        <div class="input-10">
+                            @Html.TextBoxFor(model => model.Requirement.Rent, new { @type = "number" }  )
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Frequency</div>
+                        <div class="input-10">
+                            @{
+                                List<SelectListItem> listItemsFreq = new List<SelectListItem>();
+                                listItemsFreq.Add(new SelectListItem { Text = "None", Value = "None", });
+                                listItemsFreq.Add(new SelectListItem { Text = "Daily", Value = "Daily" });
+                                listItemsFreq.Add(new SelectListItem { Text = "Weekly", Value = "Weekly", });
+                                listItemsFreq.Add(new SelectListItem { Text = "Monthly", Value = "Monthly" });
+                                listItemsFreq.Add(new SelectListItem { Text = "Yearly", Value = "Yearly" });
+                            }
+
+                            @Html.DropDownListFor(model => model.Requirement.Frequency, listItemsFreq, "-- Select Frequency --")
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Deposit</div>
+                    <div class="input-row">
+                        <div class="label-2">Deposit £</div>
+                        <div class="input-10">@Html.TextBoxFor(model => model.Requirement.Deposit, new { @type = "number" })</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Deposit Notes</div>
+                        <div class="input-10">@Html.TextAreaFor(m => m.Requirement.DepositNotes)</div>
+                    </div>
+                </div>
+                <div class="inputForm">
+                    <div class="inputHeader">Availability & Conditions</div>
+                    <div class="input-row">
+                        <div class="label-2">Available From</div>
+                        <div class="input-10">@Html.TextBoxFor(model => model.Requirement.AvailableFrom, "{0:dd MMM yyyy}", new { @class = "date-picker" })</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Pets Allowed</div>
+                        <div class="input-10"><div class="check">@Html.CheckBoxFor(m => m.Requirement.PetsAllowed)</div></div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Pets Allowed Notes</div>
+                        <div class="input-10">@Html.TextAreaFor(m => m.Requirement.PetsAllowedNotes)</div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Benefits Allowed</div>
+                        <div class="input-10"><div class="check">@Html.CheckBoxFor(m => m.Requirement.BenefitsAllowed)</div></div>
+                    </div>
+                    <div class="input-row">
+                        <div class="label-2">Smoking Allowed</div>
+                        <div class="input-10"><div class="check">@Html.CheckBoxFor(m => m.Requirement.SmokingAllowed)</div></div>
+                    </div>
+                </div>
+           }
+        </div>
+    </div>
+</div>

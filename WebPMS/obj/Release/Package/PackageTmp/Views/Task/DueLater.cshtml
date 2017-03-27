@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "Tasks - Due Later";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+ @Html.Partial("TaskToolbarPartial")
+}
+
+
+<script>
+
+    function OnGridFocusedRowChanged(s, e) {
+        var grid = s;  
+        s.GetRowValues(s.GetFocusedRowIndex(), 'ID', function (value) {
+            $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value, function () {
+                $('#popup').removeClass("zero");
+                $('#coverbackground').fadeIn();
+                $('#popup').fadeIn();
+            });
+        });
+
+    }
+
+
+        $(document).ready(function () {
+
+            $('#viewTask').click(function () {
+                var value = $('.dxgvFocusedRow > td ').first().html()
+
+                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' + value, function () {
+                    $('#popup').removeClass("zero");
+                    $('#coverbackground').fadeIn();
+                    $('#popup').fadeIn();
+                });
+            });
+
+            $('#completeTask').click(function () {
+                var value = $('.dxgvFocusedRow > td ').first().html();
+                $("#popup").load('@(Url.Action("TasksPartial", "Task",null, Request.Url.Scheme))?type=manual&ID=' +   value + '&complete=true', function () {
+                    $('#coverbackground').addClass("zero");
+                    $('#popup').addClass("zero");
+                    $("form").submit();
+                });
+
+            });
+
+        });
+</script>
+
+<div class="pageTitle">
+    Tasks for User that are due after @DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month).ToString() Days
+</div>
+<div class="content">
+    <div class="gridView padding">
+
+
+        @Html.Action("gvDueLater")
+
+
+    </div>
+    @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveUp";
+                    settings.Text = "Up";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientSideEvents.Click = "btMoveUp_Click";
+                    settings.ClientVisible = false;
+                }).GetHtml()
+    @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveDown";
+                    settings.Text = "Down";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientVisible = false;
+                    settings.ClientSideEvents.Click = "btMoveDown_Click";
+                }).GetHtml()
+</div>

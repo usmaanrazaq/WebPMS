@@ -1,0 +1,38 @@
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "gvDueLater";
+        settings.CallbackRouteValues = new { Controller = "Task", Action = "gvDueLater" };
+        settings.KeyFieldName = "ID; CompletedDate";
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.AllowGroup = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+        settings.SettingsBehavior.AllowSort = false;
+        settings.Settings.ShowGroupPanel = true;
+        settings.ClientSideEvents.Init = "gridView_Init";
+        settings.ClientSideEvents.EndCallback = "gridView_EndCallback";
+        settings.Styles.Row.CssClass = "draggable";
+        settings.SettingsSearchPanel.Visible = true;
+        settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
+        settings.Columns.Add("ID");
+        settings.Columns.Add("UserID", "User");
+        settings.Columns.Add("task", "Task");
+        settings.Columns.Add("LinkedReference", "Ref");
+        settings.Columns.Add("Priority");
+        settings.Columns.Add("DueDate", "Due Date", MVCxGridViewColumnType.DateEdit);
+        settings.Columns.Add("CompletedDate", "Completed Date", MVCxGridViewColumnType.DateEdit);
+
+        settings.HtmlRowPrepared = (sender, e) =>
+        {
+            if (e.RowType == GridViewRowType.Data)
+                if (!String.IsNullOrEmpty(Convert.ToString(e.GetValue("CompletedDate"))))
+                {
+                    e.Row.Font.Strikeout = true;
+                    e.Row.BackColor = System.Drawing.ColorTranslator.FromHtml("#ff8358");
+                    e.Row.ForeColor = System.Drawing.Color.White;
+                }
+
+        };
+    });
+}
+@grid.Bind(Model).GetHtml()

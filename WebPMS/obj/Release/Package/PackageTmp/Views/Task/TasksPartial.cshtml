@@ -1,0 +1,110 @@
+﻿@model WebPMS.Models.TasksViewModel
+<div class="PopupPageTitle">
+    @Model.mode Task
+</div>
+    <div class="row">
+        <div class="col-lg-12">
+           @using (@Html.BeginForm("SaveTask", "Task", FormMethod.Post))
+      {
+          @Html.HiddenFor(m => m.Task.ID)
+          @Html.HiddenFor(m => m.returnURL)
+            <div class="inputForm noBottomMargin">               
+                <div class="input-row MarginTop">
+                    <div class="label-2">Assign To</div>
+                    <div class="input-4">
+                        @Html.DropDownListFor(m => m.Task.UserID, Model.Users, "--Select--", new { @id = "ddRoomList", })
+                    </div>
+                    <div class="label-2">Type</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.Type, new { @readonly = true })</div>
+                </div>
+                <div class="input-row">
+                    <div class="label-2">Task</div>
+                    <div class="input-10">@Html.TextBoxFor(m => m.Task.task)</div>
+                </div>
+                <div class="input-row">
+                    <div class="label-2">Reference</div>
+                    <div class="input-10">@Html.TextBoxFor(m => m.Task.LinkedReference, new { @readonly = true })</div>
+                </div>
+                <div class="input-row">
+                    <div class="label-2">Due Date</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.DueDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
+                    <div class="label-2">Status</div>
+                    <div class="input-4">@{
+                        List<SelectListItem> listItemsStatus = new List<SelectListItem>();
+                        listItemsStatus.Add(new SelectListItem { Text = "N - Not Started", Value = "N", });
+                        listItemsStatus.Add(new SelectListItem { Text = "I - In Progress", Value = "I" });
+                        listItemsStatus.Add(new SelectListItem { Text = "C - Completed", Value = "C", });
+                        listItemsStatus.Add(new SelectListItem { Text = "W - Waiting on Someone", Value = "W" });
+                        listItemsStatus.Add(new SelectListItem { Text = "D - Deferred", Value = "D" });
+                    }
+
+                    @Html.DropDownListFor(model => model.Task.Status, listItemsStatus, "-- Select Status --")</div>
+                </div>
+                <div class="input-row">
+                    <div class="label-2">Start Date</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.StartDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
+                    <div class="label-2">Priority</div>
+                    <div class="input-4">
+                        @{
+                            List<SelectListItem> listItemsPriorities = new List<SelectListItem>();
+                            listItemsPriorities.Add(new SelectListItem { Text = "L - Low", Value = "L", });
+                            listItemsPriorities.Add(new SelectListItem { Text = "N - Normal", Value = "N" });
+                            listItemsPriorities.Add(new SelectListItem { Text = "H - High", Value = "H", });                                                        
+                    }
+
+                    @Html.DropDownListFor(model => model.Task.Priority, listItemsPriorities, "-- Select Priority --")
+                </div></div>
+                           
+                <div class="input-row">
+                    <div class="label-2">Reminder</div>                   
+                    <div class="input-3">@Html.TextBoxFor(m => m.Task.ReminderDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
+                    <div class="label-3">Completed Date</div>
+                    <div class="input-4">@Html.TextBoxFor(m => m.Task.CompletedDate, "{0:dd/MM/yyyy}", new { @class = "date-picker" })</div>
+                </div>              
+                <div class="input-row">
+                    <div class="formButtons">
+                        <button type="button" onclick="closePopup();"> Cancel</button>
+                        <button  id="submitTask" type="submit"> Submit </button>
+                    </div>
+                </div>
+            </div>
+          }
+        </div>
+    </div>
+
+<script>
+
+    $.datepicker.setDefaults({
+        dateFormat: 'dd/mm/yy'
+    });
+    $('#Task_CompletedDate').datepicker();
+    $('#Task_StartDate').datepicker();
+    $('#Task_ReminderDate').datepicker();
+    $('#Task_DueDate').datepicker();
+
+    $(function () {
+        //allow the validation framework to re-prase the DOM
+        jQuery.validator.unobtrusive.parse();
+
+        jQuery.validator.unobtrusive.parse("form");
+
+    });
+    jQuery(function ($) {
+        $.validator.addMethod('date',
+        function (value, element) {
+            if (this.optional(element)) {
+                return true;
+            }
+
+            var ok = true;
+            try {
+                $.datepicker.parseDate('dd/mm/yy', value);
+            }
+            catch (err) {
+                ok = false;
+            }
+            return ok;
+        });
+    });
+
+</script>

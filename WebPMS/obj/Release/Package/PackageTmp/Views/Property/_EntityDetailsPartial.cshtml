@@ -1,0 +1,129 @@
+﻿@model WebPMS.Models.EntityOrgViewModel
+
+
+@Html.HiddenFor(m => m.orgDetail.TypeOfOrganisation)
+@Html.HiddenFor(m => m.orgDetail.ID)
+
+@Html.HiddenFor(m => m.orgDetail.AddressLine5)
+@Html.HiddenFor(m => m.orgDetail.Source)
+@Html.HiddenFor(m => m.orgDetail.VATRegistered)
+@Html.HiddenFor(m => m.orgDetail.VATNo)
+@Html.HiddenFor(m => m.orgDetail.ISOCurrencyCode)
+@Html.HiddenFor(m => m.orgDetail.ISOLanguageCode)
+@Html.HiddenFor(m => m.orgDetail.OurAccountNo)
+@Html.HiddenFor(m => m.orgDetail.TemplateType)
+@Html.HiddenFor(m => m.orgDetail.PaymentTerms)
+@Html.HiddenFor(m => m.orgDetail.PaymentTermsRecurrenceInfo)
+
+
+
+<div id="insertOrg" class="inputForm">
+    <div class="inputHeader">New  @Model.orgDetail.TypeOfOrganisation </div>
+    <div class="input-row">
+        <div class="label-3">Name</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.Name)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Status</div>
+        <div class="input-9">
+            @{
+                List<SelectListItem> listItemsStatus = new List<SelectListItem>();
+                listItemsStatus.Add(new SelectListItem { Text = "Active", Value = "Active", });
+                listItemsStatus.Add(new SelectListItem { Text = "Archived", Value = "Archived" });
+
+            }
+            @Html.DropDownListFor(m => m.orgDetail.Status, listItemsStatus, "-- Select Status --")
+        </div>
+    </div>
+
+</div>
+
+<div class="inputForm">
+    <div class="inputHeader">Details</div>
+    <div class="input-row">
+        <div class="label-3">Address Line 1</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.AddressLine1)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Address Line 2</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.AddressLine2)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Address Line 3</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.AddressLine3)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Address Line 4</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.AddressLine4)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Post code</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.PostCode)
+        </div>
+    </div>
+    <div class="input-row">
+        <div class="label-3">Tel.</div>
+        <div class="input-9">
+            @Html.TextBoxFor(m => m.orgDetail.Phone)
+        </div>
+    </div>
+</div>
+
+
+<div class="inputForm">
+    <div class="inputHeader">Contact</div>
+    <div class="input-row">
+        <div class="label-3">Name</div>
+        <div class="input-9">
+            @Html.DropDownListFor(m => m.orgContactDetail.ID, Model.orgContacts, "-- Add New Contact --", new { @id = "ddContact" , @name = "orgContactDetail" })
+
+        </div>
+    </div>
+    <div id="contactDetail" class="row padding">
+        @{Html.RenderPartial("_EntityContactDetailsPartial", Model.orgContactDetail, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "orgContactDetail" } }); }
+    </div>
+
+</div>
+
+
+
+   
+<script>
+    $(document).ready(function () {
+
+        if ($("#ddContact").val() == 0)
+            $('#insertContact').show();
+        else
+            $('#insertContact').hide();     
+
+        $('#ddContact').change(function () {         
+            var ID = $(this).val();
+            console.log(ID);
+            if(ID === ""){
+                $('#insertContact').show();
+                return;
+            }
+            else
+                $('#insertContact').hide();  
+      
+
+            var replaced = ID.split(' ').join('+');
+            if (ID == '')
+                return;
+            $("#contactDetail").load('@(Url.Action("EntityContactSelected", "Property",null, Request.Url.Scheme))?ID=' + replaced);
+        });
+    
+    });
+</script>
+

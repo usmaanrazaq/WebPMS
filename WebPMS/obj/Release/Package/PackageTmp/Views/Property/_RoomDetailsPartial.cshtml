@@ -1,0 +1,328 @@
+﻿@model WebPMS.Models.RoomDetailsViewModel
+
+@*FIRST HALF OF SCREEN*@
+
+
+     @using (Html.BeginForm("SaveRoom", "Property", FormMethod.Post, new { enctype = "multipart/form-data" }))
+     {
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        @Html.HiddenFor(m => m.PropertyID)
+        @Html.HiddenFor(m => m.SideNavigationViewModel)
+        @Html.HiddenFor(m => m.PropertyRoomList)
+        @Html.HiddenFor(m => m.PropertyImages)
+        @Html.HiddenFor(m => m.PropertyPath)
+        @Html.HiddenFor(m => m.SelectedRoomList)
+        @Html.HiddenFor(m => m.InventoryList)
+
+        @Html.HiddenFor(m => m.PropertyRoom.ID)
+        @Html.HiddenFor(m => m.PropertyRoom.PropertyID)
+        <div class="inputForm">
+            <div class="inputHeader">Room Details</div>
+            <div class="input-row">
+                <div class="label-3">Title</div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.PropertyRoom.Title)</div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Type</div>
+                <div class="input-9">
+                  @{
+                      List<SelectListItem> listItemsType = new List<SelectListItem>();
+                      listItemsType.Add(new SelectListItem { Text = "Bathroom", Value = "Bathroom" });
+                      listItemsType.Add(new SelectListItem { Text = "Bedroom", Value = "Bedroom" });
+                      listItemsType.Add(new SelectListItem { Text = "Dining Room", Value = "Dining Room" });
+                      listItemsType.Add(new SelectListItem { Text = "Garage", Value = "Garage" });
+                      listItemsType.Add(new SelectListItem { Text = "Hallway", Value = "Hallway" });
+                      listItemsType.Add(new SelectListItem { Text = "Kitchen", Value = "Kitchen" });
+                      listItemsType.Add(new SelectListItem { Text = "Living Room", Value = "Living Room" });
+
+                }
+
+                @Html.DropDownListFor(m => m.PropertyRoom.Type, listItemsType, "-- Select Type --")
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Display Sequence</div>
+                <div class="input-9">
+                   @Html.TextBoxFor(m => m.PropertyRoom.Sequence)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Dimensions(L x W x H)</div>
+                <div class="input-3">
+                  @Html.TextBoxFor(m => m.PropertyRoom.Length)
+                </div>
+                <div class="input-3">
+                   @Html.TextBoxFor(m => m.PropertyRoom.Width)
+                </div>
+                <div class="input-3">
+                   @Html.TextBoxFor(m => m.PropertyRoom.Height)
+                </div>
+            </div>
+
+            <div class="input-row">
+                <div class="label-3">Habitable</div>
+                <div class="input-9"><div class="check">@Html.CheckBoxFor(m => m.PropertyRoom.Habitable) </div></div>
+
+            </div>
+            <div class="input-row">
+                <div class="label-3">Communal</div>
+                <div class="input-9"><div class="check">@Html.CheckBoxFor(m => m.PropertyRoom.Communal)</div> </div>
+            </div>
+
+            </div>
+        <div class="inputForm">
+            <div class="inputHeader">Notes</div>
+            <div class="input-row">
+                <div class="input-12">
+                    @Html.TextBoxFor(m => m.PropertyRoom.Notes)
+                </div>
+            </div>
+        </div>
+
+        <div class="inputForm">
+
+            <div id = "tempheader" class="inputHeader">Room Tempreture</div>
+
+
+                    <div id = "circle" class="temp"></div>
+
+
+                    <div class="temp " >Fahrenheight<span id="Farenheight" class="odometer">0.00</span>&deg;F</div>
+
+                    <div class="temp ">Celcius<span id="Celcius" class="odometer">0.00</span>&deg;C</div>
+            <div id = "tempicon" > </div>
+
+
+
+        </div>
+        </div>
+
+    @*SECOND HALF OF SCREEN*@
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="inputForm">
+
+            <div class="inputHeader">Room Images</div>
+            <div class="input-row section">
+
+                <div class="input-12">
+                    <button id="fileUpload" type="button" class="floatleft marginright">Upload Image</button>
+                    <div id="ImageTitle" class="floatleft marginright"></div>
+                    <div class="hidden">
+                        <input type="file" name="photo" onchange="setfilename(this.value)" id="photo" />
+                    </div>
+                    <button type="button" onclick="removeImage()" class="deleteButton floatleft">Delete Image</button>
+                </div>
+
+
+            </div>
+            @if (Model.PropertyImages.Count > 1)
+            {
+
+                <div class="input-row">
+                    <div class="input-2 arrows">
+                        <a onclick="prev();"><i style="display:none;" id="leftArrow" class="fa fa-caret-left" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="input-8">
+                        @{int i = 0;}
+                        @foreach (var item in Model.PropertyImages)
+                        {
+                            @Html.Hidden("imgID" + i, item.ID);
+                            var id = "image" + i;
+                            if (i != 0)
+                            {
+
+                                <img id="@id" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " style="display:none" alt="Image" />
+
+                            }
+                            else
+                            {
+                                <img id="@id" src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+
+                            }
+                            i++;
+
+                        }
+                    </div>
+                    <div class="input-2 arrows">
+                        <a onclick="next(@Model.PropertyImages.Count);"> <i class="fa fa-caret-right" id="rightArrow" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+                            }
+                            else
+                            {
+
+                                <div class="input-row">
+                                    <div class="input-10">
+
+                                        @foreach (var item in Model.PropertyImages)
+                                        {
+                                            @Html.Hidden("imgID0", item.ID);
+                                            <img src="@Url.Content(Model.PropertyPath + '/' + item.Filename) " alt="Image" />
+                                        }
+                                    </div>
+                                </div>
+
+
+                            }
+            </div>
+        <div class="inputForm">
+
+            <div class="inputHeader">Inventory</div>
+            @foreach (var item in Model.InventoryList)
+            {
+                <div class="input-row">
+                    <div class="input-12">
+                        @item.Description
+                    </div>
+                </div>
+            }
+
+
+            </div>
+        <div class="inputForm">
+            <div class="inputHeader">Marketing Description</div>
+            <div class="input-row">
+                <div class="input-12">
+                    @Html.TextArea("txtMarketing", Model.PropertyRoom.MarketingDescription)
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+                            }
+
+<script>
+    var celci = document.querySelector('#Celcius');
+    cel = new Odometer({
+        el: celci,
+        value: 0,
+    });
+    var farh = document.querySelector('#Farenheight');
+    far = new Odometer({
+        el: farh,
+        value: 0,
+    });
+    var c4 = $('#circle');
+
+    c4.circleProgress({
+        startAngle: -Math.PI / 4 * 3,
+        value: 0.0,
+        lineCap: 'round',
+        fill: { color: 'red' }
+    });
+
+    $(function(){ 
+        //allow the validation framework to re-prase the DOM
+        jQuery.validator.unobtrusive.parse(); 
+
+        jQuery.validator.unobtrusive.parse("form");
+    });
+
+    function getTemp(){
+    $.ajax({
+        url: 'http://54.229.150.4:8080/api/temp/' + @Model.PropertyRoom.ID,
+        dataType: 'json',
+    })
+    .done(function (res) {
+        if (res.length > 0) {
+            cel.update(res[0].tempreture[0].toFixed(2))
+            far.update(res[0].tempreture[1].toFixed(2))                       
+            c4.circleProgress('value', (res[0].tempreture[0].toFixed(2) / 100) * 3);
+            if(res[0].tempreture[0].toFixed(2) <= 18.99){
+                c4.circleProgress({               
+                    fill: { color: 'blue' }
+                });
+                $('#tempheader').addClass("cold");
+                $('#tempheader').removeClass("hot")
+                $('#tempicon').html("<i class='fa fa-exclamation-triangle blue' aria-hidden='true'></i>");
+            }
+            if(res[0].tempreture[0].toFixed(2) < 24 &&res[0].tempreture[0].toFixed(2) > 18.99 ){
+                c4.circleProgress({
+                    fill: { color: 'green' }
+                });
+                $('#tempheader').removeClass("hot");
+                $('#tempheader').removeClass("cold")
+                $('#tempicon').html("<i class='fa fa-check green' aria-hidden='true'></i>");
+            }
+            if (res[0].tempreture[0].toFixed(2) > 24) {
+                c4.circleProgress({
+                    fill: { color: 'red' }
+               
+                });
+                $('#tempheader').addClass("hot");
+                $('#tempheader').removeClass("cold");
+                $('#tempicon').html("<i class='fa fa-exclamation-triangle red' aria-hidden='true'></i>");
+            }
+          
+        }
+        setTimeout(function () { getTemp(); }, 1000);
+        })
+    .fail(function (err) {
+        console.log('Error: ' + err.status);
+     });
+    }
+    var id = 0;
+    function prev() {
+        $('#rightArrow').show();
+        $('#image' + id).fadeOut(function () {
+            --id;
+            $('#image' + id).fadeIn();
+            if (id == 0) {
+                $('#leftArrow').hide();
+            }
+        });
+
+    }
+    function next(count) {
+        if (id == count - 2) {
+            $('#rightArrow').hide();
+        }
+        $('#leftArrow').show();
+   
+        $('#image' + id).fadeOut(function () {
+            ++id;
+            console.log(id);
+            $('#image' + id).fadeIn();
+
+        });
+
+    }
+    function removeImage() {
+        console.log(id);
+        var value = $('#imgID' + id).val();
+        var PropertyID = @Model.PropertyID        
+        swal({
+            title: 'Are you sure?',
+            text: "Are you sure you want to delete image?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#62d4d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes Delete!'
+        }).then(function () {
+            var dataObject = JSON.stringify({
+                'ID': value,
+                'PropertyID': PropertyID
+            });
+            $.ajax({
+                url: '/Property/DeleteRoomImage',
+                type: 'DELETE',
+                contentType: 'application/json',
+                data: dataObject,
+                success: successFunc
+                
+            });
+
+            function successFunc(data, status) {
+                window.location.reload();
+            }
+        })
+    }
+    $(document).ready(function () {
+        $('#fileUpload').click(function () {
+            $('#photo').trigger("click");
+        })
+    })
+</script>

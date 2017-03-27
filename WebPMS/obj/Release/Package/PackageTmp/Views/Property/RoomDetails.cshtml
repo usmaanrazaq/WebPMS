@@ -1,0 +1,96 @@
+﻿@model WebPMS.Models.RoomDetailsViewModel
+
+
+@{
+    ViewBag.Title = "RoomDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section SideNav{
+    @Html.Partial("_SideNavPartial", Model.SideNavigationViewModel)
+}
+<div class="pageTitle">
+    @Model.PropertyRoom.Title Room Details
+</div>
+<div class="content">
+    <div class="Actions">
+        @Html.Partial("_ToolbarPartial")
+    </div>
+   <div class="row padding">      
+         
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="inputForm">
+                @Html.HiddenFor(m => m.PropertyPath)
+                <div class="inputHeader">SELECT ROOM</div>
+                <div class="input-row">
+                    <div class="input-9">
+                        @Html.DropDownListFor(m => m.SelectedRoomList, Model.PropertyRoomList, "-- Add New Room--", new { @id = "ddRoomList", })
+
+                    </div>
+                    <div class="input-3">
+                       <button onclick="DeleteRoom()" class="deleteButton" type="button">Delete Room</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+ 
+    <div id="RoomDetail" class="row padding">
+        @{Html.RenderPartial("_RoomDetailsPartial", Model);}
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        $('#ddRoomList').change(function () {
+            var RoomID = $(this).val();
+            if (RoomID == '')
+                RoomID = 0
+
+            $("#RoomDetail").load('@(Url.Action("RoomDetailsSelected", "Property",null, Request.Url.Scheme))?RoomID=' + RoomID, function () {
+                getTemp();
+            });
+
+        })
+    })
+
+    function DeleteRoom() {
+        var RoomID = $('#ddRoomList').val();
+        console.log(RoomID);
+        var PropertyID = @Model.PropertyID;
+        if(RoomID == 0){
+            swal("Select Room to delete")
+        }else{
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete room " + RoomID + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes Delete!'
+            }).then(function () {
+                var dataObject = JSON.stringify({
+                    'ID': RoomID,
+                    'PropertyID': PropertyID
+                });
+                $.ajax({
+                    url: '/Property/DeleteRoom',
+                    type: 'DELETE',
+                    contentType: 'application/json',
+                    data: dataObject,
+                    success: successFunc
+                });
+
+                function successFunc() {
+                    window.location.reload()
+                }
+            })
+        }
+    }
+
+
+
+</script>

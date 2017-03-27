@@ -1,0 +1,161 @@
+﻿@model WebPMS.Models.TenancyTenantsViewModel
+
+<div class="row padding">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+        <div class="inputForm">
+            <div class="inputHeader">SELECT TENANT</div>
+            <div class="input-row">
+                <div class="input-9">
+                    @Html.DropDownListFor(m => m.Tenant.ID, Model.TenancyTenants, "Add Tenant", new { @id = "ddTenancyTenantList", })
+                </div>
+                <div class="input-3">
+                    <button onclick="DeleteTenant()" class="deleteButton" type="button">Delete Tenant</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div id="insertTen" class="inputForm">           
+
+
+            <div class="inputHeader">Tenant Details</div>
+            <div class="input-row">
+                <div class="label-1">Name</div>
+                <div class="input-11">
+                    @Html.TextBoxFor(m => m.Tenant.Name)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Status</div>
+                <div class="input-11">
+                    @{
+                        List<SelectListItem> listItemsStatus = new List<SelectListItem>();
+                        listItemsStatus.Add(new SelectListItem { Text = "Active", Value = "Active", });
+                        listItemsStatus.Add(new SelectListItem { Text = "Archived", Value = "Archived" });
+
+                    }
+                    @Html.DropDownListFor(m => m.Tenant.Status, listItemsStatus, "-- Select Status --")                    
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Vat Registered</div>
+                <div class="input-11">
+
+
+                    @Html.CheckBoxFor(m => m.Tenant.VATRegistered)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-1">Vat No</div>
+                <div class="input-11">
+                    @Html.TextBoxFor(m => m.Tenant.VATNo)
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+
+        <div class="inputForm">
+            @Html.HiddenFor(m => m.Tenant.ID)            
+            @Html.HiddenFor(m => m.Tenant.TypeOfOrganisation)
+            @Html.HiddenFor(m => m.Tenant.AddressLine4)
+            @Html.HiddenFor(m => m.Tenant.AddressLine5)
+            @Html.HiddenFor(m => m.Tenant.HomePage)
+            @Html.HiddenFor(m => m.Tenant.Sector)
+            @Html.HiddenFor(m => m.Tenant.SubSector)
+            @Html.HiddenFor(m => m.Tenant.LastUpdatedTime)
+            @Html.HiddenFor(m => m.Tenant.LastUpdatedUser)
+            @Html.HiddenFor(m => m.Tenant.Source)
+            @Html.HiddenFor(m => m.Tenant.AlternativeRef)
+            @Html.HiddenFor(m => m.Tenant.OurAccountNo)
+            @Html.HiddenFor(m => m.Tenant.BillingContactID)
+            @Html.HiddenFor(m => m.Tenant.PaymentTerms)
+            @Html.HiddenFor(m => m.Tenant.SalesPerson)
+            @Html.HiddenFor(m => m.Tenant.ISOCountryCode)
+            @Html.HiddenFor(m => m.Tenant.ISOCurrencyCode)
+            @Html.HiddenFor(m => m.Tenant.ISOLanguageCode)
+            @Html.HiddenFor(m => m.Tenant.MultipleJobsPerInvoice)
+            @Html.HiddenFor(m => m.Tenant.PaymentTermsRecurrenceInfo)
+
+            <div class="inputHeader">Address</div>
+            <div class="input-row">
+                <div class="label-3">Address Line 1</div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.AddressLine1) </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Address Line 2</div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.AddressLine2) </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Address Line 3</div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.AddressLine3) </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Postcode</div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.PostCode) </div>
+            </div>
+        </div>
+        <div class="inputForm">
+            <div class="inputHeader">Contact Details</div>
+            <div class="input-row">
+                <div class="label-3">Tel</div>
+                <div class="input-9">
+                    @Html.TextBoxFor(m => m.Tenant.Phone)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Fax</div>
+                <div class="input-9">
+                    @Html.TextBoxFor(m => m.Tenant.Fax)
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="label-3">Email</div>
+                <div class="input-9">
+                    @Html.TextBoxFor(m => m.Tenant.EmailAddress)
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @*SECOND HALF OF SCREEN*@
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="inputForm">
+
+            <div class="inputHeader">Notes</div>
+            <div class="input-row">
+                <div class="input-12">
+                    @Html.TextAreaFor(m => m.Tenant.Notes)
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+<script>
+    $(document).ready(function () {
+
+        if ( $("#ddTenancyTenantList").val() == 0)
+            $('#insertTen').show();
+        else
+            $('#insertTen').hide();
+
+
+        $("#ddTenancyTenantList").change(function () {
+            var val = $(this).val();
+            if (val == 0) {
+                $('#insertTen').show();
+            }
+            else
+                $('#insertTen').hide();
+        })
+    })
+
+
+</script>

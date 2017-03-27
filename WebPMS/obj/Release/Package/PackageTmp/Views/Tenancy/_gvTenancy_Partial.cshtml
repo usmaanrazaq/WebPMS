@@ -1,0 +1,45 @@
+@{
+    var grid = Html.DevExpress().GridView(settings => {
+        settings.Name = "gvTenancy";
+        settings.CallbackRouteValues = new { Controller = "Tenancy", Action = "gvTenancy_Partial" };
+
+
+        settings.KeyFieldName = "PropertyID; NickName;";
+
+        settings.SettingsPager.PageSize = 25;
+        settings.SettingsBehavior.AllowGroup = true;
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.SettingsBehavior.ProcessFocusedRowChangedOnServer = true;
+        settings.SettingsBehavior.AllowSort = false;
+        settings.Settings.ShowGroupPanel = true;
+        settings.ClientSideEvents.Init = "gridView_Init";
+        settings.ClientSideEvents.EndCallback = "gridView_EndCallback";
+        settings.Styles.Row.CssClass = "draggable";
+        settings.SettingsSearchPanel.Visible = true;
+        settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
+
+        settings.Columns.Add("TenancyID", " Tenancy ID");
+        settings.Columns.Add("PropertyID", "Property ID");
+        settings.Columns.Add("BranchID", "Branch ID");
+        settings.Columns.Add("NickName", "Nick name");
+        settings.Columns.Add("TenancyType", "Tenancy Type");
+        settings.Columns.Add("StartDate", "Start Date", MVCxGridViewColumnType.DateEdit);
+        settings.Columns.Add("EndDate", "End Date", MVCxGridViewColumnType.DateEdit);
+        settings.Columns.Add("TenantNames", "Tenant Names");
+        settings.Columns.Add("TenancyStatus", "Tenancy Status");
+        settings.BeforeGetCallbackResult = (s, e) =>
+        {
+            if (ViewBag.VisibleIndex == null)
+                return;
+            var gridView = (MVCxGridView)s;
+            gridView.FocusedRowIndex = ViewBag.VisibleIndex;
+        };
+
+
+
+
+
+
+    });
+}
+@grid.Bind(Model).GetHtml()

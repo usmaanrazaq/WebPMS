@@ -1,0 +1,101 @@
+﻿@model WebPMS.Models.Properties
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section SideNav{
+        @Html.Partial("PropertyToolbarPartial")
+    }
+
+
+<script>
+
+    function OnGridFocusedRowChanged(s, e) {
+
+        var grid = s;
+        s.GetRowValues(s.GetFocusedRowIndex(), 'PropertyID', function (value) {
+            grid.PerformCallback({ pPropID: value });
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        $('#viewProperty').click(function () {
+            var value = $('.dxgvFocusedRow > td ').first().html()
+            window.location.href = '@Url.Action("PropertyDetails", "Property")?PropertyID=' + value;
+            });
+        });
+
+        $('#deleteProperty').click(function () {
+            var value = $('.dxgvFocusedRow > td ').first().html();
+            swal({
+                title: 'Are you sure?',
+                text: "Are you sure you want to delete property " + value + "?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#62d4d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes Delete!'
+            }).then(function () {
+                var dataObject = JSON.stringify({
+                    'PropertyID': value
+                });
+                $.ajax({
+                    url: '/Property/DeleteProperty',
+                    type: 'DELETE',
+                    contentType: 'application/json',                  
+                    data: dataObject
+                });
+            })
+
+
+        });
+
+
+</script>
+<div class="pageTitle">
+    Properties
+</div>
+<div class="content">
+    @Html.Hidden("hdnPropertyID", 0)
+    @Html.Hidden("hdnLastPropertyID", 0)
+    
+        <div class="gridView padding">
+            @Html.Action("gvPropertiesPartial", Model)
+        </div>
+        @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveUp";
+                    settings.Text = "Up";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientSideEvents.Click = "btMoveUp_Click";
+                    settings.ClientVisible = false;
+                }).GetHtml()
+        @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btMoveDown";
+                    settings.Text = "Down";
+                    settings.Width = Unit.Pixel(100);
+                    settings.UseSubmitBehavior = false;
+                    settings.ClientVisible = false;
+                    settings.ClientSideEvents.Click = "btMoveDown_Click";
+                }).GetHtml()
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
