@@ -16,7 +16,7 @@ namespace WebPMS
             string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
             //Your Connection
-            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DB"].ConnectionString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 sda.SelectCommand.CommandType = CommandType.StoredProcedure;
@@ -35,10 +35,10 @@ namespace WebPMS
 
         public static string ReturnPersonID(string ProcName, SqlParameter[] Params)
         {          
-            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            
             string ID;
             //Your Connection
-            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DB"].ConnectionString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 sda.SelectCommand.CommandType = CommandType.StoredProcedure;
@@ -60,9 +60,9 @@ namespace WebPMS
         }
         public static void DeleteData(string ProcName, SqlParameter[] Params)
         {        
-            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            
             //Your Connection
-            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DB"].ConnectionString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 sda.UpdateCommand = new SqlCommand(ProcName, conn)
@@ -85,10 +85,10 @@ namespace WebPMS
         public static int  UpdateData(string ProcName, SqlParameter[] Params, ref int ID)
         {
          
-            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+         
             int result;
             //Your Connection
-            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DB"].ConnectionString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 SqlParameter OutID = new SqlParameter();
@@ -147,10 +147,10 @@ namespace WebPMS
         public static string _UpdateDataS(string ProcName, SqlParameter[] Params)
         {
 
-            string connString = "Data Source=DESKTOP-DE8DKHT\\SQLEXPRESS;Initial Catalog=PakFoodsPartnership;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+           
             string result;
             //Your Connection
-            using (SqlConnection conn = new SqlConnection(connString))
+            using (SqlConnection conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["DB"].ConnectionString))
             using (SqlDataAdapter sda = new SqlDataAdapter(ProcName, conn))
             {
                 sda.UpdateCommand = new SqlCommand(ProcName, conn)

@@ -1308,3 +1308,6 @@ div#tempicon {
 sub#reminderTasks {
   color: #62d4d6;
 }
+.upperCase {
+  text-transform: uppercase;
+}

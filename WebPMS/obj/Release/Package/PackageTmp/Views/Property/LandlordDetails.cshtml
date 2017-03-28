@@ -138,7 +138,8 @@
                     <div class="input-row">
                         <div class="label-3">Postcode </div>
                         <div class="input-9">
-                          @Html.TextBoxFor(m => m.ThirdParty.PostCode)
+                            @Html.TextBoxFor(m => m.ThirdParty.PostCode, new { @class = "upperCase" })
+                      
                         </div>
                     </div>
                 </div>

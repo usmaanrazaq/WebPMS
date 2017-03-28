@@ -18,15 +18,67 @@
         settings.SettingsSearchPanel.Visible = true;
         settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
 
-        settings.Columns.Add("TenancyID", " Tenancy ID");
-        settings.Columns.Add("PropertyID", "Property ID");
-        settings.Columns.Add("BranchID", "Branch ID");
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Tenancy ID";
+            column.FieldName = "TenancyID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Property ID";
+            column.FieldName = "PropertyID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Branch ID";
+            column.FieldName = "BranchID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
         settings.Columns.Add("NickName", "Nick name");
-        settings.Columns.Add("TenancyType", "Tenancy Type");
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Tenancy Type";
+            column.FieldName = "TenancyType";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
         settings.Columns.Add("StartDate", "Start Date", MVCxGridViewColumnType.DateEdit);
         settings.Columns.Add("EndDate", "End Date", MVCxGridViewColumnType.DateEdit);
-        settings.Columns.Add("TenantNames", "Tenant Names");
-        settings.Columns.Add("TenancyStatus", "Tenancy Status");
+        
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Tenant Names";
+            column.FieldName = "TenantNames";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
+        
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Tenancy Status";
+            column.FieldName = "TenancyStatus";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small ";
+            column.HeaderStyle.CssClass = "hide-small";
+            column.FooterCellStyle.CssClass = "hide-small";
+        });
         settings.BeforeGetCallbackResult = (s, e) =>
         {
             if (ViewBag.VisibleIndex == null)

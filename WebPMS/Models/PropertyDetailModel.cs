@@ -94,6 +94,7 @@ namespace WebPMS.Models
        
         public int ParkingSpaces { get;  set; }
         [Required]
+        [RegularExpression(@"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][A-Z]{2}$")]
         public string Postcode { get;  set; }
         public DateTime? PurchaseDate { get;  set; }
         public string PurchaseNotes { get;  set; }

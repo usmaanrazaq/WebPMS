@@ -4,5 +4,11 @@
     "inputFiles": [
       "Scripts/Resources.js"
     ]
+  },
+  {
+    "outputFileName": "Content/Style.min.css",
+    "inputFiles": [
+      "Content/Style.css"
+    ]
   }
 ]

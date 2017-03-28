@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Web;
@@ -56,6 +57,8 @@ namespace WebPMS.Models
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string AddressLine5 { get; set; }
+
+        [RegularExpression(@"^(?i)([A-PR-UWYZ](([0-9](([0-9]|[A-HJKSTUW])?)?)|([A-HK-Y][0-9]([0-9]|[ABEHMNPRVWXY])?)) [0-9][ABD-HJLNP-UW-Z]{2})|GIR 0AA$", ErrorMessage = "This is not right")]
         public string postcode { get; set; }
         public int BranchID { get; set; }
         public string PropertyStatus { get; set; }

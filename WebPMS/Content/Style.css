@@ -1,4 +1,158 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Roboto');
+/* Smartphones (portrait and landscape) ----------- */
+@media only screen and (min-width: 320px) and (max-width: 480px) {
+  .login {
+    margin: 0px auto !important;
+    height: 465px !important;
+  }
+  .CoverBackground {
+    padding-top: 240px;
+  }
+  .userHolder img {
+    display: none !important;
+  }
+  .userHolder {
+    width: auto !important;
+    padding: 12px !important;
+    padding-top: 0px;
+  }
+  .smallNoPadding {
+    padding: 0 !important;
+  }
+  .Actions {
+    overflow-x: scroll;
+  }
+  .contentNav {
+    overflow-x: scroll;
+    z-index: 500;
+    white-space: nowrap;
+  }
+  .navButton {
+    float: none !important;
+  }
+  .weatherwidget {
+    width: 208px !important;
+    height: 100vh !important;
+  }
+  #sidebar-wrapper {
+    width: 203px !important;
+    height: 100vh!important;
+    z-index: 800;
+  }
+  .toolbarButton {
+    height: 100%;
+    width: 118px !important;
+  }
+  .addNew {
+    width: 118px !important;
+  }
+  .dropdownchange {
+    overflow-x: visible !important;
+  }
+  .hidemenu {
+    left: 0px !important;
+  }
+  .hidenavbutton {
+    display: none!important;
+  }
+  .tabButton {
+    width: 112px !important;
+  }
+  .popup {
+    width: 95vw !important;
+    max-height: 423px;
+    overflow: scroll;
+  }
+  div[class^='label-'],
+  div[class*='label-'] {
+    width: 100% !important;
+    text-align: left !important;
+    text-indent: 0px !important;
+  }
+  div[class^='input-'],
+  div[class*='input'] {
+    width: 100% !important;
+  }
+  #TaskReminder {
+    width: 100vw !important;
+  }
+  .notification {
+    padding: 11px !important;
+    font-size: 14px !important;
+  }
+  .notification i {
+    font-size: 14px !important;
+    margin-right: 10px !important;
+  }
+}
+@media only screen and (min-width: 481px) and (max-width: 767px) {
+  .weatherwidget {
+    width: 208px !important;
+    height: 100vh !important;
+  }
+  #sidebar-wrapper {
+    width: 203px !important;
+    height: 100vh!important;
+    z-index: 800;
+  }
+  .userHolder img {
+    display: none !important;
+  }
+  .userHolder {
+    width: auto !important;
+    padding: 12px !important;
+    padding-top: 0px;
+  }
+  .hidemenu {
+    left: 0px !important;
+  }
+  .popup {
+    width: 95vw !important;
+    max-height: 423px;
+    overflow: scroll;
+  }
+  .contentNav {
+    z-index: 500;
+    white-space: nowrap;
+  }
+  .navButton {
+    float: none !important;
+    width: 186px !important;
+  }
+  .navbuttonul {
+    width: 187px !important;
+  }
+}
+/* iPads (portrait and landscape) ----------- */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .hide-ipad {
+    display: none!important;
+  }
+  .navButton {
+    width: 186px !important;
+  }
+  .navbuttonul {
+    width: 187px !important;
+  }
+}
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  /* STYLES GO HERE */
+}
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  /* STYLES GO HERE */
+}
+/* iPhone 5 (portrait &amp; landscape)----------- */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  /* STYLES GO HERE */
+}
+/* DEV EXPRESS GRID RESPONSIVE*/
+@media (max-width: 767px) {
+  .hide-small {
+    display: none!important;
+  }
+}
 body {
   font-family: 'Roboto', sans-serif !important;
 }
@@ -363,6 +517,11 @@ li.dropdown i {
   height: 52px;
   margin-top: 50px;
   border-bottom: 1px solid #D5D7D9;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 .noPadding {
   padding: 0 !important;
@@ -662,6 +821,7 @@ li.dropdown i {
   -ms-transition: all 0.1s ease-in-out;
   -o-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
+  z-index: 1 !important;
 }
 .navbuttonul {
   z-index: 306;
@@ -701,7 +861,7 @@ li.dropdown i {
 }
 .toolbarButton {
   height: 100%;
-  width: 112px;
+  width: 171px;
   background: #f7f8fa;
   float: left;
   margin: 0 0 0px 0;
@@ -730,7 +890,7 @@ li.dropdown i {
   background: #62d4d6;
   border-bottom: none !important;
   color: white !important;
-  width: 120px;
+  width: 170px;
 }
 .addNew i {
   float: right;
@@ -815,7 +975,7 @@ select {
 }
 #weather h1 {
   margin: 0;
-  color: #62d4d6 !important;
+  color: #f7f8fa !important;
   font-family: weather;
   font-size: 80px;
   font-weight: normal;
@@ -833,7 +993,7 @@ select {
   width: 100%;
   height: 240px;
   position: relative;
-  color: #62d4d6;
+  color: #f7f8fa;
   list-style: none;
   display: inline;
   float: left;
@@ -1127,6 +1287,37 @@ img.tenancyimg {
   left: 0;
   right: 0;
 }
+.hvr-underline-from-centerul {
+  display: block;
+  vertical-align: middle;
+  -webkit-transform: perspective(1px) translateZ(0);
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  z-index: 1000;
+}
+.hvr-underline-from-centerul:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  right: 50%;
+  bottom: 0;
+  background: #ff8358;
+  height: 4px;
+  -webkit-transition-property: left, right;
+  transition-property: left, right;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+.hvr-underline-from-centerul:hover:before,
+.hvr-underline-from-centerul:focus:before,
+.hvr-underline-from-centerul:active:before {
+  left: 0;
+  right: 0;
+}
 @-webkit-keyframes hvr-bob {
   0% {
     -webkit-transform: translateY(-8px);
@@ -1307,4 +1498,22 @@ div#tempicon {
 }
 sub#reminderTasks {
   color: #62d4d6;
+}
+.upperCase {
+  text-transform: uppercase;
+}
+.navbar-toggle {
+  float: left !important;
+  margin-left: 0 !important;
+  margin-left: 15px !important;
+  background: #494c56 !important;
+}
+.navbar-header {
+  float: left;
+}
+.navbar-toggle .icon-bar {
+  background: #fff;
+}
+.navbar-toggle:hover {
+  padding: 9px 10px !important;
 }

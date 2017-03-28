@@ -171,7 +171,9 @@ namespace WebPMS
         public string AddressLine3 { get; set; }
         public string AddressLine4 { get; set; }
         public string AddressLine5 { get; set; }
-        [Required]
+
+        [Required]  
+        [RegularExpression(@"^[A-Z]{1,2}[0-9][0-9A-Z]? [0-9][A-Z]{2}$")]
         public string PostCode { get; set; }
         public string Phone { get; set; }
         public string Fax { get; set; }
@@ -196,6 +198,7 @@ namespace WebPMS
         public bool MultipleJobsPerInvoice { get; set; }
         public string TemplateType { get; set; }
         public string PaymentTermsRecurrenceInfo { get; set; }
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
 
         //ExisitingOrgs

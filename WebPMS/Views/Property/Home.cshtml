@@ -62,7 +62,7 @@
     @Html.Hidden("hdnPropertyID", 0)
     @Html.Hidden("hdnLastPropertyID", 0)
     
-        <div class="gridView padding">
+        <div class="gridView padding smallNoPadding">
             @Html.Action("gvPropertiesPartial", Model)
         </div>
         @Html.DevExpress().Button(

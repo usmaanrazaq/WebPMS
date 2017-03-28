@@ -9,7 +9,7 @@
                     @Html.DropDownListFor(m => m.Tenant.ID, Model.TenancyTenants, "Add Tenant", new { @id = "ddTenancyTenantList", })
                 </div>
                 <div class="input-3">
-                    <button onclick="DeleteTenant()" class="deleteButton" type="button">Delete Tenant</button>
+                    <button onclick="DeleteTenant()" class="deleteButton" type="button">Delete <span class="hide-small">Tenant</span></button>
 
                 </div>
             </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="input-row">
                 <div class="label-3">Postcode</div>
-                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.PostCode) </div>
+                <div class="input-9"> @Html.TextBoxFor(m => m.Tenant.PostCode, new { @class = "upperCase" })</div>
             </div>
         </div>
         <div class="inputForm">

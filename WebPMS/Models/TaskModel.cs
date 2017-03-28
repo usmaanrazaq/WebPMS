@@ -55,6 +55,7 @@ namespace WebPMS.Models
    
         [Required]
         public DateTime? DueDate { get; set; }
+
         public DateTime? CompletedDate { get; set; }
         public string OverDue { get; set; }
         public string AutoReminder { get; set; }
@@ -64,7 +65,7 @@ namespace WebPMS.Models
         public DateTime? LastUpdatedTime { get; set; }
         public string LastUpdatedUser { get; set; }
         public string LinkedDescription { get; set; }
-
+   
     }
 
     public static class BuildTask

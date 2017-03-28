@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - Insight</title>
+    <meta charset="utf-8" />   
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - PMS</title>
     <link href="~/Content/Style.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/odometer-theme-default.css" rel="stylesheet" type="text/css" />
@@ -51,7 +51,15 @@
 <body>
 
     <div class="navbar navbar-custom navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle " data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
         <div class="userHolder">
+         
             <img src="~/Images/userplaceholder.jpg" /> @WebPMS.SessionManager.getCurrentUser().Forename   @WebPMS.SessionManager.getCurrentUser().Surname
         </div>
         <div class="links"><a onclick="location.href='@Url.Action("Logout","Home")'">Logout</a></div>
@@ -60,16 +68,11 @@
     </div>
 
     @*<div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
+       
 
 
         </div>*@
+
     <div id="wrapper">
 
         <!-- Sidebar -->
@@ -151,8 +154,10 @@
                     </div>
                 </div>
             </div>
+        
+        
             <div class="row">
-                <div class="col-lg-12 col-md-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-xs-12 smallNoPadding">
                     @RenderBody()
                 </div>
             </div>
@@ -167,7 +172,7 @@
     <div id="coverbackground" class="coverbackgroundpp"></div>
     <div id="popup" class="popup zero"></div>
 
-    <div id="notConfirmation" class="notification"><i class="fa fa-check" aria-hidden="true"></i>@Html.Raw(ViewBag.Confirmation)</div>
+    <div id="notConfirmation"  class="notification"><i class="fa fa-check" aria-hidden="true"></i>@Html.Raw(ViewBag.Confirmation)</div>    
 </body>
 
 </html>
@@ -255,7 +260,10 @@
                 closePopup();
             })
         });
-  
+        $("#sidebar-wrapper").addClass("hidemenu");
+        $('.navbar-toggle').click(function () {          
+            $("#sidebar-wrapper").toggleClass("hidemenu");
+        })
 
 
         setTimeout(getTasks(), 5000); //Update the weather every 10 minutes
@@ -316,7 +324,7 @@
                                     "<div class='ReminderTitle " + priority + "'> " +
                                         "Task:  " + Tasks[i].task +
                                     "</div>" +
-                                    "<div class='ReminderDetails'> " +
+                                    "<div class='ReminderDetails hide-small'> " +
                                         "Start Date: " + parseJsonDate(Tasks[i].StartDate).toDateString() + "<br />" +
                                         "End Date: " + parseJsonDate(Tasks[i].DueDate).toDateString() + "<br />" +
                                         "Priority: " + priority + "<br />" +

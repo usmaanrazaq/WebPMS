@@ -185,6 +185,7 @@ namespace WebPMS.Models
         public string Department { get; set; }
         public string Dept { get; set; }
         [Required]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string EmailAddress { get; set; }
         public string EthnicOrigin { get; set; }
         public string Fax { get; set; }
@@ -222,6 +223,7 @@ namespace WebPMS.Models
         public string Password { get; set; }
         public int PaymentTerms { get; set; }
         public string PaymentTermsRecurrenceInfo { get; set; }
+        [RegularExpression(@"^(?i)([A-PR-UWYZ](([0-9](([0-9]|[A-HJKSTUW])?)?)|([A-HK-Y][0-9]([0-9]|[ABEHMNPRVWXY])?)) [0-9][ABD-HJLNP-UW-Z]{2})|GIR 0AA$", ErrorMessage = "This is not right")]
         public string PostCode { get; set; }
         public string PreferredContactMethod { get; set; }
         public string PreferredContactTime { get; set; }

@@ -48,6 +48,9 @@
       <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Dashboard.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v16.1.Web, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Dashboard.v16.1.Web.Mvc5, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.PivotGrid.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -57,15 +60,21 @@
     <Reference Include="DevExpress.SpellChecker.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Web.ASPxGauges.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Web.ASPxRichEdit.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\DevExpress 16.1\Components\Bin\Framework\DevExpress.Web.ASPxRichEdit.v16.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Web.ASPxSpellChecker.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Web.ASPxThemes.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Web.Mvc5.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Web.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Xpf.RichEdit.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpo.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGauges.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGauges.v16.1.Presets, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Sparkline.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.CodeParser.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPivotGrid.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -177,52 +186,36 @@
     <Content Include="bin\DevExpress.ExpressApp.v16.1.dll" />
     <Content Include="bin\DevExpress.Office.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.Pdf.v16.1.Core.dll" />
-    <Content Include="bin\DevExpress.Pdf.v16.1.Core.xml" />
     <Content Include="bin\DevExpress.Pdf.v16.1.Drawing.dll" />
-    <Content Include="bin\DevExpress.Pdf.v16.1.Drawing.xml" />
     <Content Include="bin\DevExpress.PivotGrid.v16.1.Core.dll" />
-    <Content Include="bin\DevExpress.PivotGrid.v16.1.Core.xml" />
     <Content Include="bin\DevExpress.Printing.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.RichEdit.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.Sparkline.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.SpellChecker.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.Spreadsheet.v16.1.Core.dll" />
-    <Content Include="bin\DevExpress.Spreadsheet.v16.1.Core.xml" />
     <Content Include="bin\DevExpress.Utils.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.ASPxGauges.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.ASPxHtmlEditor.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxHtmlEditor.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.ASPxPivotGrid.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxPivotGrid.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.ASPxRichEdit.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxRichEdit.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.ASPxScheduler.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxScheduler.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.ASPxSpellChecker.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.ASPxSpreadsheet.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxSpreadsheet.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.ASPxThemes.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.ASPxTreeList.v16.1.dll" />
-    <Content Include="bin\DevExpress.Web.ASPxTreeList.v16.1.xml" />
     <Content Include="bin\DevExpress.Web.Mvc5.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.Resources.v16.1.dll" />
     <Content Include="bin\DevExpress.Web.v16.1.dll" />
     <Content Include="bin\DevExpress.Xpo.v16.1.dll" />
     <Content Include="bin\DevExpress.XtraCharts.v16.1.dll" />
     <Content Include="bin\DevExpress.XtraCharts.v16.1.Web.dll" />
-    <Content Include="bin\DevExpress.XtraCharts.v16.1.Web.xml" />
-    <Content Include="bin\DevExpress.XtraCharts.v16.1.xml" />
     <Content Include="bin\DevExpress.XtraEditors.v16.1.dll" />
-    <Content Include="bin\DevExpress.XtraEditors.v16.1.xml" />
     <Content Include="bin\DevExpress.XtraGauges.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.XtraGauges.v16.1.Presets.dll" />
     <Content Include="bin\DevExpress.XtraLayout.v16.1.dll" />
-    <Content Include="bin\DevExpress.XtraLayout.v16.1.xml" />
     <Content Include="bin\DevExpress.XtraPivotGrid.v16.1.dll" />
     <Content Include="bin\DevExpress.XtraReports.v16.1.dll" />
     <Content Include="bin\DevExpress.XtraReports.v16.1.Web.dll" />
-    <Content Include="bin\DevExpress.XtraReports.v16.1.Web.xml" />
-    <Content Include="bin\DevExpress.XtraReports.v16.1.xml" />
     <Content Include="bin\DevExpress.XtraScheduler.v16.1.Core.dll" />
     <Content Include="bin\DevExpress.XtraScheduler.v16.1.Core.xml" />
     <Content Include="bin\EntityFramework.dll" />
@@ -278,6 +271,7 @@
     </None>
     <Content Include="Images\UserIcon.png" />
     <Content Include="MainLayout.cshtml" />
+    <None Include="Properties\PublishProfiles\FTP.pubxml" />
     <None Include="Properties\PublishProfiles\WebPMS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\Background\BlueBackground.jpg" />
