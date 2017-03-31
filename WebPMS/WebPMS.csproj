@@ -271,6 +271,7 @@
     </None>
     <Content Include="Images\UserIcon.png" />
     <Content Include="MainLayout.cshtml" />
+    <Content Include="Content\Media.less" />
     <None Include="Properties\PublishProfiles\FTP.pubxml" />
     <None Include="Properties\PublishProfiles\WebPMS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -300,6 +301,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Common\CommonFunctions.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="Common\DB.cs" />
@@ -386,6 +388,7 @@
     <Content Include="Views\Task\TasksPartial.cshtml" />
     <Content Include="Views\Property\PropertyToolbarPartial.cshtml" />
     <Content Include="Views\Tenancy\TenancyToolBarPartial.cshtml" />
+    <Content Include="Views\Error\Error.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

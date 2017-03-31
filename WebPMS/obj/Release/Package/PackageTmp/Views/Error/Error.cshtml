@@ -1,0 +1,15 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+}
+
+<link href="~/Content/Style.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<div class="pageTitle" style="margin:40px;">
+    Application Error:
+</div>
+<div class="content" style="padding:40px; margin:40px;">
+    <h1>   Sorry, an error occurred while processing your request.</h1>
+    <h2><a style= "color: #337ab7 !important" href="@Url.Action("Home", "Property")"> Go Back </a></h2>
+</div>

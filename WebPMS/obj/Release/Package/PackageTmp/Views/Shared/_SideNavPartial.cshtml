@@ -2,10 +2,10 @@
 
 
 
-<div class="navButton"></div>
-<div class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Properties');">
-    <i class="fa fa-building" aria-hidden="true"></i> Properties<i class="fa fa-angle-down ticon" aria-hidden="true"></i>
-    <ul  class="navbuttonul hvr-underline-from-center" id="Properties" style="display:none">
+<div class="navButton hide-ipad  hide-small"></div>
+<div id="property" class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Properties');">
+    <i class="fa fa-building" aria-hidden="true"></i> Property<i class="fa fa-angle-down ticon" aria-hidden="true"></i>
+    <ul  class="navbuttonul hvr-underline-from-centerul" id="Properties" style="display:none">
         <li  onclick="location.href='@Url.Action("PropertyDetails","Property", new {@PropertyID = Model.PropertyID })'"><i class="fa fa-home" aria-hidden="true"></i>Property Details</li>
         <li onclick="location.href='@Url.Action("RoomDetails" ,"Property",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-bed" aria-hidden="true"></i>Rooms</li>
         <li  onclick="location.href='@Url.Action("PropertyNotes","Property" ,  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Property Notes</li>
@@ -21,17 +21,17 @@
 
     </ul>
 </div>
-<div class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Tenancy');">
+<div id="tenancy" class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Tenancy');">
    <i class="fa fa-file" aria-hidden="true"></i> Tenancy <i class="fa fa-angle-down ticon" aria-hidden="true"></i>
-    <ul  class="navbuttonul hvr-underline-from-center" id="Tenancy" style="display:none">
+    <ul  class="navbuttonul hvr-underline-from-centerul" id="Tenancy" style="display:none">
         <li  onclick="location.href='@Url.Action("TenancyRequirements" ,"Tenancy",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-th-list" aria-hidden="true"></i>Requirements</li>
         <li  onclick="location.href='@Url.Action("TenancyDetails" ,"Tenancy",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-users" aria-hidden="true"></i>Tenancy & Tenants</li>
     </ul>
 </div>
 
-<div class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Other');">
+<div id="other" class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Other');">
   <i class="fa fa-random" aria-hidden="true"></i> Other <i class="fa fa-angle-down ticon" aria-hidden="true"></i>
-    <ul  class="navbuttonul hvr-underline-from-center" id="Other" style="display:none">
+    <ul  class="navbuttonul hvr-underline-from-centerul" id="Other" style="display:none">
         @foreach (var item in Model.DynamicEntities)
             {
                 if (item.EntityType == WebPMS.Constants.DynamicEntities.Dynamic_EntityOrg)
@@ -54,7 +54,15 @@
         function SelectHeader(li, el) {
          
             $('#' + el).slideToggle(200);
-            $(li).children("ul").toggleClass("selectedNav");
+            $('.contentNav').toggleClass("dropdownchange");                                    
+            $(li).children("ul").toggleClass("selectedNav ");
             $(li).children("i").toggleClass('fa-angle-down fa-angle-up');
+            $(".navButton").each(function () {
+                console.log($(this))
+                if ($(this).attr('id') != $(li).attr('id'))
+                    $(this).toggleClass("hidenavbutton")
+                
+            })
+          
         }
     </script>

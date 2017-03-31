@@ -14,13 +14,40 @@
         settings.Styles.Row.CssClass = "draggable";
         settings.SettingsSearchPanel.Visible = true;
         settings.ClientSideEvents.RowDblClick = "OnGridFocusedRowChanged";
-        settings.Columns.Add("ID");
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "ID";
+            column.FieldName = "ID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small";
+            column.HeaderStyle.CssClass = "hide-small";
+            column.FooterCellStyle.CssClass = "hide-small";
+        });
         settings.Columns.Add("UserID", "User");
         settings.Columns.Add("task", "Task");
-        settings.Columns.Add("LinkedReference", "Ref");
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Ref";
+            column.FieldName = "LinkedReference";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small";
+            column.HeaderStyle.CssClass = "hide-small";
+            column.FooterCellStyle.CssClass = "hide-small";
+        });
         settings.Columns.Add("Priority");
-        settings.Columns.Add("DueDate", "Due Date", MVCxGridViewColumnType.DateEdit);
-        settings.Columns.Add("CompletedDate", "Completed Date", MVCxGridViewColumnType.DateEdit);
+        settings.Columns.Add("DueDate", "Due Date", MVCxGridViewColumnType.DateEdit);        
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Completed Date";
+            column.FieldName = "CompletedDate";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small";
+            column.HeaderStyle.CssClass = "hide-small";
+            column.FooterCellStyle.CssClass = "hide-small";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        });
 
         settings.HtmlRowPrepared = (sender, e) =>
         {

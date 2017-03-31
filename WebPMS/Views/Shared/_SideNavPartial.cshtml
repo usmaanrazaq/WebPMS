@@ -4,7 +4,7 @@
 
 <div class="navButton hide-ipad  hide-small"></div>
 <div id="property" class="navButton hvr-underline-from-center" onclick="SelectHeader(this, 'Properties');">
-    <i class="fa fa-building" aria-hidden="true"></i> Properties<i class="fa fa-angle-down ticon" aria-hidden="true"></i>
+    <i class="fa fa-building" aria-hidden="true"></i> Property<i class="fa fa-angle-down ticon" aria-hidden="true"></i>
     <ul  class="navbuttonul hvr-underline-from-centerul" id="Properties" style="display:none">
         <li  onclick="location.href='@Url.Action("PropertyDetails","Property", new {@PropertyID = Model.PropertyID })'"><i class="fa fa-home" aria-hidden="true"></i>Property Details</li>
         <li onclick="location.href='@Url.Action("RoomDetails" ,"Property",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-bed" aria-hidden="true"></i>Rooms</li>

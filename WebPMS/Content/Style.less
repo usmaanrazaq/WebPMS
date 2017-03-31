@@ -93,10 +93,13 @@ input[type=button] {
 }
 
 .CoverBackground {
-  //background: url(../Images/Background/BlueBackground.jpg) no-repeat center center fixed;
-  //background-size:cover;
-      background: #DEDEE0;
-  height:100vh;
+     background: url(../Images/Background/loginmobile.png) no-repeat center center fixed !important; 
+    -webkit-background-size: cover !important;
+    -moz-background-size: cover !important;
+    -o-background-size: cover !important;
+    background-size: cover !important;
+    min-height:100VH;
+    padding-top:230PX;
   }
 
 .arrows A {
@@ -104,15 +107,17 @@ input[type=button] {
 }
 
 .login {
-    width: 376px;
-    margin: 233px auto;
-       height: 494px;
-    background: url(../Images/Background/login.jpg) no-repeat center center fixed;
-    padding-top: 1px;
-    box-shadow: 25px 23px 72px 36px rgba(0,0,0,.3);
+      background:none !important;
+        margin: 0px auto !important;
+        height: 494px !important;
+         width: 329px !important;
+         box-shadow: 25px 23px 72px 36px rgba(0,0,0,1) !important; 
     border-radius: 7px;
 }
-
+ 
+ .input:hover{
+     cursor:pointer;
+ }
 .marginright{
     margin-right:5px;
 }

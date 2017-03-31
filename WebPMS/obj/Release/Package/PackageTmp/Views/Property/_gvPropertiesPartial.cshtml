@@ -38,13 +38,48 @@
             gridView.FocusedRowIndex = ViewBag.VisibleIndex;
         };
 
-        settings.Columns.Add("PropertyID", "Property ID");
-        settings.Columns.Add("BranchID", "Branch ID");
-        settings.Columns.Add("Status");
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Property ID";
+            column.FieldName = "PropertyID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Branch ID";
+            column.FieldName = "BranchID";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
+     
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Status";
+            column.FieldName = "Status";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small hide-ipad";
+            column.HeaderStyle.CssClass = "hide-small hide-ipad";
+            column.FooterCellStyle.CssClass = "hide-small hide-ipad";
+        });
         settings.Columns.Add("NickName", "Nick Name");
         settings.Columns.Add("BuildingType", "Building Type");
         settings.Columns.Add("AddressLine1", "Address Line 1");
-        settings.Columns.Add("AddressLine3", "Address Line 3");
+
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Address Line 3";
+            column.FieldName = "AddressLine3";
+            column.Width = 150;
+            column.CellStyle.CssClass = "hide-small";
+            column.HeaderStyle.CssClass = "hide-small";
+            column.FooterCellStyle.CssClass = "hide-small";
+        });
+
         settings.Columns.Add("PostCode", "Post Code");
 
     });

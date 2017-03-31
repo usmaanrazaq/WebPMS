@@ -325,7 +325,7 @@
                                         "Task:  " + Tasks[i].task +
                                     "</div>" +
                                     "<div class='ReminderDetails hide-small'> " +
-                                        "Start Date: " + parseJsonDate(Tasks[i].StartDate).toDateString() + "<br />" +
+                                        "Start Date: " + parseJsonDate(Tasks[i].StartDate).toDateString()+ "<br />" +
                                         "End Date: " + parseJsonDate(Tasks[i].DueDate).toDateString() + "<br />" +
                                         "Priority: " + priority + "<br />" +
                                         "Status:   " + status + "<br />" +
@@ -340,6 +340,7 @@
         });      
     }
     function parseJsonDate(jsonDateString) {
+        if (jsonDateString == null) return new Date();
         return new Date(parseInt(jsonDateString.replace('/Date(', '')));
     }
     function slide(el, clicked) {
