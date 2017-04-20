@@ -30,11 +30,9 @@ namespace WebPMS.Controllers
                 ViewBag.Confirmation = TempData["Confirmation"];
             }
 
-            return View();
+            return View("Home");
         }
-
         
-
 
 
         [ValidateInput(false)]
@@ -135,12 +133,22 @@ namespace WebPMS.Controllers
                     PropertyPath = "",
                     PropertyID = PropertyID
                 };
-                return View(Emptymodel);
+                return View("RoomDetails", Emptymodel);
             }
                     return RedirectToAction("PropertyDetails", new { PropertyID = PropertyID });
         }
 
+        public ActionResult HistoryPartial(int PropertyID = 0, string OrgID = null, string ThirdPartyID = null)
+        {
+            HistoryList HL = new HistoryList();
+            if (PropertyID != 0)
+                HL = BuildHistory.ViewHistoryList("P", PropertyID.ToString());
 
+            if(!string.IsNullOrEmpty(OrgID))
+                HL = BuildHistory.ViewHistoryList("O", OrgID);
+
+            return View("HistoryPartial", HL);
+        }
 
         public ActionResult PropertyDetails(int PropertyID)
         {
@@ -193,7 +201,7 @@ namespace WebPMS.Controllers
                     SideNavigationViewModel = SideNavModel,
                     SubUnitOf = GetPropertyList()
                 };
-                return View(model);
+                return View("PropertyDetails", model);
             }
          
         }
@@ -238,7 +246,7 @@ namespace WebPMS.Controllers
                     PropertyNotes = PropertyNotes,
                     SideNavigationViewModel = SideNavModel
                 };
-                return View(model);
+                return View("PropertyNotes",model);
             }
             else
             {
@@ -272,37 +280,9 @@ namespace WebPMS.Controllers
                     SideNavigationViewModel = SideNavModel
 
                 };
-                return View(modelUpdate);
+                return View("LandlordDetails", modelUpdate);
             }
                     return RedirectToAction("PropertyDetails", new { PropertyID = PropertyID });
-        }
-
-
-
-        public ActionResult EntityDetailsD(int PropertyID, int EntityID, string EntityName, string OrgID, string PersonID)
-        {
-            if (TempData["Confirmation"] != null)
-            {
-                ViewBag.showPopup = true;
-                ViewBag.Confirmation = TempData["Confirmation"];
-            }
-            DynamicEntities Entities = BuildEntities.ViewEntities(PropertyID);
-
-            var SideNavModel = new SideNavigationViewModel
-            {
-                DynamicEntities = Entities,
-                PropertyID = PropertyID,
-            };
-            DynamicEntityFields DEF = BuildDynamicEntityFields.ViewDynamicEntityFields(Constants.CaseType.CaseType_Property, Constants.SubCaseType.CaseSubType_Property, EntityID, EntityName, PropertyID, OrgID, PersonID);
-
-            DynamicEntityFieldsViewModel model = new DynamicEntityFieldsViewModel
-            {
-                PropertyID = PropertyID,
-                DynamicEntityFields = DEF,
-                SideNavigationViewModel = SideNavModel
-
-            };
-            return View(model);
         }
 
         public ActionResult Entities(int PropertyID, int EntityID, string EntityName, string OrgID, int DynamicOrgID)
@@ -355,7 +335,7 @@ namespace WebPMS.Controllers
 
                 };
 
-                return View(model);
+                return View("Entities", model);
             }
                     return RedirectToAction("PropertyDetails", new { PropertyID = PropertyID });
 
@@ -412,9 +392,6 @@ namespace WebPMS.Controllers
             {
                 return Json("Error");
             }
-
-
-
         }
 
    
@@ -536,7 +513,6 @@ namespace WebPMS.Controllers
             return Json("Error");
         }
 
-
         [HttpPost]
         public ActionResult SaveLandord(LandlordDetailsViewModel LandlordDetailsViewModel, string note)
         {
@@ -605,6 +581,8 @@ namespace WebPMS.Controllers
             TempData["Confirmation"] = "Room Deleted!";
             return Json("Success");
         }
+
+        
     }
     
 }

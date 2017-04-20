@@ -19,7 +19,7 @@ namespace WebPMS.Controllers
                 ViewBag.showPopup = true;
                 ViewBag.Confirmation = TempData["Confirmation"];
             }
-            return View();
+            return View("DueSoon");
         }
         public ActionResult DueLater()
         {
@@ -28,17 +28,13 @@ namespace WebPMS.Controllers
                 ViewBag.showPopup = true;
                 ViewBag.Confirmation = TempData["Confirmation"];
             }
-            return View();
+            return View("DueLater");
         }
 
         [ValidateInput(false)]
         public ActionResult gvDueSoon()
         {
-            if (!SessionManager.isLoggedIn())
-            {
-                return RedirectToAction("Login", "Home");
-            }
-
+       
             int noOfDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             var model = BuildTask.ViewTasksByUser(SessionManager.getCurrentUser().ID, noOfDays, true);
             return PartialView("_gvDueSoon", model);
@@ -47,10 +43,6 @@ namespace WebPMS.Controllers
         [ValidateInput(false)]
         public ActionResult gvDueLater()
         {
-            if (!SessionManager.isLoggedIn())
-            {
-                return RedirectToAction("Login", "Home");
-            }
             int noOfDays = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
             var model = BuildTask.ViewTasksByUser(SessionManager.getCurrentUser().ID, noOfDays, false);
             return PartialView("_gvDueLater", model);
@@ -90,21 +82,14 @@ namespace WebPMS.Controllers
                 mode = mode                        
                               
             }; 
-            return PartialView(model);
+            return PartialView("TasksPartial", model);
         }
 
-        public ActionResult SaveTask(TasksViewModel TasksViewModel, FormCollection Form)
+        public ActionResult SaveTask(TasksViewModel TasksViewModel)
         {
             int updateInt = 0;
             if (TasksViewModel.Task != null)
             {
-                var reminder = Form["Task.ReminderDate"];
-                DateTime parsed;
-                if (DateTime.TryParseExact(reminder, "dd/MM/yyyy",
-                    CultureInfo.CurrentCulture, DateTimeStyles.None, out parsed))
-                {
-                    TasksViewModel.Task.ReminderDate = parsed;
-                }
              
                 if (TasksViewModel.Task.ID == 0) //insert
                 {

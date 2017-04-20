@@ -35,8 +35,8 @@ namespace WebPMS
         //set current user in the sessoin
         public static void setCurrentUser(User value)
         {
-            var str = JsonConvert.SerializeObject(value);
-            HttpContext.Current.Session["CurrentUser"] = str;
+           var str = JsonConvert.SerializeObject(value);
+           HttpContext.Current.Session["CurrentUser"] = str;
         }
         public static void clearSession()
         {            

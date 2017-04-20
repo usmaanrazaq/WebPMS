@@ -640,6 +640,23 @@ li.dropdown i {
   border: 1px solid #DADDE4;
   box-shadow: 2px 4px 19px 0px rgba(0, 0, 0, 0.75);
 }
+table.history {
+  margin: 10px;
+}
+.history > tbody > tr > th {
+  padding: 7px !important;
+  border-right: 1px solid #DADDE4;
+  background: #95C97B;
+  color: white;
+  font-weight: 500;
+}
+.history > tbody > tr > td {
+  padding: 7px !important;
+  border-right: 1px solid #DADDE4;
+}
+.alt {
+  background: #DADDE4;
+}
 .padding {
   padding: 15px;
 }
@@ -908,6 +925,7 @@ li.dropdown i {
   transition-property: color;
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
+  text-align: center;
 }
 .deleteButton {
   background: #ff0033;
@@ -1448,7 +1466,6 @@ div#tempicon {
   text-align: center;
 }
 .popup {
-  width: 813px;
   position: fixed;
   top: 50%;
   left: 50%;

@@ -24,7 +24,7 @@ namespace WebPMS.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            return View("Login");
         }
         [HttpPost]
         public ActionResult ValidateUser(User obj)
@@ -34,14 +34,14 @@ namespace WebPMS.Controllers
 
             if(LoggedUser == null)
             {
-                //UserDosentExsist
-                // return
+                ViewBag.showError = "True";
+                ViewBag.message = "No User found";
                 return View("Login");
             }
             
             if (obj.Password != TDES.DecryptString(LoggedUser.Password)) {
-
-                // Passwords are not correct
+                ViewBag.showError = "True";
+                ViewBag.message = "Incorrect Password";
                 return View("Login");
             }
 
@@ -74,7 +74,7 @@ namespace WebPMS.Controllers
         }
         public ActionResult Logout()
         {
-            SessionManager.clearSession();
+            //SessionManager.clearSession();
             return View("Login");
         }
 

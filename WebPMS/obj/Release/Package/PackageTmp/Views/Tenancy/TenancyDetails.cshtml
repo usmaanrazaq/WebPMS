@@ -93,13 +93,13 @@
         }
     }
 
-    $('#startDate').datepicker();
-    $('#endDate').datepicker();
+   
     $(document).ready(function () {
         $('#ddTenancyList').change(function () {
             $("#TenancyDetail").load('@(Url.Action("TenancyDetailsSelected", "Tenancy",null, Request.Url.Scheme))?TenancyID=' + encodeURIComponent($(this).val()));
             $("#Tenants").load('@(Url.Action("TenancyTenantsSelected", "Tenancy",null, Request.Url.Scheme))?TenancyID=' + encodeURIComponent($(this).val()));
         })
+       
     })
     function show(el, anc) {
         $(".tab").each(function () {

@@ -181,3 +181,9 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\es\DevExpress.X
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.Xpf.Grid.v16.1.Core.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.Xpf.Grid.v16.1.Core.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Release\WebPMS.csprojResolveAssemblyReference.cache
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraLayout.v16.1.xml
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\de\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\es\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.XtraLayout.v16.1.resources.dll

@@ -37,7 +37,12 @@ namespace WebPMS.Models
 
         public string _comboDisplay { get
             {
-                return Status + " " + TenancyType + " " + tenant_list + " " + StartDate.Value.ToString("dd/MM/yyyy") + " " + EndDate.Value.ToString("dd/MM/yyyy");
+                string enddate;
+                if (EndDate == null) // if end date is empty
+                    enddate = "No End date for Tenancy";
+                else
+                    enddate = EndDate.Value.ToString("dd/MM/yyyy");
+                return Status + " " + TenancyType + " " + tenant_list + " " + StartDate.Value.ToString("dd/MM/yyyy") + " " + enddate;
             }
         }
 

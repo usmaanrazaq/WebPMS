@@ -247,6 +247,11 @@ namespace WebPMS
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@ParentID", ParentID) };
                 return sqlParams;
             }
+            public static SqlParameter[] uspRetrieveHistory(string HistoryType, string ID)
+            {
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@HistoryType", HistoryType), new SqlParameter("@ID", ID) };
+                return sqlParams;
+            }
             public static SqlParameter[] uspGetExistingOrgs(string Name, string TypeOfOrg, bool ExactMatch, string Status)
             {
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@Name", Name), new SqlParameter("@TypeOfOrg", TypeOfOrg), new SqlParameter("@ExactMatch", ExactMatch), new SqlParameter("@Status", Status) };
@@ -300,6 +305,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateDynamicOrg(int? DynamicOrgID, int FKID, string OrgID, string OrgContactID, string Ref, int? NewDynamicOrgID)
             {
+                History h = new History(0, OrgID, 0, SessionManager.getCurrentUser().ID, DateTime.Now, " Updated", "0", "", null, 0, 0);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, SessionManager.getCurrentUser().ID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@DynamicOrgID", DynamicOrgID), new SqlParameter("@FKID", FKID), new SqlParameter("@OrgID", OrgID), new SqlParameter("@OrgContactID", OrgContactID), new SqlParameter("@Ref", Ref), new SqlParameter("@NewDynamicOrgID", NewDynamicOrgID) };
                 return sqlParams;
             }
@@ -315,6 +323,10 @@ namespace WebPMS
                 if (Property.ParentID > 0)
                     ParentID = Property.ParentID;
                 //-----
+
+                History h = new History(0, null, 0, UserID, DateTime.Now, "Property " + Property.NickName +  " Updated PropertyID " + ID, "P", "", null, 0, ID);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@ParentID", ParentID), new SqlParameter("@Status", Property.Status), new SqlParameter("@BranchID", Property.BranchID),
                     new SqlParameter("@BuildingType", Property.BuildingType), new SqlParameter("@NickName", Property.NickName), new SqlParameter("@Description", Property.Description), new SqlParameter("@MarketingDescription", Property.MarketingDescription),
                     new SqlParameter("@Size", Property.size), new SqlParameter("@AddressLine1  ", Property.AddressLine1 ), new SqlParameter("@AddressLine2", Property.AddressLine2), new SqlParameter("@AddressLine3 ", Property.AddressLine3),
@@ -330,6 +342,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdatePropertyRoom(PropertyRoom r, string UserID)
             {
+                History h = new History(0, null, 0, UserID, DateTime.Now, "Room " + r.Title + " Updated PropertyID " + r.PropertyID, "P", "", null, 0, r.PropertyID);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", r.ID), new SqlParameter("@PropertyID", r.PropertyID), new SqlParameter("@Sequence", r.Sequence), new SqlParameter("@Title", r.Title), new SqlParameter("@Type", r.Type), new SqlParameter("@MarketingDescription", r.MarketingDescription), new SqlParameter("@Notes", r.Notes),
                 new SqlParameter("@Length", r.Length),new SqlParameter("@Width", r.Width),new SqlParameter("@Height", r.Height),new SqlParameter("@Habitable", r.Habitable),new SqlParameter("@Communal", r.Communal),new SqlParameter("@UserID", UserID),new SqlParameter("@OutID", r.ID)};
                 return sqlParams;
@@ -342,6 +357,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateThirdParty(ThirdParty t, string UserID)
             {
+                History h = new History(0, null, 0, UserID, DateTime.Now, t.Name + " Updated", "T", "", t.ID, 0, 0);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", t.ID  ), new SqlParameter("@TypeOfPerson", t.TypeOfPerson), new SqlParameter("@AddressLine1", t.AddressLine1), new SqlParameter("@AddressLine2", t.AddressLine2), new SqlParameter("@AddressLine3", t.AddressLine3), new SqlParameter("@AddressLine4", t.AddressLine4), new SqlParameter("@AddressLine5", t.AddressLine5), new SqlParameter("@EmailAddress", t.EmailAddress),
                  new SqlParameter("@Fax", t.Fax),  new SqlParameter("@Forename", t.Forename),  new SqlParameter("@Gender", t.Gender), new SqlParameter("@Suffix", t.Suffix   ),  new SqlParameter("@HomePhone", t.HomePhone),  new SqlParameter("@Middlename", t.MiddleName),  new SqlParameter("@Mobile", t.Mobile),  new SqlParameter("@Postcode", t.PostCode),  new SqlParameter("@Surname", t.Surname  ),
                  new SqlParameter("@WorkExtensionNumber", t.WorkExtensionNumber),  new SqlParameter("@WorkPhone", t.WorkPhone),  new SqlParameter("@PreferredContactMethod", t.PreferredContactMethod), new SqlParameter("@PreferredContactTime", t.PreferredContactTime), new SqlParameter("@Title", t.Title), new SqlParameter("@DateOfBirth", t.DateOfBirth), new SqlParameter("@Notes", t.Notes    ), new SqlParameter("@Dept", t.Dept), new SqlParameter("@Status", t.Status   ), new SqlParameter("@UserID", UserID),
@@ -353,6 +371,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspInsertThirdParty(ThirdParty cs, string UserID)
             {
+                History h = new History(0,null, 0, UserID, DateTime.Now, cs.Name + " Added", "T", "", cs.ID, 0, 0);
+                //int HistoryID = 0;
+              //  UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@TypeOfPerson", cs.TypeOfPerson), new SqlParameter("@AddressLine1", cs.AddressLine1), new SqlParameter("@AddressLine2", cs.AddressLine2),
                     new SqlParameter("@AddressLine3", cs.AddressLine3), new SqlParameter("@AddressLine4", cs.AddressLine4), new SqlParameter("@AddressLine5", cs.AddressLine5), new SqlParameter("@EmailAddress", cs.EmailAddress), new SqlParameter("@Fax", cs.Fax),
                     new SqlParameter("@Forename", cs.Forename), new SqlParameter("@Gender", cs.Gender), new SqlParameter("@HomePhone", cs.HomePhone), new SqlParameter("@Middlename", cs.MiddleName), new SqlParameter("@Mobile", cs.Mobile), new SqlParameter("@Postcode", cs.PostCode),
@@ -375,6 +396,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateOrg(Organisation cs, string UserID)
             {
+                History h = new History(0, cs.ID, 0, UserID, DateTime.Now, cs.Name + " Updated", "O", "", null, 0, 0);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@Name", cs.Name), new SqlParameter("@AddressLine1", cs.AddressLine1),
                     new SqlParameter("@AddressLine2", cs.AddressLine2), new SqlParameter("@AddressLine3", cs.AddressLine3), new SqlParameter("@AddressLine4", cs.AddressLine4), new SqlParameter("@AddressLine5", cs.AddressLine5),
                     new SqlParameter("@Postcode", cs.PostCode), new SqlParameter("@Phone", cs.Phone), new SqlParameter("@Fax", cs.Fax), new SqlParameter("@HomePage", cs.HomePage), new SqlParameter("@VATRegistered", cs.VATRegistered),
@@ -392,6 +416,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspInsertOrg(Organisation cs, string UserID)
             {
+                History h = new History(0, cs.ID, 0, UserID, DateTime.Now, cs.Name  + " Added", "O", "", null, 0, 0);
+                //int HistoryID = 0;
+              //  UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@TypeOfOrganisation", cs.TypeOfOrganisation), new SqlParameter("@Name", cs.Name), new SqlParameter("@AddressLine1", cs.AddressLine1),
                     new SqlParameter("@AddressLine2", cs.AddressLine2), new SqlParameter("@AddressLine3", cs.AddressLine3), new SqlParameter("@AddressLine4", cs.AddressLine4), new SqlParameter("@AddressLine5", cs.AddressLine5),
                     new SqlParameter("@Postcode", cs.PostCode), new SqlParameter("@Phone", cs.Phone), new SqlParameter("@Fax", cs.Fax), new SqlParameter("@HomePage", cs.HomePage), new SqlParameter("@VATRegistered", cs.VATRegistered),
@@ -404,11 +431,15 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateTenancyTenants(int ID, int TenancyDetailsID, string TenantID, string UserID)
             {
+       
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", ID), new SqlParameter("@TenancyDetailsID", TenancyDetailsID), new SqlParameter("@TenantID", TenantID), new SqlParameter("@UserID", UserID) };
                 return sqlParams;
             }
             public static SqlParameter[] uspUpdateTenancyDetails(TenancyDetail cs , string UserID)
             {
+                History h = new History(0, null, 0, UserID, DateTime.Now,  cs.TenancyType + " for " +  cs.TenantName + " Updated","P", "", null, 0, cs.PropertyID);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@PropertyID", cs.PropertyID), new SqlParameter("@Status", cs.Status), new SqlParameter("@TenancyType", cs.TenancyType), new SqlParameter("@StartDate", cs.StartDate),
                     new SqlParameter("@EndDate", cs.EndDate), new SqlParameter("@Rent", cs.Rent), new SqlParameter("@Frequency", cs.Frequency), new SqlParameter("@RentDueDay", cs.RentDueDay), new SqlParameter("@DepositReceived", cs.DepositReceived),
                     new SqlParameter("@DepositNotes", cs.DepositNotes), new SqlParameter("@DateDepositProtected", cs.DateDepositProtected), new SqlParameter("@DepositReturned", cs.DepositReturned),
@@ -417,6 +448,9 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateTenancyRequirements(TenancyRequirement cs, string UserID)
             {
+                History h = new History(0, null, 0, UserID, DateTime.Now, "Tenancy Requirements for Property " + cs.PropertyID + " Updated", "P", "", null, 0, cs.PropertyID);
+                int HistoryID = 0;
+                UpdateData(Constants.StoredProcedures.Insert.uspInsertHistory, StoredProcedures.uspInsertHistory(h, UserID), ref HistoryID);
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@PropertyID", cs.PropertyID), new SqlParameter("@FurnishedStatus", cs.FurnishedStatus), new SqlParameter("@Rent", cs.Rent), new SqlParameter("@Frequency", cs.Frequency), new SqlParameter("@Deposit", cs.Deposit), new SqlParameter("@DepositNotes", cs.DepositNotes), new SqlParameter("@PetsAllowed", cs.PetsAllowed), new SqlParameter("@PetsAllowedNotes", cs.PetsAllowedNotes), new SqlParameter("@BenefitsAllowed", cs.BenefitsAllowed), new SqlParameter("@SmokingAllowed", cs.SmokingAllowed), new SqlParameter("@AvailableFrom", cs.AvailableFrom), new SqlParameter("@Notes", cs.Notes), new SqlParameter("@UserID", UserID)};
                 return sqlParams;
             }
@@ -429,7 +463,15 @@ namespace WebPMS
             }
             public static SqlParameter[] uspUpdateTask(Task cs, string UserID)
             {
+        
                 SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@ID", cs.ID), new SqlParameter("@Type", cs.Type), new SqlParameter("@Status", cs.Status), new SqlParameter("@UserID", cs.UserID), new SqlParameter("@LinkedReference", cs.LinkedReference), new SqlParameter("@Task", cs.task), new SqlParameter("@Priority", cs.Priority), new SqlParameter("@DueDate", cs.DueDate), new SqlParameter("@StartDate", cs.StartDate), new SqlParameter("@CompletedDate", cs.CompletedDate), new SqlParameter("@Overdue", cs.OverDue), new SqlParameter("@AutoReminder", cs.AutoReminder), new SqlParameter("@ReminderDate", cs.ReminderDate), new SqlParameter("@UpdateTime", DateTime.Now), new SqlParameter("@UpdateUser", UserID) };
+                return sqlParams;
+            }
+
+            public static SqlParameter[] uspInsertHistory(History cs, string UserID)
+            {
+
+                SqlParameter[] sqlParams = new SqlParameter[] { new SqlParameter("@OrgID", cs.OrgID), new SqlParameter("@UserID", UserID), new SqlParameter("@Narrative", cs.Narrative), new SqlParameter("@TypeOfEntry", cs.TypeOfEntry), new SqlParameter("@FileName", cs.FileName), new SqlParameter("@ThirdPartyID", cs.ThirdPartyID), new SqlParameter("@CustomerServiceID", null), new SqlParameter("@EquipmentID", 0), new SqlParameter("@PropertyID", cs.PropertyID), new SqlParameter("@Identity", 0) };
                 return sqlParams;
             }
             public static SqlParameter[] uspDeleteTenancyTenants(int TenancyDetailsID, string TenantID)

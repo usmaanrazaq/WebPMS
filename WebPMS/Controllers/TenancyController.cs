@@ -19,7 +19,7 @@ namespace WebPMS.Controllers
                 ViewBag.showPopup = true;
                 ViewBag.Confirmation = TempData["Confirmation"];
             }      
-            return View();
+            return View("Tenants");
         }
         public ActionResult Tenancies()
         {
@@ -28,7 +28,7 @@ namespace WebPMS.Controllers
                 ViewBag.showPopup = true;
                 ViewBag.Confirmation = TempData["Confirmation"];
             }
-            return View();
+            return View("Tenancies");
         }
 
         public ActionResult TenancyRequirements(int PropertyID)
@@ -54,7 +54,7 @@ namespace WebPMS.Controllers
                     PropertyID = PropertyID
                 };
 
-                return View(model);
+                return View("TenancyRequirements",model);
             }
             return RedirectToAction("PropertyDetails","Property", new { PropertyID = 0 });
         }
@@ -91,7 +91,7 @@ namespace WebPMS.Controllers
                     PropertyID = PropertyID,
 
                 };
-                return View(model);
+                return View("TenancyDetails", model);
             }
             return RedirectToAction("PropertyDetails","Property", new { PropertyID = 0 });
             
@@ -220,31 +220,31 @@ namespace WebPMS.Controllers
             int updateInt = 0;
             if (TenancyDetailsViewModel.PropertyID != 0)
             {
-                if (string.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID))// CREATE NEW TENANT 
+                if (string.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID) && !string.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.Name))// CREATE NEW TENANT  and only if the name has been supplied.
                 {
                     TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID = Functions.GenerateOrgID(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.Name);
                     TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.TypeOfOrganisation = "Tenant";
                     DB.UpdateData(Constants.StoredProcedures.Insert.uspInsertOrg, DB.StoredProcedures.uspInsertOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID), ref updateInt);                
-
                     
                 }else
                 {
-                    if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateOrg, DB.StoredProcedures.uspUpdateOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID),ref updateInt) == 1)
-                    {//Upading Org, if passed move to next update                     
-                       
-                    }
+                    if (!string.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID))
+                        DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateOrg, DB.StoredProcedures.uspUpdateOrg(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant, SessionManager.getCurrentUser().ID), ref updateInt);
+                                                               
                 }
                 
                 if(TenancyDetailsViewModel.TenancyDetail.PropertyID == 0) // if new attach to property currently viewing
                 {
                     TenancyDetailsViewModel.TenancyDetail.PropertyID = TenancyDetailsViewModel.PropertyID;                    
-                }
-                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyDetails, DB.StoredProcedures.uspUpdateTenancyDetails(TenancyDetailsViewModel.TenancyDetail, SessionManager.getCurrentUser().ID),ref updateInt) == 1) //Upading Org, if passed move to next update  
+                }                
+                if (DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyDetails, DB.StoredProcedures.uspUpdateTenancyDetails(TenancyDetailsViewModel.TenancyDetail, SessionManager.getCurrentUser().ID),ref updateInt) == 1) 
                 {
-                    DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyTenants, DB.StoredProcedures.uspUpdateTenancyTenants(0, updateInt, TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID, "Asad"), ref updateInt);
-                    TempData["Confirmation"] = "Tenancy & Tenant Details  Saved Succesfully!";                   
-                    return RedirectToAction("Tenants");
-
+                    if (!String.IsNullOrEmpty(TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID))
+                    {
+                        DB.UpdateData(Constants.StoredProcedures.Update.uspUpdateTenancyTenants, DB.StoredProcedures.uspUpdateTenancyTenants(0, updateInt, TenancyDetailsViewModel.TenancyTenantsViewModel.Tenant.ID, "Asad"), ref updateInt);
+                        TempData["Confirmation"] = "Tenancy & Tenant Details  Saved Succesfully!";
+                    }             
+                    return RedirectToAction("Tenants");                     
                 }               
             }
             return Json("ERROR");

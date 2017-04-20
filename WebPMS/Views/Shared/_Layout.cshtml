@@ -218,8 +218,17 @@
             return true;
         return false
     }
-    function getQueryStringValue(key) {
-        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    function getQueryStringValue(name) {
+       
+        var url = window.location.href,
+         vars = {};
+        url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
+            key = decodeURIComponent(key);
+            value = decodeURIComponent(value);
+            vars[key] = value;
+        });
+
+        return vars[name];
     }
 
     function closePopup() {
@@ -233,7 +242,7 @@
     }
     $(function () {
         // This will make every element with the class "date-picker" into a DatePicker element
-        $('.date-picker').datepicker();
+      
     })
     function setfilename(val) {
         var fileName = val.substr(val.lastIndexOf("\\") + 1, val.length);
@@ -261,7 +270,7 @@
             })
         });
         $("#sidebar-wrapper").addClass("hidemenu");
-        $('.navbar-toggle').click(function () {          
+        $('.navbar-toggle').click(function () {
             $("#sidebar-wrapper").toggleClass("hidemenu");
         })
 
@@ -282,6 +291,20 @@
             }
 
         });
+
+        $('#History').click(function () {
+            $('#popup').removeClass("zero");
+            if (isParam("PropertyID") && !isParam("OrgID")) {
+                $("#popup").load('@(Url.Action("HistoryPartial", "Property",null, Request.Url.Scheme))?&PropertyID=' + getQueryStringValue("PropertyID"), function () {
+                    showPopup();
+                });
+            }
+            if (isParam("OrgID")) {
+                $("#popup").load('@(Url.Action("HistoryPartial", "Property",null, Request.Url.Scheme))?&OrgID=' +  encodeURIComponent(getQueryStringValue("OrgID").trim()), function () {
+                    showPopup();
+                });
+            }
+        });
         getWeather(); //Get the initial weather.
         setInterval(getWeather, 600000); //Update the weather every 10 minutes
     });
@@ -297,7 +320,7 @@
                 var html = "";
                 if (taskLength == 0) return;
                 for (var i = 0; i < taskLength; i++) {
-                    
+
                     var priority;
 
                     if (Tasks[i].Priority == "N")
@@ -318,7 +341,7 @@
                         status = "Waiting On Someone"
                     if (Tasks[i].Status == "D")
                         status = "Deffered"
-                 
+
 
                     html += "<div onclick='openTask(" +Tasks[i].ID +");' class='Reminder'>" +
                                     "<div class='ReminderTitle " + priority + "'> " +
@@ -335,9 +358,9 @@
 
                     $('#TaskReminder').html(html);
                     $('.Reminder').show();
-             
+
             }
-        });      
+        });
     }
     function parseJsonDate(jsonDateString) {
         if (jsonDateString == null) return new Date();

@@ -198,7 +198,6 @@ C:\Code\WebPMS\WebPMS\bin\DevExpress.Web.ASPxTreeList.v16.1.dll
 C:\Code\WebPMS\WebPMS\bin\DevExpress.XtraReports.v16.1.dll
 C:\Code\WebPMS\WebPMS\bin\DevExpress.Spreadsheet.v16.1.Core.dll
 C:\Code\WebPMS\WebPMS\bin\DevExpress.Charts.v16.1.Core.dll
-C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraLayout.v16.1.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ApplicationInsights.config
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\roslyn\csc.exe
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -244,6 +243,7 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.DocumentViewer.v16.1.Core.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Mvvm.v16.1.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraEditors.v16.1.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraLayout.v16.1.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraPrinting.v16.1.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.Layout.v16.1.Core.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.Grid.v16.1.dll
@@ -276,6 +276,7 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.DocumentViewer.v16.1.Core.xml
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Mvvm.v16.1.xml
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraEditors.v16.1.xml
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraLayout.v16.1.xml
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.XtraPrinting.v16.1.xml
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.Layout.v16.1.Core.xml
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\DevExpress.Xpf.Grid.v16.1.xml
@@ -362,6 +363,10 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\de\DevExpress.X
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\es\DevExpress.XtraEditors.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.XtraEditors.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.XtraEditors.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\de\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\es\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.XtraLayout.v16.1.resources.dll
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.XtraLayout.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\de\DevExpress.XtraPrinting.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\es\DevExpress.XtraPrinting.v16.1.resources.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ja\DevExpress.XtraPrinting.v16.1.resources.dll
@@ -381,3 +386,4 @@ C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\ru\DevExpress.X
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Debug\WebPMS.csprojResolveAssemblyReference.cache
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Debug\WebPMS.dll
 C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\obj\Debug\WebPMS.pdb
+C:\Users\usraz\OneDrive\Documents\Project\proj\WebPMS\WebPMS\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml

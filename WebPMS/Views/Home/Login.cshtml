@@ -57,16 +57,24 @@
 <script>
 
     $(document).ready(function () {
+
+
+        if ('@ViewBag.showError' === "True") {
+            $("#btnsubmit").html('@ViewBag.message');
+            $("#btnsubmit").addClass("input-validation-error");
+        }
+
+
         setTimeout(function () {
-           
+
             $("#myform").submit(function (e) {
                 if ($("#myform").valid()) {
                     $("#btnsubmit").addClass("loadingbutton");
                     $("#btnsubmit").html("<img src='/Images/loading.gif' /> ");
                 }
                 });
-            
+
     },400);
     });
-   
+
 </script>

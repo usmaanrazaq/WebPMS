@@ -52,11 +52,11 @@
             <div class="input-row">
                 <div class="label-3">Start Date</div>
                 <div class="input-3">
-                    @Html.TextBoxFor(model => model.StartDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })
+                    @Html.TextBoxFor(model => model.StartDate, "{0:yyyy-MM-dd}", new { @type = "date" })
                 </div>
                 <div class="label-3">End Date</div>
                 <div class="input-3">
-                    @Html.TextBoxFor(model => model.EndDate, "{0:dd MMM yyyy}", new { @class = "date-picker" })
+                    @Html.TextBoxFor(model => model.EndDate, "{0:yyyy-MM-dd}", new { @type = "date"})
                 </div>
             </div>
             <div class="input-row">

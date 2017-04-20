@@ -10,14 +10,7 @@
         <li onclick="location.href='@Url.Action("RoomDetails" ,"Property",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-bed" aria-hidden="true"></i>Rooms</li>
         <li  onclick="location.href='@Url.Action("PropertyNotes","Property" ,  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Property Notes</li>
         <li  onclick="location.href='@Url.Action("LandlordDetails" ,"Property",  new {@PropertyID = Model.PropertyID })'"><i class="fa fa-male" aria-hidden="true"></i>Landlord</li>
-        @*@foreach (var item in Model.DynamicEntities)
-            {
-
-                if (item.EntityType == WebPMS.Constants.DynamicEntities.Dynamic_EntityDetails)
-                {
-             <li title="'@item.EntityLabel'"  style="display:none" onclick="location.href='@Url.Action("EntityDetailsD" ,  new {@PropertyID = Model.PropertyID, @EntityID = item.ID, @EntityName = item.EntityName, @OrgID = item.OrgID, @PersonID = item.ThirdPartyID })'"><i class="fa fa-credit-card" aria-hidden="true"></i> @item.EntityLabel</li>
-            }
-        }*@
+ 
 
     </ul>
 </div>

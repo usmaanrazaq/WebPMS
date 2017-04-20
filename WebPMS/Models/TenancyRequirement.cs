@@ -54,19 +54,7 @@ namespace WebPMS.Models
 
     public static class BuildTenancyRequirement
     {
-        public static TenancyRequirements ViewTenancyRequirements(int PropertyID)
-        {
-            DataTable DT = DB.ReadData(Constants.StoredProcedures.Read.uspReadTenancyRequirements, DB.StoredProcedures.uspReadTenancyRequirements(PropertyID));
-            TenancyRequirements prop = new TenancyRequirements();
-            if (DT.Rows.Count > 0)
-            {
-                foreach (DataRow R in DT.Rows)
-                {
-                    prop.Add(BuildTenancyRequirementFromDataRow(R));
-                }
-            }
-            return prop;
-        }
+
         public static TenancyRequirement ViewTenancyRequirement(int PropertyID)
         {
             DataTable DT = DB.ReadData(Constants.StoredProcedures.Read.uspReadTenancyRequirements, DB.StoredProcedures.uspReadTenancyRequirements(PropertyID));
